@@ -40,7 +40,7 @@ class PublicEvents extends Component<Props> {
       let data = store.EVENTS;
     return (
       <TouchableOpacity key={key} style={{ elevation: 5, marginVertical: 5, borderRadius: 5, marginHorizontal: 5, height: height(17), width: width(95), shadowColor: 'gray', alignSelf: 'center', backgroundColor: COLOR_PRIMARY, flexDirection: 'row' }}
-        onPress={()=>this.props.navigation.push('EventDetail',{ item: item })}
+        onPress={()=>this.props.navigation.push('EventDetail', { event_id: item.event_id , headerColor: store.settings.data.navbar_clr})}
       >
         <View style={{ height: height(17), width: width(35), justifyContent: 'center', alignItems: 'center' }}>
           <Image source={{ uri: item.image }} style={{ height: height(16.5), width: width(35), borderRadius: 5 }} />

@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
   mapCon: {
     height: height(40),
     width: width(95),
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginVertical: 10
   },
   map: {
     height: height(40),
