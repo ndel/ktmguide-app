@@ -137,6 +137,14 @@ import { ScrollView, Text, View, Image, TouchableOpacity,BackHandler,AsyncStorag
               <Text style={styles.itemTxt}>{data.menu.adv_search}</Text>
             </View>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('PublicEvents', 'Public Events')}>
+            <View style={styles.itemIconCon}>
+              <Image source={require('../../images/calendar-drawer.png')} style={styles.itemIcon} />
+            </View>
+            <View style={styles.itemTxtCon}>
+              <Text style={styles.itemTxt}>Public Events</Text>
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Packages', data.menu.packages)}>
             <View style={styles.itemIconCon}>
               <Image source={require('../../images/tag.png')} style={styles.itemIcon} />

@@ -19,6 +19,7 @@ import ListingTabCon from '../Listing/ListingTabCon';
 import ContactUs from '../ContactUs/ContactUs';
 import AboutUs from '../AboutUs/AboutUs';
 import blogStack from '../Blogs/Blogs';
+import PublicEvents from '../PublicEvents/PublicEvents';
 import Packages from '../Packages/Packages';
 import ReviewsCon from '../Reviews/ReviewsCon';
 import SavedListing from '../SavedListing/SavedListing';
@@ -66,10 +67,11 @@ const DrawerComp = createDrawerNavigator({
   EventsTabs: EventsTabs,
   // AdvanceSearch: AdvanceSearch,
   SearchingScreen: SearchingScreen,
+  PublicEvents: PublicEvents,
   Categories: Categories,
 },
   {
-    order: ['ReviewsCon', 'Packages', 'SearchingScreen', 'Home', 'EventsTabs', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories',],
+    order: ['ReviewsCon', 'Packages', 'SearchingScreen', 'Home', 'EventsTabs', 'ListingTabCon', 'Dashboard', 'AboutUs', 'ContactUs', 'blogStack', 'SavedListing', 'Categories','PublicEvents'],
     initialRouteName: 'Home',
     drawerWidth: width(80), 
     drawerPosition: I18nManager.isRTL ? 'right' : 'left',

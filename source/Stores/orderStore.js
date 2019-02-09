@@ -29,6 +29,7 @@ class orderStore {
     @observable CATEGORY = {};
     @observable BLOGS = {};
     @observable BLOG_DETAIL = {};
+    @observable EVENTS = {};
 }
 
 const store = new orderStore();

@@ -22,6 +22,7 @@ import EditProfile from '../components/UserDashboard/EditProfile'
 import ListingStack from '../components/Listing/ListingStack'
 import blogStack from '../components/Blogs/Blogs';
 import BlogDetail from '../components/Blogs/BlogDetail';
+import PublicEvents from '../components/PublicEvents/PublicEvents';
 import Packages from '../components/Packages/Packages';
 import ReviewsCon from '../components/Reviews/ReviewsCon';
 import SavedListing from '../components/SavedListing/SavedListing';
