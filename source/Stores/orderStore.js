@@ -27,6 +27,8 @@ class orderStore {
     @observable SEARCH_OBJ = {};
     @observable moveToSearch = false;
     @observable CATEGORY = {};
+    @observable BLOGS = {};
+    @observable BLOG_DETAIL = {};
 }
 
 const store = new orderStore();

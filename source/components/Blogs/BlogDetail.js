@@ -1,131 +1,181 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button,Image,ImageBackground,TouchableOpacity,I18nManager,
-        ScrollView,TextInput,FlatList
+import React, { Component } from 'react';
+import {
+  Platform, StyleSheet, Text, View, Button, Image, TouchableOpacity,
+  ScrollView, TextInput, ActivityIndicator
 } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import * as Animatable from 'react-native-animatable';
 import { width, height, totalSize } from 'react-native-dimension';
 import { Avatar } from 'react-native-elements';
-import { FONT_NORMAL,FONT_BOLD,COLOR_PRIMARY,COLOR_ORANGE,COLOR_GRAY,COLOR_SECONDARY,COLOR_YELLOW,COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
+import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_YELLOW, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
 import { observer } from 'mobx-react';
-import Store from '../../Stores';
+import HTMLView from 'react-native-htmlview';
+import store from '../../Stores/orderStore';
 import styles from '../../../styles/AboutUsStyleSheet';
 import { createStackNavigator } from 'react-navigation';
+import ApiController from '../../ApiController/ApiController';
+import Toast from 'react-native-simple-toast';
+import Api from '../../ApiController/ApiController';
+
 const buttonTxt = 1.8;
 const subHeadingTxt = 1.5;
 const paragraphTxt = 1.4;
 const headingTxt = 1.6;
 const smallButtons = 1.2;
 const titles = 1.8;
-const SECTIONS = [
-  {
-    title: 'First',
-    content: [{name: "Hotels"},{name: "Hotels"},{name: "Hotels"},{name: "Hotels"},{name: "Hotels"}],
-  },
-];
+
 export default class BlogDetail extends Component<Props> {
-  constructor( props ) {
+  constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      content: [{name: "Hotels"},{name: "Hotels"},{name: "Hotels"},{name: "Hotels"},{name: "Hotels"}],
+      loading: false,
+      blog_detail: {},
+      comment: '',
+      is_comment: false
     }
-    I18nManager.forceRTL(false);
   }
-  static navigationOptions = {
-    headerTitle:'DownTown',
-    headerTintColor:'white',
-    headerTitleStyle:{
-      fontSize:totalSize(2),
-      fontWeight:'normal'
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: 'DownTown',
+    headerTintColor: 'white',
+    headerTitleStyle: {
+      fontSize: totalSize(2),
+      fontWeight: 'normal'
     },
-    headerStyle:{
-      backgroundColor:'black'
+    headerStyle: {
+      backgroundColor: store.settings.data.main_clr
     }
-  };
+  });
+  componentWillMount = async () => {
+    let { params } = this.props.navigation.state;
+    let item = params.item;
+    this.setState({ loading: true })
+    let parameter = {
+      blog_id: item.blog_id
+    };
+    let response = await ApiController.post('blog-detail', parameter);
+    if (response.success) {
+      store.BLOG_DETAIL = response.data;
+      await this.setState({ blog_detail: response.data, loading: false })
+    } else {
+      this.setState({ loading: false })
+    }
+  }
+  post_comment = async () => {
+    this.setState({ is_comment: true })
+    let { params } = this.props.navigation.state;
+    let item = params.item;
+    let comments = store.BLOG_DETAIL.comments.comments;
+    let parameter = {
+      blog_id: item.blog_id,
+      message_content: this.state.comment
+    }
+    let response = await ApiController.post('blog-comments', parameter);
+    if (response.success) {
+      comments.push(response.data.comments);
+      this.setState({ is_comment: false })
+      Toast.show(response.message)
+    } else {
+      this.setState({ is_comment: false })
+      Toast.show(response.message)
+    }
+  }
   render() {
+    let main_clr = store.settings.data.main_clr;
+    var detail = store.BLOG_DETAIL;
     return (
-      <View style={{flex:1,alignItems:'center',backgroundColor: '#f9f9f9'}}>
-        <ScrollView
-          // backgroundColor='#f9f9f9'
-          // elevation = {10}
-          >
-            <View style={{flex:1,margin:10}}>
-              <View style={{height:height(40),marginBottom:10}}>
-                <Image source={require('../../images/food.jpg')} style={{height:height(40),width:width(95)}} />
-              </View>
-              <View style={{flex:2.5,justifyContent:'center',alignItems:'flex-start',flexDirection:'row'}}>
-                <Text style={{width:width(25),fontSize:totalSize(paragraphTxt),color: COLOR_SECONDARY}}>16,Junary,2018</Text>
-                <Text style={{width:width(70),fontSize:totalSize(paragraphTxt),color: COLOR_SECONDARY}}>23 Comments</Text>
-              </View>
-              <View style={{flex:3,justifyContent:'center'}}>
-                <Text style={{fontSize:totalSize(titles),fontWeight:'bold',color: COLOR_SECONDARY}}>Location of the Event</Text>
-              </View>
-              <View style={{flex:1,marginVertical:5,justifyContent:'center'}}>
-                <Text style={{fontSize:totalSize(paragraphTxt),color: COLOR_GRAY}}>
-                  Hello here i am buiding react native app for the glixen technologies this is my forst app here i am testing the flex situation asndas  oasnd asodn sdlnasld asmdnlasd las dlasndlk as dlasndl saldnlas d
-                </Text>
-              </View>
-              <View style={{height:height(5),marginVertical:5,borderTopWidth:0.3,borderColor:COLOR_GRAY,flexDirection:'row',alignItems:'center'}}>
-                <Image source={require('../../images/tags.png')} style={{flex:0.2,height:height(2.5),width:width(5),resizeMode:'contain'}} />
-                <Text style={{flex:3,fontSize:totalSize(subHeadingTxt),marginHorizontal:5,fontFamily:FONT_NORMAL,color: COLOR_SECONDARY}}>#food #News #Glixen #DownTown</Text>
-              </View>
-              <View style={{height:height(5),justifyContent:'center'}}>
-                <Text style={{flex:3,fontSize:totalSize(titles),fontWeight:'bold',color: COLOR_SECONDARY}}>Comments (03)</Text>
-              </View>
-              {
-                this.state.content.map((item,key)=>{
-                  return(
-                    <View key={key} style={{flex:1,flexDirection:'row',borderRadius:5,marginVertical:5}}>
-                      <View style={{height:height(15),alignItems:'flex-start',justifyContent:'flex-start'}}>
-                        <Avatar
-                          large
-                          rounded
-                          source={require('../../images/testImg.jpg')}
-                          onPress={() => console.warn("Works!")}
-                          activeOpacity={1}
-                          />
-                      </View>
-                      <View style={{flex:3,marginHorizontal:10,justifyContent:'center'}}>
-                        <Text style={{flex:1.5,fontSize:totalSize(headingTxt),fontWeight:'bold',color: COLOR_SECONDARY}}>Usama</Text>
-                        <Text style={{flex:1,fontSize:totalSize(paragraphTxt),color: COLOR_SECONDARY}}>Junary 17,2018</Text>
-                        <Text style={{flex:3,marginVertical:10,fontSize:totalSize(paragraphTxt),color: COLOR_GRAY}}>Hello here i am buiding react native app for the glixen technologies this is my forst app here i am testing the flex situation asndas  oasnd asodn sdlnasld asmdnlasd las dlasndlk as dlasndl saldnlas d</Text>
-                      </View>
-                    </View>
-                  )
-                })
-              }
-              <Text style={{flex:3,marginVertical:15,fontSize:totalSize(titles),fontWeight:'bold',color: COLOR_SECONDARY}}>Write A Review</Text>
-              <TextInput
-                   onChangeText={(value) => this.setState({name: value})}
-                   placeholder='Your Name'
-                   placeholderTextColor='black'
-                   underlineColorAndroid='transparent'
-                   autoCorrect={true}
-                   style={{height:height(6),width:width(95),paddingLeft:10,alignSelf:'stretch',fontSize:totalSize(subHeadingTxt),borderColor: COLOR_GRAY,borderWidth:0.5,borderRadius:5}}
-                   />
-              <TextInput
-                   onChangeText={(value) => this.setState({name: value})}
-                   placeholder='Your Email'
-                   placeholderTextColor='black'
-                   underlineColorAndroid='transparent'
-                   autoCorrect={true}
-                   style={{height:height(6),marginVertical:15,paddingLeft:10,width:width(95),alignSelf:'stretch',fontSize:totalSize(subHeadingTxt),borderColor: COLOR_GRAY,borderWidth:0.5,borderRadius:5}}
-                  />
-              <TextInput
-                    onChangeText={(value) => this.setState({name: value})}
-                    placeholder='Your Email'
-                    placeholderTextColor='black'
-                    keyboardType = 'email-address'
-                    underlineColorAndroid='transparent'
-                    autoCorrect={true}
-                    style={{height:height(20),textAlignVertical:'top',paddingLeft:10,width:width(95),alignSelf:'center',fontSize:totalSize(subHeadingTxt),borderColor: COLOR_GRAY,borderWidth:0.5,borderRadius:5}}
-                    />
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#f9f9f9' }}>
+        {
+          this.state.loading ?
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <ActivityIndicator size='large' color={main_clr} animating={true} />
             </View>
-            <TouchableOpacity style={{elevation :10,height:height(5),width:width(95),marginBottom: 10,alignSelf:'center',borderRadius:5,justifyContent:'center',alignItems:'center',backgroundColor: COLOR_YELLOW}} onPress={()=>{this.props.navigation.navigate('BlogDetail')}}>
-              <Text style={{fontSize:totalSize(buttonTxt),fontWeight:'bold',color: COLOR_PRIMARY}}>Submit Review</Text>
-            </TouchableOpacity>
-        </ScrollView>
+            :
+            <ScrollView
+              showsVerticalScrollIndicator={false}>
+              <View style={{ height: height(40), marginBottom: 10 }}>
+                <Image source={{ uri: detail.blog_img }} style={{ height: height(40), width: width(100) }} />
+              </View>
+              <View style={{ marginHorizontal: 15 }}>
+                <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                  <Text style={{ fontSize: totalSize(1.4), color: COLOR_SECONDARY }}>{detail.posted_date}</Text>
+                  <Text style={{ fontSize: totalSize(1.4), marginLeft: 7, color: COLOR_SECONDARY }}>{detail.total_comments}</Text>
+                </View>
+                <View style={{ justifyContent: 'center', width: width(90) }}>
+                  <Text style={{ fontSize: totalSize(1.8), marginBottom: 5, fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.blog_title}</Text>
+                  <HTMLView
+                    value={detail.desc}
+                    stylesheet={{
+                      width: width(100),
+                      marginHorizontal: 15,
+                      marginVertical: 3,
+                      fontSize: totalSize(paragraphTxt),
+                      // fontFamily: FONT_NORMAL,
+                      // color: COLOR_GRAY,
+                      textAlignVertical: 'center'
+                    }}
+                  />
+                </View>
+                {
+                  detail.has_comments ?
+                    <View style={{ height: height(5),marginVertical: 10,justifyContent: 'center' }}>
+                      <Text style={{ flex: 3, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.not_logged_in_msg}</Text>
+                    </View>
+                    :
+                    <View>
+                      <View style={{ height: height(5), justifyContent: 'center' }}>
+                        <Text style={{ flex: 3, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.total_comments}</Text>
+                      </View>
+                      {
+                        detail.comments.comments.map((item, key) => {
+                          return (
+                            <View key={key} style={{ flex: 1, width: width(95), flexDirection: 'row', borderRadius: 5, marginVertical: 5 }}>
+                              <View style={{ height: height(15), alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+                                <Avatar
+                                  large
+                                  rounded
+                                  source={{ uri: item.comment_author_img }}
+                                  activeOpacity={1}
+                                />
+                              </View>
+                              <View style={{ marginHorizontal: 10, width: width(60) }}>
+                                <Text style={{ fontSize: totalSize(headingTxt), marginTop: 5, fontWeight: 'bold', color: COLOR_SECONDARY }}>{item.comment_author_name}</Text>
+                                <Text style={{ fontSize: totalSize(paragraphTxt), color: COLOR_SECONDARY }}>{item.comment_date}</Text>
+                                <Text style={{ marginVertical: 5, fontSize: totalSize(1.4) }}>{item.comment_content}</Text>
+                              </View>
+                            </View>
+                          )
+                        })
+                      }
+                      {
+                        store.BLOG_DETAIL.is_user_logged_in ?
+                          <View style={{ marginHorizontal: 10 }}>
+                            <Text style={{ flex: 3, marginVertical: 15, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.comment_form.heading}</Text>
+                            <TextInput
+                              onChangeText={(value) => this.setState({ comment: value })}
+                              placeholder={detail.comment_form.textarea}
+                              placeholderTextColor='black'
+                              keyboardType='email-address'
+                              underlineColorAndroid='transparent'
+                              autoCorrect={true}
+                              style={{ height: height(20), textAlignVertical: 'top', paddingLeft: 10, width: width(90), alignSelf: 'center', fontSize: totalSize(subHeadingTxt), borderColor: COLOR_GRAY, borderWidth: 0.5, borderRadius: 5 }}
+                            />
+                            <TouchableOpacity style={{ elevation: 10, height: height(5), width: width(90), marginVertical: 10, alignSelf: 'center', borderRadius: 5, justifyContent: 'center', alignItems: 'center', backgroundColor: main_clr }} onPress={() => { this.post_comment() }}>
+                              {
+                                this.state.is_comment ?
+                                  <ActivityIndicator size='small' color={COLOR_PRIMARY} animating={true} />
+                                  :
+                                  <Text style={{ fontSize: totalSize(buttonTxt), fontWeight: 'bold', color: COLOR_PRIMARY }}>{detail.comment_form.btn_submit}</Text>
+                              }
+                            </TouchableOpacity>
+                          </View>
+                          :
+                          null
+                      }
+                    </View>
+                }
+              </View>
+            </ScrollView>
+        }
       </View>
     );
   }
