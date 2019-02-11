@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   tableHeaderText: {
     color: COLOR_SECONDARY,
     fontWeight: 'bold',
-    marginHorizontal: 20
+    marginHorizontal: 10
   },
   middleRowCon: {
     height: height(6),

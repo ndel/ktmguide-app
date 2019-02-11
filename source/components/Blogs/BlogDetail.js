@@ -71,8 +71,9 @@ export default class BlogDetail extends Component<Props> {
     }
     let response = await ApiController.post('blog-comments', parameter);
     if (response.success) {
+      store.BLOG_DETAIL.has_comments = true;
       comments.push(response.data.comments);
-      this.setState({ is_comment: false })
+      this.setState({ is_comment: false , comment: '' })
       Toast.show(response.message)
     } else {
       this.setState({ is_comment: false })
@@ -116,38 +117,45 @@ export default class BlogDetail extends Component<Props> {
                   />
                 </View>
                 {
-                  !detail.has_comments ?
+                  !detail.comment_status ?
                     <View style={{ height: height(5),marginVertical: 10,justifyContent: 'center' }}>
-                      <Text style={{ flex: 3, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.not_logged_in_msg}</Text>
+                      <Text style={{ flex: 3, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.status_msg}</Text>
                     </View>
                     :
                     <View>
-                      <View style={{ height: height(5), justifyContent: 'center' }}>
-                        <Text style={{ flex: 3, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.total_comments}</Text>
-                      </View>
                       {
-                        detail.comments.comments.map((item, key) => {
-                          return (
-                            <View key={key} style={{ flex: 1, width: width(95), flexDirection: 'row', borderRadius: 5, marginVertical: 5 }}>
-                              <View style={{ height: height(15), alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                                <Avatar
-                                  large
-                                  rounded
-                                  source={{ uri: item.comment_author_img }}
-                                  activeOpacity={1}
-                                />
-                              </View>
-                              <View style={{ marginHorizontal: 10, width: width(60) }}>
-                                <Text style={{ fontSize: totalSize(headingTxt), marginTop: 5, fontWeight: 'bold', color: COLOR_SECONDARY }}>{item.comment_author_name}</Text>
-                                <Text style={{ fontSize: totalSize(paragraphTxt), color: COLOR_SECONDARY }}>{item.comment_date}</Text>
-                                <Text style={{ marginVertical: 5, fontSize: totalSize(1.4) }}>{item.comment_content}</Text>
-                              </View>
+                        store.BLOG_DETAIL.has_comments?
+                          <View>
+                            <View style={{ height: height(5), justifyContent: 'center',marginTop: 5 }}>
+                              <Text style={{ flex: 3, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.total_comments}</Text>
                             </View>
-                          )
-                        })
+                            {
+                              detail.comments.comments.map((item, key) => {
+                                return (
+                                  <View key={key} style={{ flex: 1, width: width(95), flexDirection: 'row', borderRadius: 5, marginVertical: 5 }}>
+                                    <View style={{ height: height(15), alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+                                      <Avatar
+                                        large
+                                        rounded
+                                        source={{ uri: item.comment_author_img }}
+                                        activeOpacity={1}
+                                      />
+                                    </View>
+                                    <View style={{ marginHorizontal: 10, width: width(60) }}>
+                                      <Text style={{ fontSize: totalSize(headingTxt), marginTop: 5, fontWeight: 'bold', color: COLOR_SECONDARY }}>{item.comment_author_name}</Text>
+                                      <Text style={{ fontSize: totalSize(paragraphTxt), color: COLOR_SECONDARY }}>{item.comment_date}</Text>
+                                      <Text style={{ marginVertical: 5, fontSize: totalSize(1.4) }}>{item.comment_content}</Text>
+                                    </View>
+                                  </View>
+                                )
+                              })
+                            }
+                          </View>
+                          :
+                          null
                       }
                       {
-                        store.BLOG_DETAIL.is_user_logged_in ?
+                        store.BLOG_DETAIL.is_user_logged_in || store.BLOG_DETAIL.comment_status ?
                           <View style={{ marginHorizontal: 10 }}>
                             <Text style={{ flex: 3, marginVertical: 15, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.comment_form.heading}</Text>
                             <TextInput
@@ -169,7 +177,9 @@ export default class BlogDetail extends Component<Props> {
                             </TouchableOpacity>
                           </View>
                           :
-                          null
+                          <View style={{ height: height(5),marginVertical: 10,justifyContent: 'center' }}>
+                            <Text style={{ flex: 3, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.not_logged_in_msg}</Text>
+                          </View>
                       }
                     </View>
                 }

@@ -12,7 +12,7 @@ import CountDown from 'react-native-countdown-component';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import HTMLView from 'react-native-htmlview';
 import {
-  INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, S18, S12, S14, COLOR_PRIMARY
+  INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, S2,S18, S12, S14, COLOR_PRIMARY
 } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
@@ -156,8 +156,8 @@ import Slideshow from 'react-native-slideshow';
             } */}
                 <View style={styles.tableCon}>
                   <View style={styles.tableRowCon}>
-                    <Text style={[styles.tableHeaderText, { fontSize: totalSize(S18), marginRight: 100 }]}>{eventDetail.event_detial.event_title}</Text>
-                    <Text style={[styles.tableHeaderText, { fontSize: totalSize(S12), marginVertical: 2 }]}>{eventDetail.event_detial.event_posted_date}</Text>
+                    <Text style={[styles.tableHeaderText, { fontSize: totalSize(S2), marginRight: 100 }]}>{eventDetail.event_detial.event_title}</Text>
+                    <Text style={{ marginHorizontal: 10,fontSize: totalSize(1.3), marginVertical: 2 }}>{eventDetail.event_detial.event_posted_date}</Text>
                   </View>
                   <View style={styles.middleRowCon}>
                     <Image source={require('../../images/address.png')} style={styles.rowIcon} />
