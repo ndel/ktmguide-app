@@ -10,11 +10,13 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import ApiController from '../../ApiController/ApiController';
 import CountDown from 'react-native-countdown-component';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import HTMLView from 'react-native-htmlview';
 import {
-  INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, S18, S12, S14
+  INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, S18, S12, S14, COLOR_PRIMARY
 } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
+import store from '../../Stores/orderStore';
 import styles from '../../../styles/Events/EventDetailStyleSheet';
 import Slideshow from 'react-native-slideshow';
 
@@ -24,11 +26,13 @@ import Slideshow from 'react-native-slideshow';
     this.state = {
       loading: false,
       modalVisible: false,
+      index: 0,
       images: [],
       timer: 0,
+      position: 0,
+      interval: null,
       data: [{ name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }],
     }
-    I18nManager.forceRTL(false);
   }
   static navigationOptions = ({ navigation }) => ({
     headerTitle: 'Event Detail',
@@ -41,10 +45,13 @@ import Slideshow from 'react-native-slideshow';
       backgroundColor: navigation.state.params.headerColor
     }
   });
-  componentWillMount() {
+  componentWillMount = async() => {
     // calling eventDetail func
-    this.eventDetail()
+    await this.eventDetail()
 
+  }
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
   }
   // Getting eventDetail data func 
   eventDetail = async () => {
@@ -60,6 +67,13 @@ import Slideshow from 'react-native-slideshow';
       orderStore.home.eventDetail = response;
       console.log('responseHome=', response);
       if (response.success === true) {
+          await this.setState({
+            interval: setInterval(() => {    
+              this.setState({
+                position: this.state.position === response.data.event_detial.gallery_images.length ? 0 : this.state.position + 1
+              });
+            }, 5000)
+          });
         // CountDown func call
         await this.countDown(response.data.event_detial.event_timer_detial)
         for (var i = 0; i < response.data.event_detial.gallery_images.length; i++) {
@@ -82,31 +96,31 @@ import Slideshow from 'react-native-slideshow';
   }
   render() {
     let { orderStore } = Store;
-    let data = orderStore.settings.data;
-    let titles = orderStore.home.eventDetail.screen_text;
-    let eventDetail = orderStore.home.eventDetail.data;
-    let images = eventDetail.event_detial.gallery_images;
-    if (this.state.loading == true) {
+    if (this.state.loading === true) {
       return (
         <View style={{ height: height(100), width: width(100), flex: 1 }}>
           <Spinner
             visible={INDICATOR_VISIBILITY}
-            textContent={data.loading_txt}
             size={INDICATOR_SIZE}
             cancelable={true}
-            color={INDICATOR_COLOR}
+            color={data.main_clr}
             animation={ANIMATION}
             overlayColor={OVERLAY_COLOR}
             textStyle={{ fontSize: totalSize(TEXT_SIZE), color: TEXT_COLOR }}
           />
         </View>
       );
-    }
-    let region = {
-      latitude: parseFloat(eventDetail.event_detial.event_latitude),
-      longitude: parseFloat(eventDetail.event_detial.event_longitude),
-      latitudeDelta: 0.00922 * 1.5,
-      longitudeDelta: 0.00421 * 1.5
+    } else {
+      var data = orderStore.settings.data;
+      var titles = orderStore.home.eventDetail.screen_text;
+      var eventDetail = orderStore.home.eventDetail.data;
+      var images = eventDetail.event_detial.gallery_images;
+      var region = {
+        latitude: parseFloat(eventDetail.event_detial.event_latitude),
+        longitude: parseFloat(eventDetail.event_detial.event_longitude),
+        latitudeDelta: 0.00922 * 1.5,
+        longitudeDelta: 0.00421 * 1.5
+      }
     }
     return (
       <View style={styles.container}>
@@ -118,7 +132,11 @@ import Slideshow from 'react-native-slideshow';
               <View style={{ height: height(30), width: width(100), backgroundColor: 'red' }}>
                 <Slideshow
                   height={height(30)}
-                  dataSource={images} />
+                  dataSource={images}
+                  position={this.state.position}
+                  onPress={(index) => { this.setState({ modalVisible: true,index: this.state.position }) }}
+                  onPositionChanged={ position => this.setState({ position: position })}
+                  />
               </View>
               <View style={styles.subCon}>
                 {/* {
@@ -157,9 +175,9 @@ import Slideshow from 'react-native-slideshow';
                   <View style={styles.timmerCon}>
                     <CountDown
                       until={this.state.timer}
-                      digitTxtColor='#000000'
+                      digitTxtColor={COLOR_PRIMARY}
                       timeTxtColor='#000000'
-                      digitBgColor='#FAB913'
+                      digitBgColor= { data.main_clr }
                       timeToShow={['D', 'H', 'M', 'S']}
                       label={'Days' / 'Hours' / 'Minutes' / 'Seconds'}
                       onFinish={() => alert('finished')}
@@ -170,6 +188,18 @@ import Slideshow from 'react-native-slideshow';
                 </View>
                 <View style={{ flex: 1, marginVertical: 15 }}>
                   <Text style={styles.disTitle}>{titles.desc}</Text>
+                  <HTMLView
+                    value={eventDetail.event_detial.event_desc}
+                    stylesheet={{
+                      width: width(100),
+                      marginHorizontal: 15,
+                      marginVertical: 3,
+                      fontSize: totalSize(1.5),
+                      // fontFamily: FONT_NORMAL,
+                      // color: COLOR_GRAY,
+                      textAlignVertical: 'center'
+                    }}
+                  />
                   <Text style={styles.disText}>{eventDetail.event_detial.event_desc}</Text>
                 </View>
                 <View style={styles.mapCon}>
@@ -217,7 +247,7 @@ import Slideshow from 'react-native-slideshow';
                     <Text style={[styles.autherText, { fontSize: totalSize(S14) }]}>{eventDetail.event_detial.event_author_location}</Text>
                   </View>
                   <View style={styles.viewBtn}>
-                    <TouchableOpacity style={styles.viewBtnCon}>
+                    <TouchableOpacity style={[styles.viewBtnCon,{ backgroundColor: data.main_clr }]}>
                       <Text style={styles.viewBtnText}>{titles.profile_btn}</Text>
                     </TouchableOpacity>
                   </View>
@@ -291,7 +321,7 @@ import Slideshow from 'react-native-slideshow';
                     style={styles.textInput}
                   />
                 </View>
-                <TouchableOpacity style={styles.submitBtnCon}>
+                <TouchableOpacity style={[styles.submitBtnCon,{ backgroundColor: data.main_clr }]}>
                   <Text style={styles.submitBtnText}>{eventDetail.comment_form.btn_submit}</Text>
                 </TouchableOpacity>
               </View>
@@ -304,8 +334,8 @@ import Slideshow from 'react-native-slideshow';
           onRequestClose={() => this.setState({ modalVisible: false })}
         >
           <ImageViewer
-            imageUrls={this.state.images}
-            // index={this.state.index}
+            imageUrls={eventDetail.event_detial.gallery_images}
+            index={this.state.index}
             pageAnimateTime={500}
             backgroundColor='black'
             onDoubleClick={() => {

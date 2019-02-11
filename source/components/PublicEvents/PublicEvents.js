@@ -39,13 +39,13 @@ class PublicEvents extends Component<Props> {
   _blog = (item, key) => {
       let data = store.EVENTS;
     return (
-      <TouchableOpacity key={key} style={{ elevation: 5, marginVertical: 5, borderRadius: 5, marginHorizontal: 5, height: height(17), width: width(95), shadowColor: 'gray', alignSelf: 'center', backgroundColor: COLOR_PRIMARY, flexDirection: 'row' }}
+      <TouchableOpacity key={key} style={{ elevation: 5, marginVertical: 5, borderRadius: 5, marginHorizontal: 5, height: height(18), width: width(95), shadowColor: 'gray', alignSelf: 'center', backgroundColor: COLOR_PRIMARY, flexDirection: 'row' }}
         onPress={()=>this.props.navigation.push('EventDetail', { event_id: item.event_id , headerColor: store.settings.data.navbar_clr})}
       >
-        <View style={{ height: height(17), width: width(35), justifyContent: 'center', alignItems: 'center' }}>
-          <Image source={{ uri: item.image }} style={{ height: height(16.5), width: width(35), borderRadius: 5 }} />
+        <View style={{ height: height(18), width: width(36), justifyContent: 'center', alignItems: 'center' }}>
+          <Image source={{ uri: item.image }} style={{ height: height(17.5), width: width(35), alignSelf:'center',borderRadius: 5 }} />
         </View>
-        <View style={{ width: width(60), justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 5, marginVertical: 5 }}>
+        <View style={{ width: width(58), justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 5, marginVertical: 5 }}>
           <Text style={{ marginHorizontal: 10, fontSize: totalSize(1.6), marginBottom: 2 }} >{item.event_category_name}</Text>
           <Text style={{ marginHorizontal: 10, fontWeight: 'bold', color: COLOR_SECONDARY, marginBottom: 5, fontSize: totalSize(1.8) }} >{item.event_title}</Text>
           <View style={{flexDirection: 'row',marginHorizontal: 10,marginBottom: 3}}>

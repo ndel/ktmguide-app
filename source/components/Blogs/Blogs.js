@@ -41,13 +41,13 @@ class Blogs extends Component<Props> {
       <TouchableOpacity key={key} style={{ elevation: 5, marginVertical: 5, borderRadius: 5, marginHorizontal: 5, height: height(17), width: width(95), shadowColor: 'gray', alignSelf: 'center', backgroundColor: COLOR_PRIMARY, flexDirection: 'row' }}
         onPress={()=>this.props.navigation.push('BlogDetail',{ item: item })}
       >
-        <View style={{ height: height(17), width: width(35), justifyContent: 'center', alignItems: 'center' }}>
-          <Image source={{ uri: item.blog_img }} style={{ height: height(16.5), width: width(35), borderRadius: 5 }} />
+        <View style={{ height: height(17), width: width(36), justifyContent: 'center', alignItems: 'center' }}>
+          <Image source={{ uri: item.blog_img }} style={{ height: height(16.5), width: width(35), alignSelf:'center',borderRadius: 5 }} />
         </View>
-        <View style={{ width: width(60), justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 5, marginVertical: 5 }}>
-          <Text style={{ marginHorizontal: 10, fontWeight: 'bold', color: COLOR_SECONDARY, marginBottom: 3, fontSize: totalSize(1.8) }} >{item.blog_title}</Text>
-          <Text style={{ marginHorizontal: 10, fontSize: totalSize(1.6), marginBottom: 3 }} >{item.short_desc}</Text>
-          <Text style={{ marginHorizontal: 10, fontSize: totalSize(1.2) }} >{item.posted_date}</Text>
+        <View style={{ width: width(58),justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 0, marginVertical: 5 }}>
+          <Text style={{ marginHorizontal: 7, fontWeight: 'bold', color: COLOR_SECONDARY, marginBottom: 3, fontSize: totalSize(1.8) }} >{item.blog_title}</Text>
+          <Text style={{ marginHorizontal: 7, fontSize: totalSize(1.6), marginBottom: 3 }} >{item.short_desc}</Text>
+          <Text style={{ marginHorizontal: 7, fontSize: totalSize(1.2) }} >{item.posted_date}</Text>
         </View>
       </TouchableOpacity>
     );
