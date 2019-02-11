@@ -12,6 +12,7 @@ import Store from '../../Stores';
 import styles from '../../../styles/SignIn'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import ApiController from '../../ApiController/ApiController';
+import LocalDB from '../../LocalDB/LocalDB'
 // import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 var { FBLoginManager } = require('react-native-facebook-login');
 export default class SignIn extends Component<Props> {
@@ -118,7 +119,7 @@ export default class SignIn extends Component<Props> {
         let response = await ApiController.post('login', params)
         console.log('login user =', response);
         if (response.success === true) {
-          this.asyncStorage();
+          await LocalDB.saveProfile(this.state.email,this.state.password,response.data);
           this.setState({ loading: false })
           orderStore.login.loginStatus = true;
           orderStore.login.loginResponse = response;
@@ -130,14 +131,7 @@ export default class SignIn extends Component<Props> {
       }
     }
   }
-  asyncStorage = async( ) => {
-    try {
-      await AsyncStorage.setItem( 'email', this.state.email);
-      await AsyncStorage.setItem( 'password', this.state.password);
-    } catch (error) {
-      // Error saving data
-    }
-  }
+
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;

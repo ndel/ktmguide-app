@@ -25,21 +25,20 @@ import { ScrollView, Text, View, Image, TouchableOpacity,BackHandler,AsyncStorag
     this.props.navigation.dispatch(navigateAction);
   }
   asyncDelUserInfo = async() => {
+    let { orderStore } = Store;
     try {
-      const email = await AsyncStorage.removeItem( 'email');
-      const password = await AsyncStorage.removeItem( 'password');
-      console.warn('refresh data=>>>',email,password);
-      
+      const email = await AsyncStorage.removeItem('email');
+      const password = await AsyncStorage.removeItem('password');
+      const data = await AsyncStorage.removeItem('profile');
+      orderStore.login.loginStatus = false;
+      // console.warn('refresh data=>>>',email,password,data);
+      this.props.navigation.replace('MainScreen')
     } catch (error) {
       // Error saving data
     }
-    BackHandler.exitApp();
+    // BackHandler.exitApp();
   }
-  exit = () =>{
-    //  const email = await AsyncStorage.getItem('email');
-    //  const pass = await AsyncStorage.getItem('password');
-     BackHandler.exitApp() 
-    }
+  
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
