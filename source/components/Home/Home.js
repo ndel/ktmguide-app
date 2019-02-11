@@ -211,7 +211,7 @@ import ApiController from '../../ApiController/ApiController';
                 data={home.events}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item, key }) =>
-                  <TouchableOpacity key={key} style={styles.cateCon} onPress={() => this.props.navigation.push('EventDetail', { event_id: item.event_id , headerColor: store.settings.data.navbar_clr})} >
+                  <TouchableOpacity key={key} style={styles.cateCon} onPress={() => this.props.navigation.push('EventDetail', { event_id: item.event_id , headerColor: store.settings.data.navbar_clr ,title: item. event_title})} >
                     <Image style={styles.cate_img} source={{ uri: item.image }} />
                     <Image style={[styles.cate_img, { position: 'absolute' }]} source={require('../../images/cate-shadow.png')} />
                     <View style={[styles.cate_img, { position: 'absolute' }]}>

@@ -37,31 +37,31 @@ class PublicEvents extends Component<Props> {
   static navigationOptions = { header: null };
 
   _blog = (item, key) => {
-      let data = store.EVENTS;
+    let data = store.EVENTS;
     return (
       <TouchableOpacity key={key} style={{ elevation: 5, marginVertical: 5, borderRadius: 5, marginHorizontal: 5, height: height(18), width: width(95), shadowColor: 'gray', alignSelf: 'center', backgroundColor: COLOR_PRIMARY, flexDirection: 'row' }}
-        onPress={()=>this.props.navigation.push('EventDetail', { event_id: item.event_id , headerColor: store.settings.data.navbar_clr})}
+        onPress={() => this.props.navigation.push('EventDetail', { event_id: item.event_id,title: item.event_title,headerColor: store.settings.data.navbar_clr })}
       >
         <View style={{ height: height(18), width: width(36), justifyContent: 'center', alignItems: 'center' }}>
-          <Image source={{ uri: item.image }} style={{ height: height(17.5), width: width(35), alignSelf:'center',borderRadius: 5 }} />
+          <Image source={{ uri: item.image }} style={{ height: height(17.5), width: width(35), alignSelf: 'center', borderRadius: 5 }} />
         </View>
-        <View style={{ width: width(58), justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 5, marginVertical: 5 }}>
-          <Text style={{ marginHorizontal: 10, fontSize: totalSize(1.6), marginBottom: 2 }} >{item.event_category_name}</Text>
-          <Text style={{ marginHorizontal: 10, fontWeight: 'bold', color: COLOR_SECONDARY, marginBottom: 5, fontSize: totalSize(1.8) }} >{item.event_title}</Text>
-          <View style={{flexDirection: 'row',marginHorizontal: 10,marginBottom: 3}}>
-            <Image source={require('../../images/clock-circular-outline.png')} style={{ height:height(2),width:width(5),resizeMode:'contain' }} />
-            <Text style={{fontWeight:'bold',fontSize: totalSize(1.6),color: COLOR_SECONDARY,marginHorizontal: 6}}>{data.from}</Text>
-            <Text style={{fontSize: totalSize(1.5) }}>{item.event_start_date}</Text>
+        <View style={{ width: width(58), justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 0, marginVertical: 5 }}>
+          <Text style={{ marginHorizontal: 7, fontSize: totalSize(1.6), marginBottom: 0 }} >{item.event_category_name}</Text>
+          <Text style={{ marginHorizontal: 7, fontWeight: 'bold', color: COLOR_SECONDARY, marginBottom: 5, fontSize: totalSize(1.8) }} >{item.event_title}</Text>
+          <View style={{ flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
+            <Image source={require('../../images/clock-circular-outline.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
+            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 6 }}>{data.from}</Text>
+            <Text style={{ fontSize: totalSize(1.5) }}>{item.event_start_date}</Text>
           </View>
-          <View style={{flexDirection: 'row',marginHorizontal: 10,marginBottom: 3}}>
-            <Image source={require('../../images/calendar.png')} style={{ height:height(2),width:width(5),resizeMode:'contain' }} />
-            <Text style={{fontWeight:'bold',fontSize: totalSize(1.6),color: COLOR_SECONDARY,marginHorizontal: 6}}>{data.to}</Text>
-            <Text style={{fontSize: totalSize(1.5) }}>{item.event_end_date}</Text>
+          <View style={{ flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
+            <Image source={require('../../images/calendar.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
+            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 6 }}>{data.to}</Text>
+            <Text style={{ fontSize: totalSize(1.5) }}>{item.event_end_date}</Text>
           </View>
-          <View style={{flexDirection: 'row',marginHorizontal: 10,marginBottom: 3}}>
-            <Image source={require('../../images/paper-plane.png')} style={{ height:height(2),width:width(5),resizeMode:'contain' }} />
-            <Text style={{fontWeight:'bold',fontSize: totalSize(1.6),color: COLOR_SECONDARY,marginHorizontal: 6}}>{data.venue}</Text>
-            <Text style={{fontSize: totalSize(1.5) }}>{item.event_loc}</Text>
+          <View style={{ width:width(58),flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
+            <Image source={require('../../images/paper-plane.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
+            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 6 }}>{data.venue}</Text>
+            <Text style={{ fontSize: totalSize(1.5),flexWrap:'wrap' }}>{item.event_loc}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -70,22 +70,22 @@ class PublicEvents extends Component<Props> {
 
   loadMore = async (pageNo) => {
     let params = {
-        next_page: pageNo
+      next_page: pageNo
     }
     this.setState({ loadmore: true })
     var data = store.EVENTS;
     let response = await ApiController.post('event-search', params);
     // console.log('loadMore=====>>>', response);
     if (response.success && data.pagination.has_next_page) {
-        //forEach Loop LoadMore results
-        response.data.eventz.forEach((item) => {
-            data.eventz.push(item);
-        })
-        data.pagination = response.data.pagination;
-        this.setState({ loadmore: false })
+      //forEach Loop LoadMore results
+      response.data.eventz.forEach((item) => {
+        data.eventz.push(item);
+      })
+      data.pagination = response.data.pagination;
+      this.setState({ loadmore: false })
     } else {
-        this.setState({ loadmore: false })
-        // Toast.show(response.data.no_more)
+      this.setState({ loadmore: false })
+      // Toast.show(response.data.no_more)
     }
     this.setState({ reCaller: false })
   }
@@ -93,7 +93,7 @@ class PublicEvents extends Component<Props> {
   isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
     const paddingToBottom = 20;
     return layoutMeasurement.height + contentOffset.y >=
-        contentSize.height - paddingToBottom;
+      contentSize.height - paddingToBottom;
   };
 
   render() {
@@ -109,12 +109,12 @@ class PublicEvents extends Component<Props> {
             <ScrollView
               showsVerticalScrollIndicator={false}
               onScroll={({ nativeEvent }) => {
-                  if (this.isCloseToBottom(nativeEvent)) {
-                      if (this.state.reCaller === false) {
-                          this.loadMore(store.EVENTS.pagination.next_page);
-                      }
-                      this.setState({ reCaller: true })
+                if (this.isCloseToBottom(nativeEvent)) {
+                  if (this.state.reCaller === false) {
+                    this.loadMore(store.EVENTS.pagination.next_page);
                   }
+                  this.setState({ reCaller: true })
+                }
               }}
               scrollEventThrottle={400}>
               <View style={{ backgroundColor: COLOR_PRIMARY, marginBottom: 10 }}>

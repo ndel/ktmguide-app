@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Platform, StyleSheet, Text, View, Button, Image, ImageBackground, TouchableOpacity, I18nManager,
+  Platform, StyleSheet, Text, View, Button, Image, ImageBackground, TouchableOpacity, ActivityIndicator,
   ScrollView, TextInput, FlatList, Modal
 } from 'react-native';
 import { Avatar } from 'react-native-elements';
@@ -35,7 +35,7 @@ import Slideshow from 'react-native-slideshow';
     }
   }
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: 'Event Detail',
+    headerTitle: navigation.state.params.title,
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: totalSize(2),
@@ -45,7 +45,7 @@ import Slideshow from 'react-native-slideshow';
       backgroundColor: navigation.state.params.headerColor
     }
   });
-  componentWillMount = async() => {
+  componentWillMount = async () => {
     // calling eventDetail func
     await this.eventDetail()
 
@@ -65,15 +65,15 @@ import Slideshow from 'react-native-slideshow';
       };
       let response = await ApiController.post('event-detial', param);
       orderStore.home.eventDetail = response;
-      console.log('responseHome=', response);
+      // console.log('responseHome=', response);
       if (response.success === true) {
-          await this.setState({
-            interval: setInterval(() => {    
-              this.setState({
-                position: this.state.position === response.data.event_detial.gallery_images.length ? 0 : this.state.position + 1
-              });
-            }, 5000)
-          });
+        await this.setState({
+          interval: setInterval(() => {
+            this.setState({
+              position: this.state.position === response.data.event_detial.gallery_images.length ? 0 : this.state.position + 1
+            });
+          }, 5000)
+        });
         // CountDown func call
         await this.countDown(response.data.event_detial.event_timer_detial)
         for (var i = 0; i < response.data.event_detial.gallery_images.length; i++) {
@@ -96,6 +96,7 @@ import Slideshow from 'react-native-slideshow';
   }
   render() {
     let { orderStore } = Store;
+    var data = orderStore.settings.data;
     if (this.state.loading === true) {
       return (
         <View style={{ height: height(100), width: width(100), flex: 1 }}>
@@ -110,33 +111,31 @@ import Slideshow from 'react-native-slideshow';
           />
         </View>
       );
-    } else {
-      var data = orderStore.settings.data;
-      var titles = orderStore.home.eventDetail.screen_text;
-      var eventDetail = orderStore.home.eventDetail.data;
-      var images = eventDetail.event_detial.gallery_images;
-      var region = {
-        latitude: parseFloat(eventDetail.event_detial.event_latitude),
-        longitude: parseFloat(eventDetail.event_detial.event_longitude),
-        latitudeDelta: 0.00922 * 1.5,
-        longitudeDelta: 0.00421 * 1.5
-      }
+    }
+    var titles = orderStore.home.eventDetail.screen_text;
+    var eventDetail = orderStore.home.eventDetail.data;
+    var images = eventDetail.event_detial.gallery_images;
+    var region = {
+      latitude: parseFloat(eventDetail.event_detial.event_latitude),
+      longitude: parseFloat(eventDetail.event_detial.event_longitude),
+      latitudeDelta: 0.00922 * 1.5,
+      longitudeDelta: 0.00421 * 1.5
     }
     return (
       <View style={styles.container}>
         {
           this.state.loading ?
-            null
+            <ActivityIndicator size='large' color={data.main_clr} animating={true} />
             :
             <ScrollView>
-              <View style={{ height: height(30), width: width(100), backgroundColor: 'red' }}>
+              <View style={{ height: height(30), width: width(100) }}>
                 <Slideshow
                   height={height(30)}
                   dataSource={images}
                   position={this.state.position}
-                  onPress={(index) => { this.setState({ modalVisible: true,index: this.state.position }) }}
-                  onPositionChanged={ position => this.setState({ position: position })}
-                  />
+                  onPress={(index) => { this.setState({ modalVisible: true, index: this.state.position }) }}
+                  onPositionChanged={position => this.setState({ position: position })}
+                />
               </View>
               <View style={styles.subCon}>
                 {/* {
@@ -177,7 +176,7 @@ import Slideshow from 'react-native-slideshow';
                       until={this.state.timer}
                       digitTxtColor={COLOR_PRIMARY}
                       timeTxtColor='#000000'
-                      digitBgColor= { data.main_clr }
+                      digitBgColor={data.main_clr}
                       timeToShow={['D', 'H', 'M', 'S']}
                       label={'Days' / 'Hours' / 'Minutes' / 'Seconds'}
                       onFinish={() => alert('finished')}
@@ -247,7 +246,7 @@ import Slideshow from 'react-native-slideshow';
                     <Text style={[styles.autherText, { fontSize: totalSize(S14) }]}>{eventDetail.event_detial.event_author_location}</Text>
                   </View>
                   <View style={styles.viewBtn}>
-                    <TouchableOpacity style={[styles.viewBtnCon,{ backgroundColor: data.main_clr }]}>
+                    <TouchableOpacity style={[styles.viewBtnCon, { backgroundColor: data.main_clr }]}>
                       <Text style={styles.viewBtnText}>{titles.profile_btn}</Text>
                     </TouchableOpacity>
                   </View>
@@ -321,7 +320,7 @@ import Slideshow from 'react-native-slideshow';
                     style={styles.textInput}
                   />
                 </View>
-                <TouchableOpacity style={[styles.submitBtnCon,{ backgroundColor: data.main_clr }]}>
+                <TouchableOpacity style={[styles.submitBtnCon, { backgroundColor: data.main_clr }]}>
                   <Text style={styles.submitBtnText}>{eventDetail.comment_form.btn_submit}</Text>
                 </TouchableOpacity>
               </View>

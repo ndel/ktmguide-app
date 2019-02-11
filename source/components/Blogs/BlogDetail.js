@@ -35,7 +35,7 @@ export default class BlogDetail extends Component<Props> {
     }
   }
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: 'DownTown',
+    headerTitle: navigation.state.params.item.blog_title,
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: totalSize(2),
@@ -97,11 +97,11 @@ export default class BlogDetail extends Component<Props> {
               </View>
               <View style={{ marginHorizontal: 15 }}>
                 <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                  <Text style={{ fontSize: totalSize(1.4), color: COLOR_SECONDARY }}>{detail.posted_date}</Text>
-                  <Text style={{ fontSize: totalSize(1.4), marginLeft: 7, color: COLOR_SECONDARY }}>{detail.total_comments}</Text>
+                  <Text style={{ fontSize: totalSize(1.4) }}>{detail.posted_date}</Text>
+                  <Text style={{ fontSize: totalSize(1.4), marginLeft: 7 }}>{detail.total_comments}</Text>
                 </View>
                 <View style={{ justifyContent: 'center', width: width(90) }}>
-                  <Text style={{ fontSize: totalSize(1.8), marginBottom: 5, fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.blog_title}</Text>
+                  <Text style={{ fontSize: totalSize(2), marginBottom: 5, fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.blog_title}</Text>
                   <HTMLView
                     value={detail.desc}
                     stylesheet={{
@@ -116,7 +116,7 @@ export default class BlogDetail extends Component<Props> {
                   />
                 </View>
                 {
-                  detail.has_comments ?
+                  !detail.has_comments ?
                     <View style={{ height: height(5),marginVertical: 10,justifyContent: 'center' }}>
                       <Text style={{ flex: 3, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.not_logged_in_msg}</Text>
                     </View>

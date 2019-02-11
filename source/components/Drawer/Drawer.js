@@ -33,11 +33,9 @@ class Drawer extends Component<Props> {
     let { orderStore } = Store;
     super(props);
     this.state = {
-     
+      
     }
-    // I18nManager.forceRTL(false);
   }
-
 }
 const HomeStack = createStackNavigator({
   Home: Home,

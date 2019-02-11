@@ -6,7 +6,9 @@ import { Avatar } from 'react-native-elements';
 // import AsyncStorage from '../../AsyncStorage/AsyncStorage';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
+import store from '../../Stores/orderStore';
 import styles from '../../../styles/Drawer/SideMenuStyleSheet';
+import LocalDB from '../../LocalDB/LocalDB';
 import { ScrollView, Text, View, Image, TouchableOpacity,BackHandler,AsyncStorage } from 'react-native';
 @observer class SideMenu extends Component {
   constructor(props) {
@@ -16,7 +18,15 @@ import { ScrollView, Text, View, Image, TouchableOpacity,BackHandler,AsyncStorag
     }
   }
   static navigationOptions = { header: null };
-
+  componentWillMount = async() => {
+      var userDetail = await LocalDB.getUserProfile();
+      if ( userDetail !== null ) {
+          store.login.loginResponse.data = userDetail;
+          store.login.loginStatus = true;
+      } else {
+          store.login.loginStatus = false;
+      }      
+  }
   navigateToScreen = (route, title) => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route

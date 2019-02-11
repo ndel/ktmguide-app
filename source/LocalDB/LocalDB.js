@@ -19,8 +19,8 @@ class LocalDB {
     static async getUserProfile() {
         let item = {};
         try {
-            var emial = await AsyncStorage.getItem('email');
-            var password = await AsyncStorage.getItem('password');
+            var emial = await AsyncStorage.getItem('email') || null;
+            var password = await AsyncStorage.getItem('password') || null;
             item = await AsyncStorage.getItem('profile') || null;
             const userProfile = JSON.parse(item);
             return userProfile;
