@@ -246,7 +246,7 @@ import Slideshow from 'react-native-slideshow';
                     <Text style={[styles.autherText, { fontSize: totalSize(S14) }]}>{eventDetail.event_detial.event_author_location}</Text>
                   </View>
                   <View style={styles.viewBtn}>
-                    <TouchableOpacity style={[styles.viewBtnCon, { backgroundColor: data.main_clr }]}>
+                    <TouchableOpacity style={[styles.viewBtnCon, { backgroundColor: data.main_clr }]} onPress={()=>this.props.navigation.push('PublicProfileTab')}>
                       <Text style={styles.viewBtnText}>{titles.profile_btn}</Text>
                     </TouchableOpacity>
                   </View>

@@ -30,6 +30,8 @@ class orderStore {
     @observable BLOGS = {};
     @observable BLOG_DETAIL = {};
     @observable EVENTS = {};
+    @observable PUB_PROFILE_DETAIL = {};
+    @observable is_publicEvents = false;
 }
 
 const store = new orderStore();

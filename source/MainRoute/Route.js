@@ -31,6 +31,8 @@ import SearchingScreen from '../components/AdvanceSearch/SearchingScreen';
 import EventsTabs from '../components/Events/EventsTabs';
 import Categories from '../components/Categories/Categories';
 import EventDetail from '../components/Events/EventDetail'
+import PublicProfileTab from '../components/PublicProfile/PublicProfileTab';
+
 import { observer } from 'mobx-react';
 import store from '../Stores/orderStore';
 import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet';
@@ -115,7 +117,8 @@ const RootStack = createStackNavigator(
     SearchingScreen: SearchingScreen,
     EventsTabs: EventsTabs,
     Categories: Categories,
-    EventDetail: EventDetail
+    EventDetail: EventDetail,
+    PublicProfileTab: PublicProfileTab
   },
   {
     initialRouteName: 'Splash',

@@ -6,7 +6,7 @@ import { INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, T
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';
-import { createBottomTabNavigator, createTabNavigator, TabBarBottom, createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import ApiController from '../../ApiController/ApiController';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Description from './Description';
