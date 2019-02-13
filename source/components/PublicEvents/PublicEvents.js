@@ -21,11 +21,10 @@ class PublicEvents extends Component<Props> {
   }
 
   componentWillMount = async () => {
-    // let parameter = {
-    //   user_id: store.login.loginResponse.data.id
-    // };
     this.setState({ loading: true })
     let response = await ApiController.post('event-search');
+    console.log('PublicEvents===>>',response);
+    
     if (response.success) {
       store.EVENTS = response.data;
       this.setState({ loading: false })

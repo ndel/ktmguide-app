@@ -67,7 +67,7 @@ import ApiController from '../../ApiController/ApiController';
       this.setState({ loading: true })
       //API calling
       let response = await ApiController.get('home');
-      // console.log('responseHome==>>>>>', response);
+      console.log('responseHome==>>>>>', response);
       if (response.success) {
         orderStore.home.homeGet = response;
         this.setState({ loading: false })

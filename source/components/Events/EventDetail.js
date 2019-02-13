@@ -12,20 +12,22 @@ import CountDown from 'react-native-countdown-component';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import HTMLView from 'react-native-htmlview';
 import {
-  INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, S2,S18, S12, S14, COLOR_PRIMARY
+  INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, S2, S18, S12, S14, COLOR_PRIMARY, COLOR_SECONDARY
 } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/Events/EventDetailStyleSheet';
 import Slideshow from 'react-native-slideshow';
-
+import Toast from 'react-native-simple-toast';
 @observer export default class EventDetail extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
       modalVisible: false,
+      is_comment: false,
+      comment: '',
       index: 0,
       images: [],
       timer: 0,
@@ -50,6 +52,27 @@ import Slideshow from 'react-native-slideshow';
     await this.eventDetail()
 
   }
+  post_comment = async () => {
+    this.setState({ is_comment: true })
+    let { params } = this.props.navigation.state;
+    var comments = store.home.eventDetail.data.comments.comments;
+    let parameter = {
+      event_id: params.event_id,
+      message_content: this.state.comment
+    }
+    let response = await ApiController.post('event-comments', parameter);
+    console.log('response===>>', response);
+
+    if (response.success) {
+      store.EVENTS.has_comments = true;
+      comments.push(response.data.comments);
+      this.setState({ is_comment: false, comment: '' })
+      Toast.show(response.message)
+    } else {
+      this.setState({ is_comment: false })
+      Toast.show(response.message)
+    }
+  }
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
@@ -65,7 +88,7 @@ import Slideshow from 'react-native-slideshow';
       };
       let response = await ApiController.post('event-detial', param);
       orderStore.home.eventDetail = response;
-      // console.log('responseHome=', response);
+      console.log('EventDetail=', response);
       if (response.success === true) {
         await this.setState({
           interval: setInterval(() => {
@@ -112,8 +135,8 @@ import Slideshow from 'react-native-slideshow';
         </View>
       );
     }
-    var titles = orderStore.home.eventDetail.screen_text;
-    var eventDetail = orderStore.home.eventDetail.data;
+    var titles = store.home.eventDetail.screen_text;
+    var eventDetail = store.home.eventDetail.data;
     var images = eventDetail.event_detial.gallery_images;
     var region = {
       latitude: parseFloat(eventDetail.event_detial.event_latitude),
@@ -157,7 +180,7 @@ import Slideshow from 'react-native-slideshow';
                 <View style={styles.tableCon}>
                   <View style={styles.tableRowCon}>
                     <Text style={[styles.tableHeaderText, { fontSize: totalSize(S2), marginRight: 100 }]}>{eventDetail.event_detial.event_title}</Text>
-                    <Text style={{ marginHorizontal: 10,fontSize: totalSize(1.3), marginVertical: 2 }}>{eventDetail.event_detial.event_posted_date}</Text>
+                    <Text style={{ marginHorizontal: 10, fontSize: totalSize(1.3), marginVertical: 2 }}>{eventDetail.event_detial.event_posted_date}</Text>
                   </View>
                   <View style={styles.middleRowCon}>
                     <Image source={require('../../images/address.png')} style={styles.rowIcon} />
@@ -246,41 +269,25 @@ import Slideshow from 'react-native-slideshow';
                     <Text style={[styles.autherText, { fontSize: totalSize(S14) }]}>{eventDetail.event_detial.event_author_location}</Text>
                   </View>
                   <View style={styles.viewBtn}>
-                    <TouchableOpacity style={[styles.viewBtnCon, { backgroundColor: data.main_clr }]} onPress={()=>this.props.navigation.push('PublicProfileTab',{ profiler_id: eventDetail.event_detial.event_author_id })}>
+                    <TouchableOpacity style={[styles.viewBtnCon, { backgroundColor: data.main_clr }]} onPress={() => this.props.navigation.push('PublicProfileTab', { profiler_id: eventDetail.event_detial.event_author_id })}>
                       <Text style={styles.viewBtnText}>{titles.profile_btn}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
                 {
-                  eventDetail.comments.comments[0] !== "No Comment Found" ?
-                    <View style={{ flex: 1, marginVertical: 10 }}>
-                      <View style={{ height: height(5), justifyContent: 'center' }}>
-                        <Text style={styles.commentTitle}>All Comments ({eventDetail.comments.comments.length})</Text>
-                      </View>
-                      <FlatList
-                        data={eventDetail.comments.comments}
-                        renderItem={({ item }) =>
-                          <View style={{ flex: 1, marginVertical: 5 }}>
-                            <View style={{ flex: 1, flexDirection: 'row', marginVertical: 10 }}>
-                              <View style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                                <Avatar
-                                  medium
-                                  rounded
-                                  source={{ uri: item.comment_author_img }}
-                                  // onPress={() => console.warn("Works!")}
-                                  activeOpacity={1}
-                                />
-                              </View>
-                              <View style={{ flex: 1, marginHorizontal: 10, justifyContent: 'flex-start' }}>
-                                <Text style={styles.commentAuthName}>{item.comment_author_name}</Text>
-                                <Text style={styles.commentDate}>{item.comment_date}</Text>
-                                <Text style={styles.commentContent}>{item.comment_content}</Text>
-                              </View>
+                  eventDetail.comment_status ?
+                    <View>
+                      {
+                        eventDetail.has_comments || store.EVENTS.has_comments ?
+                          <View style={{ flex: 1, marginVertical: 10 }}>
+                            <View style={{ height: height(5), justifyContent: 'center' }}>
+                              <Text style={styles.commentTitle}>{eventDetail.total_comments}</Text>
                             </View>
-                            {
-                              item.has_reply === true ?
-                                item.reply.map((item, key) => (
-                                  <View key={key} style={{ flex: 1, flexDirection: 'row', marginBottom: 5, marginHorizontal: 20 }}>
+                            <FlatList
+                              data={eventDetail.comments.comments}
+                              renderItem={({ item }) =>
+                                <View style={{ flex: 1, marginVertical: 5 }}>
+                                  <View style={{ flex: 1, flexDirection: 'row', marginVertical: 10 }}>
                                     <View style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                                       <Avatar
                                         medium
@@ -296,33 +303,67 @@ import Slideshow from 'react-native-slideshow';
                                       <Text style={styles.commentContent}>{item.comment_content}</Text>
                                     </View>
                                   </View>
-                                ))
-                                : null
-                            }
+                                  {
+                                    item.has_reply === true ?
+                                      item.reply.map((item, key) => (
+                                        <View key={key} style={{ flex: 1, flexDirection: 'row', marginBottom: 5, marginHorizontal: 20 }}>
+                                          <View style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+                                            <Avatar
+                                              medium
+                                              rounded
+                                              source={{ uri: item.comment_author_img }}
+                                              // onPress={() => console.warn("Works!")}
+                                              activeOpacity={1}
+                                            />
+                                          </View>
+                                          <View style={{ flex: 1, marginHorizontal: 10, justifyContent: 'flex-start' }}>
+                                            <Text style={styles.commentAuthName}>{item.comment_author_name}</Text>
+                                            <Text style={styles.commentDate}>{item.comment_date}</Text>
+                                            <Text style={styles.commentContent}>{item.comment_content}</Text>
+                                          </View>
+                                        </View>
+                                      ))
+                                      : null
+                                  }
+                                </View>
+                              }
+                            />
                           </View>
-                        }
-                      />
+                          :
+                          <Text style={{ color: COLOR_SECONDARY, fontSize: totalSize(2), marginVertical: 10, fontWeight: 'bold' }}>{eventDetail.no_comments}</Text>
+                      }
+                      {
+                        eventDetail.is_user_logged_in ?
+                          <View>
+                            <Text style={{ fontSize: totalSize(1.6), fontWeight: 'bold', color: COLOR_SECONDARY }}>{eventDetail.comment_form.txt}</Text>
+                            <View style={styles.textInputCon}>
+                              <TextInput
+                                onChangeText={(value) => this.setState({ comment: value })}
+                                underlineColorAndroid='transparent'
+                                placeholder={eventDetail.comment_form.textarea}
+                                placeholderTextColor={COLOR_GRAY}
+                                underlineColorAndroid='transparent'
+                                multiLine={true}
+                                autoCorrect={false}
+                                style={styles.textInput}
+                              />
+                            </View>
+                            <TouchableOpacity style={[styles.submitBtnCon, { backgroundColor: data.main_clr }]} onPress={() => this.post_comment()}>
+                              {
+                                this.state.is_comment ?
+                                  <ActivityIndicator size='small' color={COLOR_PRIMARY} animating={true} />
+                                  :
+                                  <Text style={styles.submitBtnText}>{eventDetail.comment_form.btn_submit}</Text>
+                              }
+                            </TouchableOpacity>
+                          </View>
+                          :
+                          <Text style={{ color: COLOR_SECONDARY, fontSize: totalSize(2), marginVertical: 10, fontWeight: 'bold' }}>{eventDetail.not_logged_in_msg}</Text>
+                      }
                     </View>
                     :
-                    <View style={{ height: height(5), justifyContent: 'center' }}>
-                      <Text style={styles.commentTitle}>{eventDetail.comments.comments[0]}</Text>
-                    </View>
+                    null
                 }
-                <View style={styles.textInputCon}>
-                  <TextInput
-                    onChangeText={(value) => this.setState({ email: value })}
-                    underlineColorAndroid='transparent'
-                    placeholder={eventDetail.comment_form.textarea}
-                    placeholderTextColor={COLOR_GRAY}
-                    underlineColorAndroid='transparent'
-                    multiLine={true}
-                    autoCorrect={false}
-                    style={styles.textInput}
-                  />
-                </View>
-                <TouchableOpacity style={[styles.submitBtnCon, { backgroundColor: data.main_clr }]}>
-                  <Text style={styles.submitBtnText}>{eventDetail.comment_form.btn_submit}</Text>
-                </TouchableOpacity>
               </View>
             </ScrollView>
         }
