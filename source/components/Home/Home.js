@@ -4,9 +4,8 @@ import {
 } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import Grading from 'react-native-grading';
-import Spinner from 'react-native-loading-spinner-overlay';
 import { NavigationActions } from 'react-navigation';
-import { INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_GRAY, COLOR_ORANGE, test } from '../../../styles/common';
+import {  COLOR_GRAY, COLOR_ORANGE, test } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';

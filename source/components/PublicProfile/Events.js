@@ -8,7 +8,7 @@ import Store from '../../Stores';
 import { createStackNavigator } from 'react-navigation';
 import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
-import Toast from 'react-native-simple-toast'
+import { withNavigation } from 'react-navigation';
 import ProfileUpperView from './ProfileUpperView';
 
 class Events extends Component<Props> {
@@ -143,4 +143,4 @@ class Events extends Component<Props> {
     );
   }
 }
-export default Events;
+export default withNavigation(Events)

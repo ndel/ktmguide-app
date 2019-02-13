@@ -19,14 +19,14 @@ import Claim from './Claim'
 import Report from './Report'
 import styles from '../../../styles/DescriptionStyleSheet';
 import FeatureDetail from './FeatureDetail';
-import { Toast } from 'native-base';
+import { withNavigation } from 'react-navigation';
 const SECTIONS = [
   {
     title: 'First',
     content: [{ name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }],
   },
 ];
-@observer export default class Description extends Component<Props> {
+class Description extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -243,7 +243,7 @@ const SECTIONS = [
                 <Text style={[styles.autherText, { fontSize: totalSize(S14) }]}>{ data.listing_author_location }</Text>
               </View>
               <View style={styles.viewBtn}>
-                <TouchableOpacity style={[styles.viewBtnCon,{ backgroundColor: main_clr }]}>
+                <TouchableOpacity style={[styles.viewBtnCon,{ backgroundColor: main_clr }]} onPress={()=>this.props.navigation.push('PublicProfileTab',{ profiler_id: data.listing_author_id })}>
                   <Text style={styles.viewBtnText}>{ data.view_profile }</Text>
                 </TouchableOpacity>
               </View>
@@ -342,6 +342,7 @@ const SECTIONS = [
     );
   }
 }
+export default withNavigation(Description)
 //counter
 // <View style={styles.expCon}>
 //   <Text style={styles.expTxt}>Expires in</Text>

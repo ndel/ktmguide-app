@@ -15,10 +15,6 @@ import Listings from './Listings';
     super(props);
     this.state = {
       loading: false,
-      routes: [
-        { key: 'listing', title: 'Listing' },
-        { key: 'event', title: 'Events' },
-      ],
       index: 0
     }
   }
@@ -34,11 +30,13 @@ import Listings from './Listings';
     }
   });
   componentWillMount = async () => {
+      let { params } = this.props.navigation.state;
+
       this.setState({ loading: true })
-      let params = {
-        user_id: '14'
+      let parameter = {
+        user_id: params.profiler_id //params.profiler_id
       };
-      let response = await ApiController.post('author-detial',params);
+      let response = await ApiController.post('author-detial',parameter);
       if ( response.success ) {
           store.PUB_PROFILE_DETAIL = response.data;
           this.setState({ loading: false })
@@ -47,9 +45,9 @@ import Listings from './Listings';
       }
   }
 
-  // _renderLabel = ({ route }) => (
-  //   <Text style={{ fontSize: totalSize(S2), color: COLOR_SECONDARY }}>{route.title}</Text>
-  // );
+  _renderLabel = ({ route }) => (
+    <Text style={{ fontSize: totalSize(S2), color: COLOR_SECONDARY }}>{route.title}</Text>
+  );
   render() {
     let data = store.settings.data;
     var main_clr = store.settings.data.main_clr;
@@ -74,7 +72,10 @@ import Listings from './Listings';
       <TabView
         navigationState={{
           index: this.state.index,
-          routes: this.state.routes
+          routes:[
+            { key: 'listing', title: store.PUB_PROFILE_DETAIL.tab_listing },
+            { key: 'event', title: store.PUB_PROFILE_DETAIL.tab_events },
+          ],
         }}
         renderScene={SceneMap({
           listing: Listings,
@@ -91,7 +92,7 @@ import Listings from './Listings';
             {...props}
             // getLabelText={()=> this.label()}
             // renderLabel={()=> this.label()}
-            // renderLabel={this._renderLabel}
+            renderLabel={this._renderLabel}
             lazy={true}
             scrollEnabled={true}
             bounces={true}

@@ -9,7 +9,8 @@ import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/Home';
 import ProfileUpperView from './ProfileUpperView';
-@observer
+import { withNavigation } from 'react-navigation';
+
 class Listings extends Component<Props> {
   constructor(props) {
     super(props);
@@ -155,4 +156,6 @@ class Listings extends Component<Props> {
     );
   }
 }
-export default Listings;
+
+export default withNavigation(Listings);
+ 

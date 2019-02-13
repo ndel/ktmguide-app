@@ -6,7 +6,7 @@ import { INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, T
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';
-import { createStackNavigator } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import ApiController from '../../ApiController/ApiController';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Description from './Description';
@@ -17,7 +17,7 @@ import WriteReview from './WriteReview';
 import Menu from './Menu';
 import Video from './Video';
 
-@observer export default class FeatureDetailTabBar extends Component<Props> {
+class FeatureDetailTabBar extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -147,7 +147,7 @@ import Video from './Video';
         }}
         renderScene={({ route }) => {
           if (route.key === 'discription') {
-            return <DiscriptionStack />;
+            return <Description />;
           } else {
             if (route.key === 'ameneties' && store.home.FEATURE_DETAIL.data.listing_detial.has_amenties) {
               return <Amenties />;
@@ -207,73 +207,4 @@ import Video from './Video';
   }
 }
 
-const DiscriptionStack = createStackNavigator({
-  Description: Description
-},{
-    headerMode: null
-});
-
-// const screens = {
-//   Description: Description,
-//   Amenties: Amenties,
-//   Location: Location,
-//   Menu: Menu,
-//   User_Reviews: {
-//     screen: UserReviews,
-//     navigationOptions: {
-//       title: "User Reviews",
-//     }
-//   },
-//   Write_A_Review: {
-//     screen: WriteReview,
-//     navigationOptions: {
-//       title: 'write',
-//       // tabBarVisible: false
-//     },
-//   },
-// }
-// const Tab = createTabNavigator(
-//   screens
-// ,
-//   {
-//     // order: ['Description','Amenties','Location','Menu' , 'User_Reviews', 'Write_A_Review'],
-//     initialRouteName: 'Description',
-//     tabBarPosition: 'bottom',
-//     // removeClippedSubviews: true,
-//     animationEnabled: true,
-//     swipeEnabled: true,
-//     showIcon: false,
-//     // lazy: true,
-//     tabBarComponent: props => <CustomTabs {...props} />,
-//     scrollEnabled: true,
-//     backBehavior: true,
-//     tabBarOptions: {
-//       activeTintColor: COLOR_SECONDARY,
-//       inactiveTintColor: COLOR_GRAY,
-//       activeBackgroundColor: COLOR_ORANGE,
-//       allowFontScaling: true,
-//       scrollEnabled: true,
-//       showIcon: false,
-//       upperCaseLabel: false,
-//       pressColor: COLOR_ORANGE,
-//       safeAreaInset: { bottom: 'always', top: 'never', right: 'always', left: 'always' },
-//       labelStyle: {
-//         fontSize: totalSize(1.8),
-//         textAlign: 'center',
-//       },
-//       tabStyle: {
-//         justifyContent: 'center',
-//         alignItems: 'center',
-//       },
-//       style: {
-//         backgroundColor: COLOR_PRIMARY,
-//       },
-//       indicatorStyle: {
-//         borderColor: COLOR_ORANGE,
-//         borderWidth: 2,
-//       },
-//     },
-//   }
-// );
-
-
+export default  withNavigation(FeatureDetailTabBar)
