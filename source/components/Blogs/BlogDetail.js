@@ -71,7 +71,7 @@ export default class BlogDetail extends Component<Props> {
     }
     let response = await ApiController.post('blog-comments', parameter);
     if (response.success) {
-      store.BLOG_DETAIL.has_comments = true;
+      // store.BLOG_DETAIL.has_comments = true;
       comments.push(response.data.comments);
       this.setState({ is_comment: false , comment: '' })
       Toast.show(response.message)
@@ -161,6 +161,7 @@ export default class BlogDetail extends Component<Props> {
                             <TextInput
                               onChangeText={(value) => this.setState({ comment: value })}
                               placeholder={detail.comment_form.textarea}
+                              value={this.state.comment}
                               placeholderTextColor='black'
                               keyboardType='email-address'
                               underlineColorAndroid='transparent'

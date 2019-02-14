@@ -49,20 +49,20 @@ import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet';
 //     />
 //   </TouchableOpacity>
 // )
-class Route extends Component<Props> {
-    render(){
-      return(
-        <StatusBar
-            hidden = {false}
-            animated = {true}
-            backgroundColor= 'red'
-            barStyle="light-content"
-            networkActivityIndicatorVisible = {Platform.OS === 'ios'? false:false}
-            showHideTransition = {Platform.OS === 'ios'? 'slide':null}
-          />
-      );
-    }
-}
+// class Route extends Component<Props> {
+//     render(){
+//       return(
+//         <StatusBar
+//             hidden = {false}
+//             animated = {true}
+//             backgroundColor= 'red'
+//             barStyle="light-content"
+//             networkActivityIndicatorVisible = {Platform.OS === 'ios'? false:false}
+//             showHideTransition = {Platform.OS === 'ios'? 'slide':null}
+//           />
+//       );
+//     }
+// }
 const RootStack = createStackNavigator(
   {
     Splash: Splash,
@@ -91,8 +91,9 @@ const RootStack = createStackNavigator(
             <View style={styles.headerTxtCon}>
               <Text style={styles.headerTxt}>{navigation.getParam('otherParam', store.settings.data.menu.home)}</Text>
             </View>
-            <Image source={require('../images/search_white.png')} style={styles.headerSearch} />
-            <Image source={require('../images/cart.png')} style={styles.cart} />
+            <View style={{flex:1}}></View>
+            {/* <Image source={require('../images/search_white.png')} style={styles.headerSearch} />
+            <Image source={require('../images/cart.png')} style={styles.cart} /> */}
           </View>
         )
       }),

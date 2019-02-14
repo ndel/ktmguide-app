@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, Image, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { Text, View, Image, TouchableOpacity, ScrollView, ActivityIndicator, TextInput } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_YELLOW, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
-import { createStackNavigator } from 'react-navigation';
+import { CheckBox } from 'react-native-elements';
+import Modal from "react-native-modal";
 import ApiController from '../../ApiController/ApiController';
 import store from '../../Stores/orderStore';
 import Toast from 'react-native-simple-toast'
@@ -17,54 +18,45 @@ class PublicEvents extends Component<Props> {
       loading: false,
       loadmore: false,
       reCaller: false,
+      sorting: false
     }
   }
 
   componentWillMount = async () => {
     this.setState({ loading: true })
-    let response = await ApiController.post('event-search');
-    console.log('PublicEvents===>>',response);
-    
-    if (response.success) {
-      store.EVENTS = response.data;
-      this.setState({ loading: false })
-    } else {
-      this.setState({ loading: false })
+    try {
+      let response = await ApiController.post('event-search');
+      console.log('PublicEvents===>>', response);
+      if (response.success) {
+        store.EVENTS = response.data;
+        this.setState({ loading: false })
+      } else {
+        this.setState({ loading: false })
+      }
+    } catch (error) {
+      console.log('error:',error);
     }
   }
 
   static navigationOptions = { header: null };
 
-  _blog = (item, key) => {
-    let data = store.EVENTS;
-    return (
-      <TouchableOpacity key={key} style={{ elevation: 5, marginVertical: 5, borderRadius: 5, marginHorizontal: 5, width: width(95), shadowColor: 'gray', alignSelf: 'center', backgroundColor: COLOR_PRIMARY, flexDirection: 'row' }}
-        onPress={() => this.props.navigation.push('EventDetail', { event_id: item.event_id,title: item.event_title,headerColor: store.settings.data.navbar_clr })}
-      >
-        <View style={{ marginVertical: 2,width: width(36), justifyContent: 'center', alignItems: 'center' }}>
-          <Image source={{ uri: item.image }} style={{ height: height(17.5), width: width(35), alignSelf: 'center', borderRadius: 5 }} />
-        </View>
-        <View style={{ width: width(58), justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 0, marginVertical: 5 }}>
-          <Text style={{ marginHorizontal: 7, fontSize: totalSize(1.6), marginBottom: 0 }} >{item.event_category_name}</Text>
-          <Text style={{ marginHorizontal: 7, fontWeight: 'bold', color: COLOR_SECONDARY, marginBottom: 5, fontSize: totalSize(1.8) }} >{item.event_title}</Text>
-          <View style={{ flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
-            <Image source={require('../../images/clock-circular-outline.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
-            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.from}</Text>
-            <Text style={{ fontSize: totalSize(1.5) }}>{item.event_start_date}</Text>
-          </View>
-          <View style={{ flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
-            <Image source={require('../../images/calendar.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
-            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.to}</Text>
-            <Text style={{ fontSize: totalSize(1.5) }}>{item.event_end_date}</Text>
-          </View>
-          <View style={{ width:width(58),flexDirection: 'row',marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
-            <Image source={require('../../images/paper-plane.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
-            <Text style={{ height:height(2),fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.venue}</Text>
-            <Text style={{ fontSize: totalSize(1.5),flexWrap:'wrap',width:width(38) }}>{item.event_loc}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
+  _sort = () => this.setState({ sorting: !this.state.sorting })
+
+  resetSearchList = async () => {
+    // store.SEARCH_OBJ = {};
+    this.setState({ loading: true })
+    try {
+      let response = await ApiController.post('event-search');
+      console.log('PublicEvents===>>', response);
+      if (response.success) {
+        store.EVENTS = response.data;
+        this.setState({ loading: false })
+      } else {
+        this.setState({ loading: false })
+      }
+    } catch (error) {
+      console.log('error:',error);
+    }
   }
 
   loadMore = async (pageNo) => {
@@ -94,11 +86,77 @@ class PublicEvents extends Component<Props> {
     return layoutMeasurement.height + contentOffset.y >=
       contentSize.height - paddingToBottom;
   };
-
+  _blog = (item, key) => {
+    let data = store.EVENTS;
+    return (
+      <TouchableOpacity key={key} style={{ elevation: 5, marginVertical: 5, borderRadius: 5, marginHorizontal: 5, width: width(95), shadowColor: 'gray', alignSelf: 'center', backgroundColor: COLOR_PRIMARY, flexDirection: 'row' }}
+        onPress={() => this.props.navigation.push('EventDetail', { event_id: item.event_id, title: item.event_title, headerColor: store.settings.data.navbar_clr })}
+      >
+        <View style={{ marginVertical: 2, width: width(36), justifyContent: 'center', alignItems: 'center' }}>
+          <Image source={{ uri: item.image }} style={{ height: height(17.5), width: width(35), alignSelf: 'center', borderRadius: 5 }} />
+        </View>
+        <View style={{ width: width(58), justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 0, marginVertical: 5 }}>
+          <Text style={{ marginHorizontal: 7, fontSize: totalSize(1.6), marginBottom: 0 }} >{item.event_category_name}</Text>
+          <Text style={{ marginHorizontal: 7, fontWeight: 'bold', color: COLOR_SECONDARY, marginBottom: 5, fontSize: totalSize(1.8) }} >{item.event_title}</Text>
+          <View style={{ flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
+            <Image source={require('../../images/clock-circular-outline.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
+            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.from}</Text>
+            <Text style={{ fontSize: totalSize(1.5) }}>{item.event_start_date}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
+            <Image source={require('../../images/calendar.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
+            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.to}</Text>
+            <Text style={{ fontSize: totalSize(1.5) }}>{item.event_end_date}</Text>
+          </View>
+          <View style={{ width: width(58), flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
+            <Image source={require('../../images/paper-plane.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
+            <Text style={{ height: height(2), fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.venue}</Text>
+            <Text style={{ fontSize: totalSize(1.5), flexWrap: 'wrap', width: width(38) }}>{item.event_loc}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
   render() {
     let main_clr = store.settings.data.main_clr;
+    let home = store.home.homeGet.data.advanced_search;
+    let data = store.SEARCHING.LISTING_FILTER.data;
     return (
       <View style={{ flex: 1 }}>
+        <View style={{ height: height(10), width: width(100), backgroundColor: store.settings.data.navbar_clr, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ height: height(7), width: width(90), backgroundColor: COLOR_PRIMARY, borderRadius: 5, flexDirection: 'row', alignItems: 'center' }}>
+            <TextInput
+              style={{ width: width(80), alignSelf: 'stretch', paddingHorizontal: 10 }}
+              placeholder={home.search_placeholder}
+              placeholderTextColor={COLOR_SECONDARY}
+              autoCorrect={true}
+              autoFocus={store.moveToSearch ? false : false}
+              returnKeyType='search'
+              onChangeText={(value) => {
+                this.setState({ search: value });
+              }}
+            />
+            <TouchableOpacity onPress={() => { this.getSearchList() }}>
+              <Image source={require('../../images/searching-magnifying.png')} style={{ height: height(3), width: width(5), resizeMode: 'contain' }} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={{ height: height(8), width: width(100), backgroundColor: 'rgba(0,0,0,0.9)', flexDirection: 'row', borderColor: 'white', borderWidth: 0, alignItems: 'center' }}>
+          <TouchableOpacity style={{ height: height(5), width: width(33.3), flexDirection: 'row', borderRightWidth: 1, borderRightColor: 'rgba(241,241,241,0.2)', justifyContent: 'center', alignItems: 'center' }} onPress={() => {
+            //  this.props.navigation.navigate('AdvanceSearch', { navigateToScreen: this.navigateToScreen, getSearchList: this.getSearchList })
+          }}>
+            <Image source={require('../../images/filterNew.png')} style={{ height: height(3), width: width(5), resizeMode: 'contain', marginHorizontal: 5 }} />
+            <Text style={{ color: 'white', fontSize: totalSize(1.8), fontWeight: '400' }}>{home.filter}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ height: height(5), width: width(33.3), flexDirection: 'row', borderRightWidth: 1, borderRightColor: 'rgba(241,241,241,0.2)', justifyContent: 'center', alignItems: 'center' }} onPress={this._sort} >
+            <Image source={require('../../images/SortNew.png')} style={{ height: height(3), width: width(5), resizeMode: 'contain', marginHorizontal: 5 }} />
+            <Text style={{ color: 'white', fontSize: totalSize(1.8), fontWeight: '400' }}>{home.sort}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ height: height(5), width: width(33.3), flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} onPress={() => this.resetSearchList()}>
+            <Image source={require('../../images/reload.png')} style={{ height: height(3), width: width(5), resizeMode: 'contain', marginHorizontal: 5 }} />
+            <Text style={{ color: 'white', fontSize: totalSize(1.8), fontWeight: '400' }}>{home.reset}</Text>
+          </TouchableOpacity>
+        </View>
         {
           this.state.loading ?
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -140,6 +198,50 @@ class PublicEvents extends Component<Props> {
               }
             </ScrollView>
         }
+        <Modal
+          animationInTiming={200}
+          animationOutTiming={100}
+          animationIn="slideInLeft"
+          animationOut="slideOutRight"
+          avoidKeyboard={true}
+          transparent={true}
+          isVisible={this.state.sorting}
+          onBackdropPress={() => this.setState({ sorting: false })}
+          style={{ flex: 1 }}>
+          <View style={{ height: height(5 + (data.sorting.option_dropdown.length * 6)), width: width(90), alignSelf: 'center', backgroundColor: COLOR_PRIMARY }}>
+            <View style={{ height: height(7), width: width(90), flexDirection: 'row', borderBottomWidth: 0.5, alignItems: 'center', borderBottomColor: '#c4c4c4' }}>
+              <View style={{ height: height(5), width: width(80), justifyContent: 'center' }}>
+                <Text style={{ fontSize: totalSize(2), fontWeight: '500', color: COLOR_SECONDARY, marginHorizontal: 10 }}>{data.sorting.title}</Text>
+              </View>
+              <TouchableOpacity style={{ height: height(3.5), width: width(6), justifyContent: 'center', alignItems: 'center', backgroundColor: store.settings.data.navbar_clr }} onPress={() => { this._sort() }}>
+                <Image source={require('../../images/clear-button.png')} style={{ height: height(2), width: width(3), resizeMode: 'contain' }} />
+              </TouchableOpacity>
+            </View>
+            {
+              data.sorting.option_dropdown.map((item, key) => {
+                return (
+                  <TouchableOpacity key={key} style={{ height: height(5), width: width(90), flexDirection: 'row', justifyContent: 'center' }}
+                    onPress={() => { this._sortingModule(item, data.sorting.option_dropdown), item.checkStatus = !item.checkStatus }}
+                  >
+                    <View style={{ height: height(6), width: width(80), justifyContent: 'center' }}>
+                      <Text style={{ fontSize: totalSize(1.6), color: item.checkStatus ? store.settings.data.navbar_clr : COLOR_SECONDARY, marginHorizontal: 10 }}>{item.value}</Text>
+                    </View>
+                    <View style={{ height: height(6), width: width(10), justifyContent: 'center', alignItems: 'center' }}>
+                      <CheckBox
+                        size={16}
+                        uncheckedColor={COLOR_GRAY}
+                        checkedColor={store.settings.data.navbar_clr}
+                        containerStyle={{ backgroundColor: 'transparent', height: height(6), width: width(10), borderWidth: 0 }}
+                        checked={item.checkStatus}
+                      // onPress={() => {this._sortingModule( item , data.sorting.option_dropdown ),item.checkStatus= !item.checkStatus}}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                );
+              })
+            }
+          </View>
+        </Modal>
       </View>
     );
   }

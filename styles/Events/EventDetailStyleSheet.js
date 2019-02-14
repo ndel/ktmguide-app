@@ -122,18 +122,18 @@ const styles = StyleSheet.create({
     color: COLOR_SECONDARY
   },
   commentAuthName: {
-    fontSize: totalSize(S16),
+    fontSize: totalSize(S18),
     fontWeight: 'bold',
     color: COLOR_SECONDARY
   },
   commentDate: {
     fontSize: totalSize(S14),
-    color: COLOR_SECONDARY
+    // color: COLOR_SECONDARY
   },
   commentContent: {
     marginVertical: 5,
-    fontSize: totalSize(S14),
-    color: COLOR_GRAY
+    // fontSize: totalSize(S14),
+    // color: COLOR_GRAY
   },
   textInputCon: {
     height: height(12),

@@ -55,19 +55,21 @@ import Toast from 'react-native-simple-toast';
   post_comment = async () => {
     this.setState({ is_comment: true })
     let { params } = this.props.navigation.state;
-    var comments = store.home.eventDetail.data.comments.comments;
+    let comments = store.home.eventDetail.data.comments.comments;
+    // console.log('arrayBefore',comments);
     let parameter = {
       event_id: params.event_id,
       message_content: this.state.comment
     }
     let response = await ApiController.post('event-comments', parameter);
-    console.log('response===>>', response);
+    // console.log('response===>>', response);
 
     if (response.success) {
       store.EVENTS.has_comments = true;
       comments.push(response.data.comments);
-      this.setState({ is_comment: false, comment: '' })
+      await this.setState({ is_comment: false, comment: '' })
       Toast.show(response.message)
+      // console.log('arrayAfter',comments);
     } else {
       this.setState({ is_comment: false })
       Toast.show(response.message)
@@ -80,6 +82,7 @@ import Toast from 'react-native-simple-toast';
   eventDetail = async () => {
     let { params } = this.props.navigation.state;
     let { orderStore } = Store;
+
     try {
       this.setState({ loading: true })
       //API calling
@@ -283,51 +286,52 @@ import Toast from 'react-native-simple-toast';
                             <View style={{ height: height(5), justifyContent: 'center' }}>
                               <Text style={styles.commentTitle}>{eventDetail.total_comments}</Text>
                             </View>
-                            <FlatList
-                              data={eventDetail.comments.comments}
-                              renderItem={({ item }) =>
-                                <View style={{ flex: 1, marginVertical: 5 }}>
-                                  <View style={{ flex: 1, flexDirection: 'row', marginVertical: 10 }}>
-                                    <View style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                                      <Avatar
-                                        medium
-                                        rounded
-                                        source={{ uri: item.comment_author_img }}
-                                        // onPress={() => console.warn("Works!")}
-                                        activeOpacity={1}
-                                      />
+                            {
+                              eventDetail.comments.comments.map((item, key) => {
+                                return (
+                                  <View key={key} style={{ flex: 1, marginVertical: 5 }}>
+                                    <View style={{ flex: 1, flexDirection: 'row', marginVertical: 10 }}>
+                                      <View style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+                                        <Avatar
+                                          medium
+                                          rounded
+                                          source={{ uri: item.comment_author_img }}
+                                          // onPress={() => console.warn("Works!")}
+                                          activeOpacity={1}
+                                        />
+                                      </View>
+                                      <View style={{ flex: 1, marginHorizontal: 10, justifyContent: 'flex-start' }}>
+                                        <Text style={styles.commentAuthName}>{item.comment_author_name}</Text>
+                                        <Text style={styles.commentDate}>{item.comment_date}</Text>
+                                        <Text style={styles.commentContent}>{item.comment_content}</Text>
+                                      </View>
                                     </View>
-                                    <View style={{ flex: 1, marginHorizontal: 10, justifyContent: 'flex-start' }}>
-                                      <Text style={styles.commentAuthName}>{item.comment_author_name}</Text>
-                                      <Text style={styles.commentDate}>{item.comment_date}</Text>
-                                      <Text style={styles.commentContent}>{item.comment_content}</Text>
-                                    </View>
+                                    {
+                                      item.has_reply === true ?
+                                        item.reply.map((item, key) => (
+                                          <View key={key} style={{ flex: 1, flexDirection: 'row', marginBottom: 5, marginHorizontal: 20 }}>
+                                            <View style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+                                              <Avatar
+                                                medium
+                                                rounded
+                                                source={{ uri: item.comment_author_img }}
+                                                // onPress={() => console.warn("Works!")}
+                                                activeOpacity={1}
+                                              />
+                                            </View>
+                                            <View style={{ flex: 1, marginHorizontal: 10, justifyContent: 'flex-start' }}>
+                                              <Text style={styles.commentAuthName}>{item.comment_author_name}</Text>
+                                              <Text style={styles.commentDate}>{item.comment_date}</Text>
+                                              <Text style={styles.commentContent}>{item.comment_content}</Text>
+                                            </View>
+                                          </View>
+                                        ))
+                                        : null
+                                    }
                                   </View>
-                                  {
-                                    item.has_reply === true ?
-                                      item.reply.map((item, key) => (
-                                        <View key={key} style={{ flex: 1, flexDirection: 'row', marginBottom: 5, marginHorizontal: 20 }}>
-                                          <View style={{ alignItems: 'flex-start', justifyContent: 'flex-start' }}>
-                                            <Avatar
-                                              medium
-                                              rounded
-                                              source={{ uri: item.comment_author_img }}
-                                              // onPress={() => console.warn("Works!")}
-                                              activeOpacity={1}
-                                            />
-                                          </View>
-                                          <View style={{ flex: 1, marginHorizontal: 10, justifyContent: 'flex-start' }}>
-                                            <Text style={styles.commentAuthName}>{item.comment_author_name}</Text>
-                                            <Text style={styles.commentDate}>{item.comment_date}</Text>
-                                            <Text style={styles.commentContent}>{item.comment_content}</Text>
-                                          </View>
-                                        </View>
-                                      ))
-                                      : null
-                                  }
-                                </View>
-                              }
-                            />
+                                )
+                              })
+                            }
                           </View>
                           :
                           <Text style={{ color: COLOR_SECONDARY, fontSize: totalSize(2), marginVertical: 10, fontWeight: 'bold' }}>{eventDetail.no_comments}</Text>
@@ -342,6 +346,7 @@ import Toast from 'react-native-simple-toast';
                                 underlineColorAndroid='transparent'
                                 placeholder={eventDetail.comment_form.textarea}
                                 placeholderTextColor={COLOR_GRAY}
+                                value={this.state.comment}
                                 underlineColorAndroid='transparent'
                                 multiLine={true}
                                 autoCorrect={false}
