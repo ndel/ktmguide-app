@@ -69,7 +69,7 @@ import Toast from 'react-native-simple-toast';
       comments.push(response.data.comments);
       await this.setState({ is_comment: false, comment: '' })
       Toast.show(response.message)
-      // console.log('arrayAfter',comments);
+      console.log('arrayAfter',comments);
     } else {
       this.setState({ is_comment: false })
       Toast.show(response.message)
