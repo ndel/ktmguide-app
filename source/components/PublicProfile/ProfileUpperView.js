@@ -38,7 +38,7 @@ export default class ProfileUpperView extends Component<Props> {
                         activeOpacity={1}
                         containerStyle={{ marginHorizontal: 20, marginTop: 15 }}
                     />
-                    <Text style={{ fontSize: totalSize(2.5), fontWeight: 'bold', color: COLOR_SECONDARY, marginHorizontal: 20 }}>{data.user_name}</Text>
+                    <Text style={{ fontSize: totalSize(2.5), fontWeight: 'bold', color: COLOR_SECONDARY, marginHorizontal: 30 }}>{data.user_name}</Text>
                     <View style={{ height: height(7), flexDirection: 'row', marginHorizontal: 20 }}>
                         <Icon
                             raised //reverse
@@ -49,7 +49,6 @@ export default class ProfileUpperView extends Component<Props> {
                             containerStyle={{ marginHorizontal: 0, marginRight: 5 }}
                             onPress={() => this.social_service(data.social_links.fb)}
                             underlayColor='rgba(255,0,0,0.3)'
-
                         />
                         <Icon
                             raised //reverse
@@ -83,59 +82,75 @@ export default class ProfileUpperView extends Component<Props> {
                         />
                     </View>
                 </View>
-
-                <View style={{ height: height(7), width: width(94), alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'flex-end' }}>
-                    <Icon
-                        reverse //raised
-                        size={14}
-                        name='address'
-                        type='entypo'
-                        color='#f50'
-                        iconStyle={{ color: 'white' }}
-                        containerStyle={{ backgroundColor: navbar_clr ,marginLeft: 0}}
-                    />
-                    <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.8), marginHorizontal: 5, color: COLOR_SECONDARY }}>{data.user_loc}</Text>
-                </View>
-                <View style={{ height: height(7), width: width(94), alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'flex-end' }}>
-                    <Icon
-                        reverse //raised
-                        size={14}
-                        name='phone'
-                        type='FontAwesome'
-                        color='#f50'
-                        iconStyle={{ color: 'white' }}
-                        containerStyle={{ backgroundColor: navbar_clr,marginLeft: 0 }}
-                    />
-                    <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.8), marginHorizontal: 5, color: COLOR_SECONDARY }}>{data.user_contact}</Text>
-                </View>
-                <View style={{ height: height(7), width: width(94), alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'flex-end' }}>
-                    <Icon
-                        reverse //raised
-                        size={14}
-                        name='email'
-                        type='Zocial'
-                        color='#f50'
-                        iconStyle={{ color: 'white' }}
-                        containerStyle={{ backgroundColor: navbar_clr,marginLeft: 0 }}
-                    />
-                    <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.8), marginHorizontal: 5, color: COLOR_SECONDARY }}>{data.user_email}</Text>
-                </View>
-                <TouchableOpacity style={{ height: height(7), width: width(94), alignItems: 'center', flexDirection: 'row', alignSelf: 'flex-end' }} onPress={()=>{ this.setState({ is_about: !this.state.is_about }) }}>
-                    <Icon   
-                        reverse //raised
-                        size={14}
-                        name='ios-people'
-                        type='ionicon'
-                        color='#f50'
-                        iconStyle={{ color: 'white' }}
-                        containerStyle={{ backgroundColor: navbar_clr,marginLeft: 0 }}
-                    />
-                    <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.8), marginHorizontal: 5, color: COLOR_SECONDARY }}>{data.about}</Text>
-                </TouchableOpacity>
                 {
-                    this.state.is_about?
-                        <View style={{ width:width(85),alignSelf:'flex-end',backgroundColor: COLOR_PRIMARY }}>
-                            <Text style={{marginHorizontal: 10,marginBottom: 10}}>{data.about_desc}</Text>
+                    data.user_loc.length > 0 ?
+
+                        <View style={{ height: height(7), width: width(94), alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'flex-end' }}>
+                            <Icon
+                                reverse //raised
+                                size={14}
+                                name='address'
+                                type='entypo'
+                                color='#f50'
+                                iconStyle={{ color: 'white' }}
+                                containerStyle={{ backgroundColor: navbar_clr, marginLeft: 0 }}
+                            />
+                            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.8), marginHorizontal: 5, color: COLOR_SECONDARY }}>{data.user_loc}</Text>
+                        </View>
+                        : null
+                }
+                {
+                    data.user_contact.length > 0 ?
+                        <View style={{ height: height(7), width: width(94), alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'flex-end' }}>
+                            <Icon
+                                reverse //raised
+                                size={14}
+                                name='phone'
+                                type='FontAwesome'
+                                color='#f50'
+                                iconStyle={{ color: 'white' }}
+                                containerStyle={{ backgroundColor: navbar_clr, marginLeft: 0 }}
+                            />
+                            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.8), marginHorizontal: 5, color: COLOR_SECONDARY }}>{data.user_contact}</Text>
+                        </View>
+                        : null
+                }
+                {
+                    data.user_email ?
+                        <View style={{ height: height(7), width: width(94), alignItems: 'center', borderBottomColor: '#ccc', borderBottomWidth: 0.4, flexDirection: 'row', alignSelf: 'flex-end' }}>
+                            <Icon
+                                reverse //raised
+                                size={14}
+                                name='email'
+                                type='Zocial'
+                                color='#f50'
+                                iconStyle={{ color: 'white' }}
+                                containerStyle={{ backgroundColor: navbar_clr, marginLeft: 0 }}
+                            />
+                            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.8), marginHorizontal: 5, color: COLOR_SECONDARY }}>{data.user_email}</Text>
+                        </View>
+                        : null
+                }
+                {
+                    data.about.length ?
+                        <TouchableOpacity style={{ height: height(7), width: width(94), alignItems: 'center', flexDirection: 'row', alignSelf: 'flex-end' }} onPress={() => { this.setState({ is_about: !this.state.is_about }) }}>
+                            <Icon
+                                reverse //raised
+                                size={14}
+                                name='ios-people'
+                                type='ionicon'
+                                color='#f50'
+                                iconStyle={{ color: 'white' }}
+                                containerStyle={{ backgroundColor: navbar_clr, marginLeft: 0 }}
+                            />
+                            <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.8), marginHorizontal: 5, color: COLOR_SECONDARY }}>{data.about}</Text>
+                        </TouchableOpacity>
+                        : null
+                }
+                {
+                    this.state.is_about ?
+                        <View style={{ width: width(85), alignSelf: 'flex-end', backgroundColor: COLOR_PRIMARY }}>
+                            <Text style={{ marginHorizontal: 10, marginBottom: 10 }}>{data.about_desc}</Text>
                         </View>
                         :
                         null

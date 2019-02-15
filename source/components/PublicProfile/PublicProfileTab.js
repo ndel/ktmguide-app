@@ -34,9 +34,11 @@ import Listings from './Listings';
 
       this.setState({ loading: true })
       let parameter = {
-        user_id: params.profiler_id //params.profiler_id
+        user_id: params.profiler_id //params.profiler_id // 544
       };
       let response = await ApiController.post('author-detial',parameter);
+      console.log('public profile==>>',response);
+      
       if ( response.success ) {
           store.PUB_PROFILE_DETAIL = response.data;
           this.setState({ loading: false })

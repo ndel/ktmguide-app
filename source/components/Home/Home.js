@@ -54,6 +54,8 @@ import ApiController from '../../ApiController/ApiController';
       store.SEARCHING.LISTING_FILTER.data.sorting.option_dropdown.forEach(item => {
         item.checkStatus = false;
       });
+      // sorting object for events sorting
+      store.EVENTS_SORTING = store.SEARCHING.LISTING_FILTER.data.sorting;
       await this.homeData()
       this.setState({ loading: false })
     } else {

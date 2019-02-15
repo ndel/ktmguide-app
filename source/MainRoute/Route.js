@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StatusBar, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
-import { FONT_NORMAL, FONT_BOLD, COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_TRANSPARENT_BLACK } from '../../styles/common';
 import { createStackNavigator } from 'react-navigation';
 import Splash from '../components/SplashScreen/Splash';
 import MainScreen from '../components/MainScreen/MainScreen';
@@ -32,6 +31,7 @@ import EventsTabs from '../components/Events/EventsTabs';
 import Categories from '../components/Categories/Categories';
 import EventDetail from '../components/Events/EventDetail'
 import PublicProfileTab from '../components/PublicProfile/PublicProfileTab';
+import EventSearching from '../components/PublicEvents/EventSearching';
 
 import { observer } from 'mobx-react';
 import store from '../Stores/orderStore';
@@ -119,7 +119,8 @@ const RootStack = createStackNavigator(
     EventsTabs: EventsTabs,
     Categories: Categories,
     EventDetail: EventDetail,
-    PublicProfileTab: PublicProfileTab
+    PublicProfileTab: PublicProfileTab,
+    EventSearching: EventSearching
   },
   {
     initialRouteName: 'Splash',

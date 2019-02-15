@@ -41,9 +41,9 @@ class Events extends Component<Props> {
     let data = store.PUB_PROFILE_DETAIL;
     return (
       <TouchableOpacity key={key} style={{ elevation: 5, marginVertical: 5, borderRadius: 5, marginHorizontal: 5, width: width(95), shadowColor: 'gray', alignSelf: 'center', backgroundColor: COLOR_PRIMARY, flexDirection: 'row' }}
-        onPress={() => this.props.navigation.push('EventDetail', { event_id: item.event_id,title: item.event_title,headerColor: store.settings.data.navbar_clr })}
+        onPress={() => this.props.navigation.push('EventDetail', { event_id: item.event_id, title: item.event_title, headerColor: store.settings.data.navbar_clr })}
       >
-        <View style={{ marginVertical: 2,width: width(36), justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ marginVertical: 2, width: width(36), justifyContent: 'center', alignItems: 'center' }}>
           <Image source={{ uri: item.image }} style={{ height: height(17.5), width: width(35), alignSelf: 'center', borderRadius: 5 }} />
         </View>
         <View style={{ width: width(58), justifyContent: 'center', alignItems: 'flex-start', marginHorizontal: 0, marginVertical: 5 }}>
@@ -59,10 +59,10 @@ class Events extends Component<Props> {
             <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.to}</Text>
             <Text style={{ fontSize: totalSize(1.5) }}>{item.event_end_date}</Text>
           </View>
-          <View style={{ width:width(58),flexDirection: 'row',marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
+          <View style={{ width: width(58), flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
             <Image source={require('../../images/paper-plane.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
-            <Text style={{ height:height(2),fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.venue}</Text>
-            <Text style={{ fontSize: totalSize(1.5),flexWrap:'wrap',width:width(38) }}>{item.event_loc}</Text>
+            <Text style={{ height: height(2), fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.venue}</Text>
+            <Text style={{ fontSize: totalSize(1.5), flexWrap: 'wrap', width: width(38) }}>{item.event_loc}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -102,43 +102,49 @@ class Events extends Component<Props> {
     let main_clr = store.settings.data.main_clr;
     var data = store.PUB_PROFILE_DETAIL;
     return (
-      <View style={{ flex: 1 }}>
-       
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              onScroll={({ nativeEvent }) => {
-                if (this.isCloseToBottom(nativeEvent)) {
-                  if (this.state.reCaller === false) {
-                    this.loadMore(data.event_pagination.next_page);
-                  }
-                  this.setState({ reCaller: true })
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          onScroll={({ nativeEvent }) => {
+            if (this.isCloseToBottom(nativeEvent)) {
+              if (this.state.reCaller === false) {
+                this.loadMore(data.event_pagination.next_page);
+              }
+              this.setState({ reCaller: true })
+            }
+          }}
+          scrollEventThrottle={400}>
+          <ProfileUpperView />
+          {
+            data.has_events ?
+              <View>
+                {
+                  data.events.map((item, key) => {
+                    return (
+                      this._blog(item, key)
+                    )
+                  })
                 }
-              }}
-              scrollEventThrottle={400}>
-              <ProfileUpperView />
-              {/* <View style={{ backgroundColor: COLOR_PRIMARY, marginBottom: 10 }}>
-                <Text style={{ marginVertical: 5, marginHorizontal: 10 }}>{store.EVENTS.total_events}</Text>
-              </View> */}
-              {
-                data.events.map((item, key) => {
-                  return (
-                    this._blog(item, key)
-                  )
-                })
-              }
-              {
-                data.event_pagination.has_next_event_page ?
-                  <View style={{ height: height(7), width: width(100), justifyContent: 'center', alignItems: 'center' }}>
-                    {
-                      this.state.loadmore ?
-                        <ActivityIndicator size='large' color={store.settings.data.navbar_clr} animating={true} />
-                        : null
-                    }
-                  </View>
-                  :
-                  null
-              }
-            </ScrollView>
+                {
+                  data.event_pagination.has_next_event_page ?
+                    <View style={{ height: height(7), width: width(100), justifyContent: 'center', alignItems: 'center' }}>
+                      {
+                        this.state.loadmore ?
+                          <ActivityIndicator size='large' color={store.settings.data.navbar_clr} animating={true} />
+                          : null
+                      }
+                    </View>
+                    :
+                    null
+                }
+              </View>
+              :
+              <View style={{ height: height(12), marginTop: 20, flexDirection: 'row', width: width(100), alignItems: 'center', backgroundColor: '#feebe6', alignSelf: 'center' }}>
+                <Image source={require('../../images/profileWarning.png')} style={{ height: height(7), width: width(15), resizeMode: 'contain', marginHorizontal: 20 }} />
+                <Text style={{ fontSize: totalSize(2), color: COLOR_SECONDARY }}>{data.events_message}</Text>
+              </View>
+          }
+        </ScrollView>
       </View>
     );
   }

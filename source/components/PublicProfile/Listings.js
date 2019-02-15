@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, Image,ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
-import * as Animatable from 'react-native-animatable';
+import { Text, View, Image, ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { Avatar, Icon } from 'react-native-elements';
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_YELLOW, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
 import { observer } from 'mobx-react';
@@ -22,7 +22,7 @@ class Listings extends Component<Props> {
   }
 
   componentWillMount = async () => {
-      // await this.public_profile();
+    // await this.public_profile();
   }
   public_profile = async () => {
     store.is_publicEvents = true;
@@ -111,7 +111,7 @@ class Listings extends Component<Props> {
     return (
       <View style={{ flex: 1 }}>
         {
-          this.state.loading ?
+          data.has_listings ?
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <ActivityIndicator size='large' color={main_clr} animating={true} />
             </View>
@@ -120,7 +120,7 @@ class Listings extends Component<Props> {
               showsVerticalScrollIndicator={false}
               onScroll={({ nativeEvent }) => {
                 if (this.isCloseToBottom(nativeEvent)) {
-                  if (this.state.reCaller === false) {
+                  if (this.state.reCaller === false && data.has_listings) {
                     this.loadMore(data.listing_pagination.next_page);
                   }
                   this.setState({ reCaller: true })
@@ -130,25 +130,35 @@ class Listings extends Component<Props> {
               <ProfileUpperView data={store.PUB_PROFILE_DETAIL} />
               {
                 data.has_listings ?
-                  data.listing.map((item, key) => {
-                    return (
-                      this._blog(item, key)
-                    )
-                  })
-                  :
-                  null
-              }
-              {
-                data.listing_pagination.has_next_page ?
-                  <View style={{ height: height(7), width: width(100), justifyContent: 'center', alignItems: 'center' }}>
+                  <View>
                     {
-                      this.state.loadmore ?
-                        <ActivityIndicator size='large' color={store.settings.data.navbar_clr} animating={true} />
-                        : null
+                      data.has_listings ?
+                        data.listing.map((item, key) => {
+                          return (
+                            this._blog(item, key)
+                          )
+                        })
+                        :
+                        null
+                    }
+                    {
+                      data.listing_pagination.has_next_page ?
+                        <View style={{ height: height(7), width: width(100), justifyContent: 'center', alignItems: 'center' }}>
+                          {
+                            this.state.loadmore ?
+                              <ActivityIndicator size='large' color={store.settings.data.navbar_clr} animating={true} />
+                              : null
+                          }
+                        </View>
+                        :
+                        null
                     }
                   </View>
                   :
-                  null
+                  <View style={{ height: height(12), marginTop: 20, flexDirection: 'row', width: width(100), alignItems: 'center', backgroundColor: '#feebe6', alignSelf: 'center' }}>
+                    <Image source={require('../../images/profileWarning.png')} style={{ height:height(7),width:width(15),resizeMode:'contain',marginHorizontal: 20 }} />
+                    <Text style={{ fontSize:totalSize(2),color: COLOR_SECONDARY }}>{data.listing_message}</Text>
+                  </View>
               }
             </ScrollView>
         }
@@ -158,4 +168,3 @@ class Listings extends Component<Props> {
 }
 
 export default withNavigation(Listings);
- 

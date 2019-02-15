@@ -123,7 +123,7 @@ export default class AdvanceSearch extends Component<Props> {
       //calling function from search screen
       params.getSearchList();
       // calling navigationScreen func for the purpose of moving to drawer's particular screen from outside of drawer by passing drawer route and header title
-      params.navigateToScreen('SearchingScreen','Advance Search');
+      params.navigateToScreen('SearchingScreen', 'Advance Search');
     }
   }
   placesComplete = async (text, state) => {
@@ -213,11 +213,11 @@ export default class AdvanceSearch extends Component<Props> {
       <View style={styles.container}>
         {
           this.state.loading ?
-            <ActivityIndicator color={ settings.navbar_clr } size='large' animating={true} />
+            <ActivityIndicator color={settings.navbar_clr} size='large' animating={true} />
             :
             <View style={styles.ImgSubCon}>
               <ScrollView
-                showsVerticalScrollIndicator={ false }
+                showsVerticalScrollIndicator={false}
                 ref={ref => this.scrollView = ref}
                 onContentSizeChange={(contentWidth, contentHeight) => {
                   this.scrollView.scrollToEnd({ animated: true });
@@ -235,14 +235,14 @@ export default class AdvanceSearch extends Component<Props> {
                                     onChangeText={(value) => this.placesComplete(value, 'road')}
                                     underlineColorAndroid='transparent'
                                     label={item.title}
-                                    labelStyle={{ color:'red' }}
+                                    labelStyle={{ color: 'red' }}
                                     value={this.state.location}
                                     mode='flat'
                                     underlineColor='#c4c4c4'
                                     placeholder={item.placeholder}
-                                    placeholderTextColor= '#c4c4c4'
+                                    placeholderTextColor='#c4c4c4'
                                     autoFocus={false}
-                                    style={[styles.textInput,{ padding: 0,marginHorizontal: 0 }]}
+                                    style={[styles.textInput, { padding: 0, marginHorizontal: 0 }]}
                                   />
                                   {
                                     this.state.focus === true && this.state.predictions.length > 0 ?
@@ -286,7 +286,7 @@ export default class AdvanceSearch extends Component<Props> {
                               value={item.type_name === 'l_category' && store.moveToSearch ? store.CATEGORY.name : ''}
                               textColor={COLOR_SECONDARY}
                               itemColor='gray'
-                              onChangeText={(value) => { this.search(item.type_name, value, item.option_dropdown) , store.moveToSearch? store.CATEGORY = {} : null , store.moveToSearch = false   }}
+                              onChangeText={(value) => { this.search(item.type_name, value, item.option_dropdown), store.moveToSearch ? store.CATEGORY = {} : null, store.moveToSearch = false }}
                               focus={() => console.warn('hello')}
                               data={item.options}
                             />
@@ -300,7 +300,7 @@ export default class AdvanceSearch extends Component<Props> {
                       <Text style={{ fontSize: totalSize(1.8), color: data.status.checkStatus ? COLOR_PRIMARY : COLOR_SECONDARY, marginVertical: 5, marginHorizontal: 10 }}>{data.status.placeholder}</Text>
                     </TouchableOpacity>
                   </View>
-                  <View style={{ flex: 1, marginTop: 10,width: width(90), alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+                  <View style={{ flex: 1, marginTop: 10, width: width(90), alignItems: 'flex-start', justifyContent: 'flex-start' }}>
                     <Text style={{ fontSize: totalSize(1.9), color: COLOR_SECONDARY, marginVertical: 5 }}>{data.rated.title}</Text>
                     <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}>
                       {
@@ -318,8 +318,8 @@ export default class AdvanceSearch extends Component<Props> {
                   </View>
                   {
                     this.state.currentLoc ?
-                      <View style={{ width:width(100),alignItems:'center' ,marginVertical: 20 }}>
-                        <ActivityIndicator color={ settings.navbar_clr } size='large' animating={true} />
+                      <View style={{ width: width(100), alignItems: 'center', marginVertical: 20 }}>
+                        <ActivityIndicator color={settings.navbar_clr} size='large' animating={true} />
                       </View>
                       :
                       <View style={{ width: width(100), alignItems: 'center' }}>
@@ -374,7 +374,7 @@ export default class AdvanceSearch extends Component<Props> {
                                 debugTouchArea={false}
                                 minimumValue={0}
                                 maximumValue={100}
-                                minimumTrackTintColor={ store.settings.data.navbar_clr }
+                                minimumTrackTintColor={store.settings.data.navbar_clr}
                                 maximumTrackTintColor='rgba(211,211,211,0.3)'
                                 // maximumTrackImage={require('../../images/twitter.png')}
                                 // minimumTrackImage={require('../../images/twitter.png')}
@@ -401,7 +401,7 @@ export default class AdvanceSearch extends Component<Props> {
                   }
                 </View>
               </ScrollView>
-              <TouchableOpacity style={[styles.btnCon,{ backgroundColor: store.settings.data.navbar_clr }]} onPress={() => { this.search(null, null, null, 'search') }}>
+              <TouchableOpacity style={[styles.btnCon, { backgroundColor: store.settings.data.navbar_clr }]} onPress={() => { this.search(null, null, null, 'search') }}>
                 <Text style={styles.btnText}>{data.filter_btn}</Text>
               </TouchableOpacity>
             </View>

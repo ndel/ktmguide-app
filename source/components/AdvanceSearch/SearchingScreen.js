@@ -313,7 +313,7 @@ import Toast from 'react-native-simple-toast'
                                                 checkedColor={store.settings.data.navbar_clr}
                                                 containerStyle={{ backgroundColor: 'transparent', height: height(6), width: width(10), borderWidth: 0 }}
                                                 checked={item.checkStatus}
-                                            // onPress={() => {this._sortingModule( item , data.sorting.option_dropdown ),item.checkStatus= !item.checkStatus}}
+                                                onPress={() => { this._sortingModule(item, data.sorting.option_dropdown), item.checkStatus = !item.checkStatus }}
                                             />
                                         </View>
                                     </TouchableOpacity>

@@ -9,7 +9,7 @@ import Store from '../../Stores';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/Drawer/SideMenuStyleSheet';
 import LocalDB from '../../LocalDB/LocalDB';
-import { ScrollView, Text, View, Image, TouchableOpacity,BackHandler,AsyncStorage } from 'react-native';
+import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStorage } from 'react-native';
 @observer class SideMenu extends Component {
   constructor(props) {
     super(props);
@@ -18,14 +18,14 @@ import { ScrollView, Text, View, Image, TouchableOpacity,BackHandler,AsyncStorag
     }
   }
   static navigationOptions = { header: null };
-  componentWillMount = async() => {
-      var userDetail = await LocalDB.getUserProfile();
-      if ( userDetail !== null ) {
-          store.login.loginResponse.data = userDetail;
-          store.login.loginStatus = true;
-      } else {
-          store.login.loginStatus = false;
-      }      
+  componentWillMount = async () => {
+    var userDetail = await LocalDB.getUserProfile();
+    if (userDetail !== null) {
+      store.login.loginResponse.data = userDetail;
+      store.login.loginStatus = true;
+    } else {
+      store.login.loginStatus = false;
+    }
   }
   navigateToScreen = (route, title) => () => {
     const navigateAction = NavigationActions.navigate({
@@ -34,7 +34,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity,BackHandler,AsyncStorag
     this.props.navigation.setParams({ otherParam: title });
     this.props.navigation.dispatch(navigateAction);
   }
-  asyncDelUserInfo = async() => {
+  asyncDelUserInfo = async () => {
     let { orderStore } = Store;
     try {
       const email = await AsyncStorage.removeItem('email');
@@ -48,13 +48,13 @@ import { ScrollView, Text, View, Image, TouchableOpacity,BackHandler,AsyncStorag
     }
     // BackHandler.exitApp();
   }
-  
+
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
     let login = orderStore.login;
     return (
-      <View style={[styles.container,{backgroundColor: data.sidebar_clr}]}>
+      <View style={[styles.container, { backgroundColor: data.sidebar_clr }]}>
         <ScrollView>
           {
             login.loginStatus ?
@@ -202,20 +202,20 @@ import { ScrollView, Text, View, Image, TouchableOpacity,BackHandler,AsyncStorag
                     <Image source={require('../../images/logout.png')} style={{ height: height(2.3), width: width(10), alignSelf: 'center', resizeMode: 'contain' }} />
                   </View>
                   <View style={styles.itemTxtCon}>
-                    <Text style={styles.itemTxt}>{data.menu.login + '/' + data.menu.register}</Text>
+                    <Text style={styles.itemTxt}>{data.menu.register}</Text>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.drawerItem}>
+                {/* <TouchableOpacity style={styles.drawerItem}>
                   <View style={styles.itemIconCon}>
                     <Image source={require('../../images/register.png')} style={{ height: height(2.7), width: width(10), marginLeft: 5, alignSelf: 'center', resizeMode: 'contain' }} />
                   </View>
                   <View style={styles.itemTxtCon}>
                     <Text style={styles.itemTxt}>{data.menu.register}</Text>
                   </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
               :
-              <TouchableOpacity style={styles.drawerItem} onPress={()=>this.asyncDelUserInfo()}>
+              <TouchableOpacity style={styles.drawerItem} onPress={() => this.asyncDelUserInfo()}>
                 <View style={styles.itemIconCon}>
                   <Image source={require('../../images/logout.png')} style={{ height: height(2.3), width: width(10), alignSelf: 'center', resizeMode: 'contain' }} />
                 </View>

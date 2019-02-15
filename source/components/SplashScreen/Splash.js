@@ -19,7 +19,7 @@ import ApiController from '../../ApiController/ApiController';
     // API calling...
     this.setState({ loading: true })
     orderStore.settings = await ApiController.get('settings');
-    // console.log('orderStore response=',orderStore.settings);
+    console.log('settings=',orderStore.settings);
     if (orderStore.settings.success === true) {
       orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
       this.props.navigation.replace('Drawer'); //MainScreen
@@ -64,13 +64,13 @@ import ApiController from '../../ApiController/ApiController';
         <ImageBackground source={require('../../images/bk_ground.jpg')} style={styles.imgCon}>
           <ImageBackground source={require('../../images/Downtown_Shadownew.png')} style={styles.imgCon}>
             <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
-              <Image source={require('../../images/mainscr_logo.png')} />
+              <Image source={require('../../images/splash_logo.png')} />
               <Text style={{ fontSize: totalSize(2.5), color: 'white', textAlign: 'center', marginHorizontal: 70, marginVertical: 5 }}>Find & Explore World Top Places</Text>
             </View>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
               {
                 this.state.loading === true ?
-                  <ActivityIndicator size={INDICATOR_SIZE} color={INDICATOR_COLOR} animating={true} hidesWhenStopped={true} />
+                  <ActivityIndicator size={INDICATOR_SIZE} color='#e52d27' animating={true} hidesWhenStopped={true} />
                   :
                   null
               }
