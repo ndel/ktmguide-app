@@ -291,7 +291,7 @@ export default class EventSearching extends Component<Props> {
                               labelFontSize={14}
                               dropdownPosition={-5.5}
                               itemCount={5}
-                              value={item.type_name === 'event_cat' && store.moveToSearch ? store.CATEGORY.name : ''}
+                              // value={item.type_name === 'event_cat' && store.moveToSearch ? store.CATEGORY.name : ''}
                               textColor={COLOR_SECONDARY}
                               itemColor='gray'
                               onChangeText={(value) => { this.search(item.type_name, value, item.option_dropdown) , store.moveToSearch? store.CATEGORY = {} : null , store.moveToSearch = false   }}

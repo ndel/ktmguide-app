@@ -7,11 +7,13 @@ import { INDICATOR_COLOR,INDICATOR_SIZE,OVERLAY_COLOR } from '../../../styles/co
 import { width, height, totalSize } from 'react-native-dimension';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
+import store from '../../Stores/orderStore';
 import styles from '../../../styles/SignUp'
 import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-simple-toast';
 import ApiController from '../../ApiController/ApiController';
+import LocalDB from '../../LocalDB/LocalDB'
 // import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 var { FBLoginManager } = require('react-native-facebook-login');
 @observer export default class SignUp extends Component<Props> {
@@ -117,7 +119,9 @@ var { FBLoginManager } = require('react-native-facebook-login');
           // console.log('signup user =',response);
           if (response.success === true) {
             this.setState({ loading: false })
-            this.props.navigation.push('SignIn')
+            await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
+            store.login.loginStatus = true;
+            this.props.navigation.push('Drawer');
           } else {
             this.setState({ loading: false })
             Toast.show(response.message, Toast.LONG);
@@ -215,7 +219,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
               </View>
               <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
                 {!this.state.loading ? null :
-                  <ActivityIndicator size={INDICATOR_SIZE} color={INDICATOR_COLOR} animating={true} hidesWhenStopped={true} />}
+                  <ActivityIndicator size={INDICATOR_SIZE} color={store.settings.data.navbar_clr} animating={true} hidesWhenStopped={true} />}
               </View>
             </View>
             <View style={styles.footer}>

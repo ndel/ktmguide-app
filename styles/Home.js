@@ -1,11 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { FONT_BOLD, COLOR_SECONDARY, COLOR_ORANGE, COLOR_PRIMARY, COLOR_RED, S2, S18 , S16, S15, S14, S13 } from './common';
+import { FONT_BOLD, COLOR_SECONDARY, COLOR_ORANGE, COLOR_PRIMARY, COLOR_RED, S2, S18, S16, S15, S14, S13 } from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const window = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  IndicatorCon: {
+    height: height(100),
+    width: width(100),
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   subCon: {
     flex: 1,
@@ -130,7 +137,7 @@ const styles = StyleSheet.create({
   },
   flatlistCon: {
     // height: height(43),
-    flex:1,
+    flex: 1,
     width: width(92),
     alignSelf: 'center',
     // position: 'absolute',
@@ -238,7 +245,7 @@ const styles = StyleSheet.create({
   txtViewCon: {
     height: height(16),
     width: width(55),
-    justifyContent:'center'
+    justifyContent: 'center'
   },
   txtViewHeading: {
     // fontFamily: 'italic',

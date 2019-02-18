@@ -3,14 +3,14 @@ import {
   Platform, ActivityIndicator, Text, View, AsyncStorage, Image, ImageBackground, TouchableOpacity, I18nManager,
   TextInput, Alert
 } from 'react-native';
-import { INDICATOR_COLOR,INDICATOR_SIZE,OVERLAY_COLOR } from '../../../styles/common';
+import { INDICATOR_COLOR, INDICATOR_SIZE, OVERLAY_COLOR } from '../../../styles/common';
 import { width, height, totalSize } from 'react-native-dimension';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-simple-toast';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import styles from '../../../styles/SignIn'
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton,statusCodes } from 'react-native-google-signin';
 import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
 // import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
@@ -30,21 +30,20 @@ export default class SignIn extends Component<Props> {
   static navigationOptions = {
     header: null
   };
-  componentWillMount = async() => {
-    const email = await AsyncStorage.getItem('email');
-    const pass = await AsyncStorage.getItem('password');
-    console.warn('pass & email =>>>',email , pass);
-    
+  componentWillMount = async () => {
+    // const email = await AsyncStorage.getItem('email');
+    // const pass = await AsyncStorage.getItem('password');
     GoogleSignin.configure({
       iosClientId: '191792720370-rc4ospf26req749phf3d4l4sfj74gmf4.apps.googleusercontent.com'
     })
   }
   //// Google Login Methode 
-  handleGoogleSignIn = () => {
+  handleGoogleSignIn = async() => {
+    await GoogleSignin.hasPlayServices();
     GoogleSignin.signIn().then((user) => {
       //Calling local func for login through google
-      this.socialLogin(user.user.email, user.user.name);
       console.log('googleLogin', user);
+      this.socialLogin(user.user.email, user.user.name);
     }).catch((err) => {
       console.warn(err);
     }).done();
@@ -53,6 +52,8 @@ export default class SignIn extends Component<Props> {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
+      console.log('user info===>>>',userInfo);
+      
       this.setState({ userInfo });
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -84,7 +85,6 @@ export default class SignIn extends Component<Props> {
   //// Custom Social Login methode
   socialLogin = async (email, name) => {
     let { orderStore } = Store;
-    console.warn('emial', email);
     this.setState({ loading: true })
     let params = {
       name: name,
@@ -117,13 +117,13 @@ export default class SignIn extends Component<Props> {
         }
         //Api calling
         let response = await ApiController.post('login', params)
-        console.log('login user =', response);
+        // console.log('login user =', response);
         if (response.success === true) {
-          await LocalDB.saveProfile(this.state.email,this.state.password,response.data);
+          await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
           this.setState({ loading: false })
           orderStore.login.loginStatus = true;
           orderStore.login.loginResponse = response;
-          this.props.navigation.push('Drawer')
+          this.props.navigation.push('Drawer');
         } else {
           this.setState({ loading: false })
           Toast.show(response.message);
@@ -145,7 +145,7 @@ export default class SignIn extends Component<Props> {
                 <TouchableOpacity style={styles.bckImgCon} onPress={() => this.props.navigation.goBack()}>
                   <Image source={require('../../images/back_btn.png')} style={styles.backBtn} />
                 </TouchableOpacity>
-                <View style={{ flex: 1, justifyContent: 'flex-end',marginHorizontal: 25 }}>
+                <View style={{ flex: 1, justifyContent: 'flex-end', marginHorizontal: 25 }}>
                   <Text style={styles.headerTxt}>{data.main_screen.sign_in}</Text>
                 </View>
               </View>

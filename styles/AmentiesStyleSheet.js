@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     flexWrap:'wrap',
     marginHorizontal:25,
     marginVertical:15,
-    alignSelf:'center'
+    // alignSelf:'center'
   },
   listChild:{
     height:height(5),

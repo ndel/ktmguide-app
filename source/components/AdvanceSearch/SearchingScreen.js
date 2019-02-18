@@ -47,7 +47,7 @@ import Toast from 'react-native-simple-toast'
         if (this.state.search.length !== 0) {
             store.SEARCH_OBJ.by_title = this.state.search;
         } else {
-            store.SEARCH_OBJ.by_title = this.state.search;
+            // store.SEARCH_OBJ.by_title = this.state.search;
         }
         if (store.moveToSearch === true) {
             store.SEARCH_OBJ.l_category = store.CATEGORY.category_id;
@@ -73,7 +73,11 @@ import Toast from 'react-native-simple-toast'
     }
     resetSearchList = async () => {
         let { orderStore } = Store;
+        store.CATEGORY = {};
         store.SEARCH_OBJ = {};
+        await this.setState({
+            search: ''
+        })
         try {
             this.setState({ loading: true })
             //API calling
@@ -166,7 +170,8 @@ import Toast from 'react-native-simple-toast'
                         <TextInput
                             style={{ width: width(80), alignSelf: 'stretch', paddingHorizontal: 10 }}
                             placeholder={home.search_placeholder}
-                            placeholderTextColor={COLOR_SECONDARY}
+                            // placeholderTextColor={COLOR_SECONDARY}
+                            value={this.state.search}
                             autoCorrect={true}
                             autoFocus={store.moveToSearch ? false : false}
                             returnKeyType='search'

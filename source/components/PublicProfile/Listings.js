@@ -15,14 +15,13 @@ class Listings extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false,
+      // loading: false,
       loadmore: false,
       reCaller: false,
     }
   }
 
   componentWillMount = async () => {
-    // await this.public_profile();
   }
   public_profile = async () => {
     store.is_publicEvents = true;
@@ -110,58 +109,51 @@ class Listings extends Component<Props> {
     let data = store.PUB_PROFILE_DETAIL;
     return (
       <View style={{ flex: 1 }}>
-        {
-          data.has_listings ?
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <ActivityIndicator size='large' color={main_clr} animating={true} />
-            </View>
-            :
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              onScroll={({ nativeEvent }) => {
-                if (this.isCloseToBottom(nativeEvent)) {
-                  if (this.state.reCaller === false && data.has_listings) {
-                    this.loadMore(data.listing_pagination.next_page);
-                  }
-                  this.setState({ reCaller: true })
-                }
-              }}
-              scrollEventThrottle={400}>
-              <ProfileUpperView data={store.PUB_PROFILE_DETAIL} />
-              {
-                data.has_listings ?
-                  <View>
-                    {
-                      data.has_listings ?
-                        data.listing.map((item, key) => {
-                          return (
-                            this._blog(item, key)
-                          )
-                        })
-                        :
-                        null
-                    }
-                    {
-                      data.listing_pagination.has_next_page ?
-                        <View style={{ height: height(7), width: width(100), justifyContent: 'center', alignItems: 'center' }}>
-                          {
-                            this.state.loadmore ?
-                              <ActivityIndicator size='large' color={store.settings.data.navbar_clr} animating={true} />
-                              : null
-                          }
-                        </View>
-                        :
-                        null
-                    }
-                  </View>
-                  :
-                  <View style={{ height: height(12), marginTop: 20, flexDirection: 'row', width: width(100), alignItems: 'center', backgroundColor: '#feebe6', alignSelf: 'center' }}>
-                    <Image source={require('../../images/profileWarning.png')} style={{ height:height(7),width:width(15),resizeMode:'contain',marginHorizontal: 20 }} />
-                    <Text style={{ fontSize:totalSize(2),color: COLOR_SECONDARY }}>{data.listing_message}</Text>
-                  </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          onScroll={({ nativeEvent }) => {
+            if (this.isCloseToBottom(nativeEvent)) {
+              if (this.state.reCaller === false && data.has_listings) {
+                this.loadMore(data.listing_pagination.next_page);
               }
-            </ScrollView>
-        }
+              this.setState({ reCaller: true })
+            }
+          }}
+          scrollEventThrottle={400}>
+          <ProfileUpperView data={store.PUB_PROFILE_DETAIL} />
+          {
+            data.has_listings ?
+              <View>
+                {
+                  data.has_listings ?
+                    data.listing.map((item, key) => {
+                      return (
+                        this._blog(item, key)
+                      )
+                    })
+                    :
+                    null
+                }
+                {
+                  data.listing_pagination.has_next_page ?
+                    <View style={{ height: height(7), width: width(100), justifyContent: 'center', alignItems: 'center' }}>
+                      {
+                        this.state.loadmore ?
+                          <ActivityIndicator size='large' color={store.settings.data.navbar_clr} animating={true} />
+                          : null
+                      }
+                    </View>
+                    :
+                    null
+                }
+              </View>
+              :
+              <View style={{ height: height(12), marginTop: 20, flexDirection: 'row', width: width(100), alignItems: 'center', backgroundColor: '#feebe6', alignSelf: 'center' }}>
+                <Image source={require('../../images/profileWarning.png')} style={{ height: height(7), width: width(15), resizeMode: 'contain', marginHorizontal: 20 }} />
+                <Text style={{ fontSize: totalSize(2), color: COLOR_SECONDARY }}>{data.listing_message}</Text>
+              </View>
+          }
+        </ScrollView>
       </View>
     );
   }

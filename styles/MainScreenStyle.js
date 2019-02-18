@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { StyleSheet } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
-import { FONT_NORMAL, FONT_BOLD, COLOR_PRIMARY, FONT_NORMAL_IOS, S25, S2, S18, S17, S16, S15, S14 } from './common';
-import Store from '../source/Stores';
-import { observer } from 'mobx-react';
-let { orderStore } = Store;
+import { COLOR_PRIMARY, S25, S2, S18, S17, S16, S15, S14, COLOR_SECONDARY } from './common';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -31,7 +29,6 @@ const styles = StyleSheet.create({
     width: width(60),
     marginHorizontal: 10,
     textAlign: 'center',
-    // fontFamily: FONT_NORMAL,
     marginTop: 7,
     fontSize: totalSize(S25),
     color: 'white'
@@ -79,7 +76,7 @@ const styles = StyleSheet.create({
     marginTop: 7,
     fontWeight: 'bold',
     fontSize: totalSize(S14),
-    color: 'black'
+    color: COLOR_SECONDARY
   }
 });
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NetInfo, Alert, BackHandler, ActivityIndicator, Platform, StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 import { INDICATOR_COLOR, INDICATOR_SIZE, OVERLAY_COLOR } from '../../../styles/common';
 import { width, height, totalSize } from 'react-native-dimension';
+import styles from '../../../styles/SplashStyleSheet'
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import Toast from 'react-native-simple-toast';
@@ -63,11 +64,11 @@ import ApiController from '../../ApiController/ApiController';
       <View style={styles.container}>
         <ImageBackground source={require('../../images/bk_ground.jpg')} style={styles.imgCon}>
           <ImageBackground source={require('../../images/Downtown_Shadownew.png')} style={styles.imgCon}>
-            <View style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center' }}>
+            <View style={styles.LogoCon}>
               <Image source={require('../../images/splash_logo.png')} />
-              <Text style={{ fontSize: totalSize(2.5), color: 'white', textAlign: 'center', marginHorizontal: 70, marginVertical: 5 }}>Find & Explore World Top Places</Text>
+              <Text style={styles.slogoTitle}>Find & Explore World Top Places</Text>
             </View>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} >
+            <View style={styles.IndicatorCon} >
               {
                 this.state.loading === true ?
                   <ActivityIndicator size={INDICATOR_SIZE} color='#e52d27' animating={true} hidesWhenStopped={true} />
@@ -81,26 +82,3 @@ import ApiController from '../../ApiController/ApiController';
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imgCon: {
-    flex: 1,
-    alignSelf: 'stretch',
-  },
-  imgConShadow: {
-    flex: 1,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

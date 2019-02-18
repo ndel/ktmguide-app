@@ -41,7 +41,7 @@ export const FONT_NORMAL = Platform.select({
 });
 export const FONT_BOLD = "Montserrat-SemiBold";
 //spinner preloader and activity indicator settings
-export const INDICATOR_COLOR = '#000000';
+export const INDICATOR_COLOR = '#333333';
 export const INDICATOR_SIZE = 'large';   //normal , small , large
 export const TEXT_COLOR = '#000000';
 export const TEXT_SIZE = 1.8;

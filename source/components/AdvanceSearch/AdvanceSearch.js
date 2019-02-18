@@ -209,6 +209,7 @@ export default class AdvanceSearch extends Component<Props> {
   render() {
     let data = store.SEARCHING.LISTING_FILTER.data;
     let settings = store.settings.data;
+    
     return (
       <View style={styles.container}>
         {
@@ -287,7 +288,6 @@ export default class AdvanceSearch extends Component<Props> {
                               textColor={COLOR_SECONDARY}
                               itemColor='gray'
                               onChangeText={(value) => { this.search(item.type_name, value, item.option_dropdown), store.moveToSearch ? store.CATEGORY = {} : null, store.moveToSearch = false }}
-                              focus={() => console.warn('hello')}
                               data={item.options}
                             />
                           </View>

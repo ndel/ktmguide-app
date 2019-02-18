@@ -65,7 +65,7 @@ class Description extends Component<Props> {
 
     call(args).catch(console.error)
   }
-  webSite =(url)=> {
+  webSite =(url)=> {    
     if (url !== "") {
       Linking.openURL(url);
     } 
@@ -266,7 +266,7 @@ class Description extends Component<Props> {
           isVisible={this.state.getCoupon}
           onBackdropPress={() => this.setState({ getCoupon: false }) }
           style={{ flex: 1 }}>
-          <View style={{ height: height(38), width: width(90), alignSelf: 'center', backgroundColor: COLOR_PRIMARY }}>
+          <View style={{ height: height(40), width: width(90), alignSelf: 'center', backgroundColor: COLOR_PRIMARY }}>
             <View style={{ flex: 1 }}>
               <View style={{ height: height(4), alignItems: 'flex-end' }}>
                 <TouchableOpacity style={{ elevation: 3, height: height(3.5), width: width(6), justifyContent: 'center', alignItems: 'center', backgroundColor: main_clr }} onPress={() => { this.setState({ getCoupon: false }) }}>

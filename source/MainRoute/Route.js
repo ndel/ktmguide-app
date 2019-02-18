@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Platform, StatusBar, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { createStackNavigator } from 'react-navigation';
+//Authentication
 import Splash from '../components/SplashScreen/Splash';
 import MainScreen from '../components/MainScreen/MainScreen';
-import Login from '../components/Login/Login';
 import SignUp from '../components/SignUp/SignUp';
 import SignIn from '../components/SignIn/SignIn';
-import Home from '../components/Home/Home';
 import ForgetPassword from '../components/ForgetPassword/ForgetPassword';
+
+import Home from '../components/Home/Home';
 import FeatureDetail from '../components/FeatureDetail/FeatureDetail';
 import FeatureDetailTabBar from '../components/FeatureDetail/FeatureDetailTabBar';
 import Discription from '../components/FeatureDetail/Description';
@@ -66,7 +67,6 @@ import styles from '../../styles/HeadersStyles/DrawerHeaderStyleSheet';
 const RootStack = createStackNavigator(
   {
     Splash: Splash,
-    Login: Login,
     MainScreen: MainScreen,
     SignUp: SignUp,
     SignIn: SignIn,

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { I18nManager,StyleSheet } from 'react-native';
-import {  FONT_BOLD, COLOR_PRIMARY, S25, S2, S18, S17, S16, S15, S14, S13, S12, S11 } from './common';
+import { I18nManager, StyleSheet } from 'react-native';
+import { FONT_BOLD, COLOR_PRIMARY, S25, S2, S18, S17, S16, S15, S14, S13, S12, S11, COLOR_SECONDARY } from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const styles = StyleSheet.create({
   container: {
@@ -16,14 +16,14 @@ const styles = StyleSheet.create({
   bckImgCon: {
     width: width(10),
     justifyContent: 'flex-end',
-    alignItems:'center',
+    alignItems: 'center',
   },
   backBtn: {
     height: height(2.5),
     width: width(3),
     marginLeft: 25,
     resizeMode: 'contain',
-    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
+    transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }], //RTL of icons 
   },
   headerTxt: {
     // fontFamily: FONT_NORMAL,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     // fontFamily: FONT_NORMAL,
     marginTop: 7,
     fontSize: totalSize(S25),
-    color: 'white'
+    color: COLOR_PRIMARY
   },
   buttonView: {
     height: height(50),
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: totalSize(S15),
     textDecorationLine: 'underline',
-    color: 'black',
+    color: COLOR_SECONDARY,
   },
   footer: {
     height: height(7),

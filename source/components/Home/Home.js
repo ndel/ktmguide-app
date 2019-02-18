@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Platform, Text, View, Image, ImageBackground, TouchableOpacity, I18nManager, ScrollView, TextInput, FlatList,ActivityIndicator
+  Platform, Text, View, Image, ImageBackground, TouchableOpacity, ScrollView, TextInput, FlatList,ActivityIndicator
 } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import Grading from 'react-native-grading';
@@ -17,7 +17,6 @@ import ApiController from '../../ApiController/ApiController';
     this.state = {
       loading: false,
     }
-    I18nManager.forceRTL(false);
   }
   static navigationOptions = { header: null };
   navigateToScreen = (route, title) => {
@@ -69,7 +68,7 @@ import ApiController from '../../ApiController/ApiController';
       this.setState({ loading: true })
       //API calling
       let response = await ApiController.get('home');
-      console.log('responseHome==>>>>>', response);
+      // console.log('responseHome==>>>>>', response);
       if (response.success) {
         orderStore.home.homeGet = response;
         this.setState({ loading: false })
@@ -87,7 +86,7 @@ import ApiController from '../../ApiController/ApiController';
     let home = orderStore.home.homeGet.data;
     if (this.state.loading == true) {
       return (
-        <View style={{ height: height(100), width: width(100), flex: 1 ,justifyContent:'center' , alignItems:'center' }}>
+        <View style={styles.IndicatorCon}>
             <ActivityIndicator color= {store.settings.data.navbar_clr} size='large' animating={true} />
         </View>
       );
@@ -111,13 +110,17 @@ import ApiController from '../../ApiController/ApiController';
                           onChangeText={(value) => this.setState({ email: value })}
                           underlineColorAndroid='transparent'
                           placeholder={home.search_section.placeholder}
-                          placeholderTextColor='black'
+                          // placeholderTextColor='black'
                           underlineColorAndroid='transparent'
                           autoCorrect={false}
-                          onFocus={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}
+                          onFocus={() => this.navigateToScreen('SearchingScreen', 'search')}
                           style={styles.txtInput}
                         />
-                        <Image source={require('../../images/search_black.png')} style={styles.searchIcon} />
+                        <Image 
+                          source={require('../../images/search_black.png')} 
+                          style={styles.searchIcon} 
+                          onPress={()=>this.navigateToScreen('SearchingScreen', 'search')}
+                          />
                       </View>
                     </View>
                   </ImageBackground>
@@ -154,7 +157,7 @@ import ApiController from '../../ApiController/ApiController';
                 <Text style={styles.recList}>{home.section_txt}</Text>
                 {/* <Text style={styles.latestFeature}>Recent Listing</Text> */}
               </View>
-              <TouchableOpacity style={styles.readMoreBtnCon} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+              <TouchableOpacity style={[styles.readMoreBtnCon,{ borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
                 <Text style={[styles.latestFeature, { fontSize: totalSize(1.6) }]}>{home.section_btn}</Text>
               </TouchableOpacity>
             </View>
@@ -203,7 +206,7 @@ import ApiController from '../../ApiController/ApiController';
                 <Text style={styles.recList}>{home.latest_events}</Text>
                 {/* <Text style={styles.latestFeature}>Recent Listing</Text> */}
               </View>
-              <TouchableOpacity style={styles.readMoreBtnCon} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+              <TouchableOpacity style={[styles.readMoreBtnCon,{ borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
                 <Text style={[styles.latestFeature, { fontSize: totalSize(1.6) }]}>{home.view_all_events}</Text>
               </TouchableOpacity>
             </View>
