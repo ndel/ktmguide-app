@@ -3,10 +3,13 @@ import { observable } from 'mobx';
 class orderStore {
     @observable statusbar_color = null;
     @observable settings = null;
+    @observable LOGIN_TYPE = '';
+    //login
     @observable login = {
         loginStatus: false,
         loginResponse: {},
     };
+    //home 
     @observable home = {
         LIST_ID: 0,
         homeGet: {},
@@ -19,7 +22,9 @@ class orderStore {
             amenties: ''
         }
     };
+    //categories
     @observable categories = [];
+    //searching events and listings
     @observable SEARCHING = {
         LISTING_SEARCH: {},
         LISTING_FILTER: {},

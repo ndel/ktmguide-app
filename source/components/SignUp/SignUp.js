@@ -3,7 +3,7 @@ import {
   Platform, ActivityIndicator, Text, View, Button, Image, ImageBackground, TouchableOpacity, I18nManager,
   TextInput
 } from 'react-native';
-import { INDICATOR_COLOR,INDICATOR_SIZE,OVERLAY_COLOR } from '../../../styles/common';
+import { INDICATOR_COLOR, INDICATOR_SIZE, OVERLAY_COLOR } from '../../../styles/common';
 import { width, height, totalSize } from 'react-native-dimension';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
@@ -47,23 +47,6 @@ var { FBLoginManager } = require('react-native-facebook-login');
       console.warn(err);
     }).done();
   }
-  signIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      this.setState({ userInfo });
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (f.e. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        // some other error happened
-      }
-    }
-  };
   // FaceBook SignUp 
   fbLogin = () => {
     FBLoginManager.setLoginBehavior(FBLoginManager.LoginBehaviors.Native); // defaults to Native
@@ -72,7 +55,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
         //Calling local func for login through google
         let profile = JSON.parse(data.profile);
         this.socialSignUp(profile.email, profile.name);
-        console.log("FaceBook signUp: ", data);
+        // console.log("FaceBook signUp: ", data);
       } else {
         Toast.show('It must be your network issue, please try again.', Toast.LONG);
         console.log("Error: ", error);
@@ -82,7 +65,6 @@ var { FBLoginManager } = require('react-native-facebook-login');
   //// Custom Social Login methode
   socialSignUp = async (email, name) => {
     let { orderStore } = Store;
-    console.warn('emial', email);
     this.setState({ loading: true })
     let params = {
       name: name,
@@ -91,43 +73,32 @@ var { FBLoginManager } = require('react-native-facebook-login');
     }
     //API Calling
     let response = await ApiController.post('login', params)
-    console.log('login user =', response);
+    // console.log('login user =', response);
     if (response.success === true) {
       this.setState({ loading: false })
+      await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
       orderStore.login.loginStatus = true;
       orderStore.login.loginResponse = response;
-      this.props.navigation.push('Drawer')
+      this.props.navigation.replace('Drawer')
     }
   }
   register = async () => {
-    if (this.state.name.length === 0) {
-      Toast.show('Please enter your name');
+    this.setState({ loading: true })
+    let params = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password
+    }
+    let response = await ApiController.post('register', params)
+    // console.log('signup user =',response);
+    if (response.success === true) {
+      this.setState({ loading: false })
+      store.login.loginStatus = true;
+      await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
+      this.props.navigation.replace('Drawer');
     } else {
-      if (this.state.email.length === 0) {
-        Toast.show('Please enter your email', Toast.LONG);
-      } else {
-        if (this.state.password.length === 0) {
-          Toast.show('Please enter your password', Toast.LONG);
-        } else {
-          this.setState({ loading: true })
-          let params = {
-            name: this.state.name,
-            email: this.state.email,
-            password: this.state.password
-          }
-          let response = await ApiController.post('register', params)
-          // console.log('signup user =',response);
-          if (response.success === true) {
-            this.setState({ loading: false })
-            await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
-            store.login.loginStatus = true;
-            this.props.navigation.push('Drawer');
-          } else {
-            this.setState({ loading: false })
-            Toast.show(response.message, Toast.LONG);
-          }
-        }
-      }
+      this.setState({ loading: false })
+      Toast.show(response.message, Toast.LONG);
     }
   }
   render() {

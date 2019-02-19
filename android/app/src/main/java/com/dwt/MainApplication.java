@@ -2,6 +2,12 @@ package com.dwt;
 
 //facebook login libraries
 import android.app.Application;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
+import android.util.Base64;
+import android.util.Log;
+
 import com.facebook.FacebookSdk;
 
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
@@ -19,6 +25,8 @@ import com.github.alinz.reactnativewebviewbridge.WebViewBridgePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,5 +72,18 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    try {
+      PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+      for (Signature signature : info.signatures) {
+        MessageDigest md = MessageDigest.getInstance("SHA");
+        md.update(signature.toByteArray());
+        String hashKey = new String(Base64.encode(md.digest(), 0));
+        Log.i("Keyhash", "printHashKey() Hash Key: " + hashKey);
+      }
+    } catch (NoSuchAlgorithmException e) {
+      Log.e("Keyhash", "printHashKey()", e);
+    } catch (Exception e) {
+      Log.e("Keyhash", "printHashKey()", e);
+    }
   }
 }

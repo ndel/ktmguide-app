@@ -8,9 +8,10 @@ import { width, height, totalSize } from 'react-native-dimension';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Toast from 'react-native-simple-toast';
 import { observer } from 'mobx-react';
+import store from '../../Stores/orderStore';
 import Store from '../../Stores';
 import styles from '../../../styles/SignIn'
-import { GoogleSignin, GoogleSigninButton,statusCodes } from 'react-native-google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import ApiController from '../../ApiController/ApiController';
 import LocalDB from '../../LocalDB/LocalDB'
 // import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
@@ -38,44 +39,26 @@ export default class SignIn extends Component<Props> {
     })
   }
   //// Google Login Methode 
-  handleGoogleSignIn = async() => {
-    await GoogleSignin.hasPlayServices();
-    GoogleSignin.signIn().then((user) => {
+  handleGoogleSignIn = async () => {
+    GoogleSignin.signIn().then(fun = async (user) => {
       //Calling local func for login through google
-      console.log('googleLogin', user);
-      this.socialLogin(user.user.email, user.user.name);
+      store.LOGIN_TYPE = 'google';
+      await this.socialLogin(user.user.email, user.user.name);
+      // console.log('Google login', user);
     }).catch((err) => {
       console.warn(err);
     }).done();
   }
-  signIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      console.log('user info===>>>',userInfo);
-      
-      this.setState({ userInfo });
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (f.e. sign in) is in progress already
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
-      } else {
-        // some other error happened
-      }
-    }
-  };
   //.... FaceBook Login Methodes
   fbLogin = () => {
     FBLoginManager.setLoginBehavior(FBLoginManager.LoginBehaviors.Native); // defaults to Native
-    FBLoginManager.loginWithPermissions(["email"], functionFb = (error, data) => {
+    FBLoginManager.loginWithPermissions(["email"], functionFb = async (error, data) => {
       if (!error && data.type === "success") {
         //Calling local func for login through google
         let profile = JSON.parse(data.profile);
+        store.LOGIN_TYPE = 'facebook';
         this.socialLogin(profile.email, profile.name);
-        console.log("FaceBook Login: ", data);
+        console.log("FaceBook signUp: ", data);
       } else {
         Toast.show('It must be your network issue, please try again.', Toast.LONG);
         console.log("Error: ", error);
@@ -93,9 +76,10 @@ export default class SignIn extends Component<Props> {
     }
     //API Calling
     let response = await ApiController.post('login', params)
-    console.log('login user =', response);
+    // console.log('login user =', response);
     if (response.success === true) {
       this.setState({ loading: false })
+      await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
       orderStore.login.loginStatus = true;
       orderStore.login.loginResponse = response;
       this.props.navigation.push('Drawer')
@@ -104,31 +88,24 @@ export default class SignIn extends Component<Props> {
   //// Login Post 
   login = async () => {
     let { orderStore } = Store;
-    if (this.state.email.length === 0) {
-      Toast.show('Please enter your email');
+    this.setState({ loading: true })
+    let params = {
+      email: this.state.email,
+      password: this.state.password
+    }
+    //Api calling
+    let response = await ApiController.post('login', params)
+    console.log('login user =', response);
+    if (response.success === true) {
+      store.LOGIN_TYPE = 'local';
+      await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
+      this.setState({ loading: false })
+      orderStore.login.loginStatus = true;
+      orderStore.login.loginResponse = response;
+      this.props.navigation.push('Drawer');
     } else {
-      if (this.state.password.length === 0) {
-        Toast.show('Please enter your password', Toast.LONG);
-      } else {
-        this.setState({ loading: true })
-        let params = {
-          email: this.state.email,
-          password: this.state.password
-        }
-        //Api calling
-        let response = await ApiController.post('login', params)
-        // console.log('login user =', response);
-        if (response.success === true) {
-          await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
-          this.setState({ loading: false })
-          orderStore.login.loginStatus = true;
-          orderStore.login.loginResponse = response;
-          this.props.navigation.push('Drawer');
-        } else {
-          this.setState({ loading: false })
-          Toast.show(response.message);
-        }
-      }
+      this.setState({ loading: false })
+      Toast.show(response.message);
     }
   }
 
@@ -209,7 +186,7 @@ export default class SignIn extends Component<Props> {
                 </View>
                 <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
                   {!this.state.loading ? null :
-                    <ActivityIndicator size={INDICATOR_SIZE} color={INDICATOR_COLOR} animating={true} hidesWhenStopped={true} />}
+                    <ActivityIndicator size={INDICATOR_SIZE} color={store.settings.data.navbar_clr} animating={true} hidesWhenStopped={true} />}
                 </View>
               </View>
               <View style={styles.footer}>

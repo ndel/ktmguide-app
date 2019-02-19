@@ -9,6 +9,8 @@ import Store from '../../Stores';
 import store from '../../Stores/orderStore';
 import styles from '../../../styles/Drawer/SideMenuStyleSheet';
 import LocalDB from '../../LocalDB/LocalDB';
+import { FBLoginManager } from 'react-native-facebook-login';
+import { GoogleSignin } from 'react-native-google-signin';
 import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStorage } from 'react-native';
 @observer class SideMenu extends Component {
   constructor(props) {
@@ -36,6 +38,13 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
   }
   asyncDelUserInfo = async () => {
     let { orderStore } = Store;
+    if ( orderStore.LOGIN_TYPE === 'facebook' ) {
+        await this.handleLogout()
+    } else {
+      if ( orderStore.LOGIN_TYPE === 'google' ) {
+        await this.signOutGoogle();
+      }
+    }
     try {
       const email = await AsyncStorage.removeItem('email');
       const password = await AsyncStorage.removeItem('password');
@@ -48,7 +57,24 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
     }
     // BackHandler.exitApp();
   }
-
+  handleLogout=async()=>{
+    var _this = this;
+    FBLoginManager.logout(function(error, data){
+      if (!error) {
+        _this.props.onLogout && _this.props.onLogout();
+      } else {
+        console.log(error, data);
+      }
+    });
+  }
+  signOutGoogle = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
@@ -64,7 +90,7 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                     large
                     rounded
                     source={{ uri: login.loginStatus === true ? login.loginResponse.data.profile_img : data.user_defualt_img }}
-                    onPress={() => console.warn("Works!")}
+                    // onPress={() => console.warn("Works!")}
                     activeOpacity={0.7}
                   />
                 </View>
