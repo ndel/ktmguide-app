@@ -206,7 +206,7 @@ import ApiController from '../../ApiController/ApiController';
                 <Text style={styles.recList}>{home.latest_events}</Text>
                 {/* <Text style={styles.latestFeature}>Recent Listing</Text> */}
               </View>
-              <TouchableOpacity style={[styles.readMoreBtnCon,{ borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
+              <TouchableOpacity style={[styles.readMoreBtnCon,{ borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
                 <Text style={[styles.latestFeature, { fontSize: totalSize(1.6) }]}>{home.view_all_events}</Text>
               </TouchableOpacity>
             </View>

@@ -41,6 +41,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
   handleGoogleSignIn = () => {
     GoogleSignin.signIn().then((user) => {
       //Calling local func for login through google
+      store.LOGIN_TYPE = 'google';
       this.socialSignUp(user.user.email, user.user.name);
       console.log('Google login', user);
     }).catch((err) => {
@@ -54,6 +55,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
       if (!error && data.type === "success") {
         //Calling local func for login through google
         let profile = JSON.parse(data.profile);
+        store.LOGIN_TYPE = 'facebook';
         this.socialSignUp(profile.email, profile.name);
         // console.log("FaceBook signUp: ", data);
       } else {
@@ -90,11 +92,12 @@ var { FBLoginManager } = require('react-native-facebook-login');
       password: this.state.password
     }
     let response = await ApiController.post('register', params)
-    // console.log('signup user =',response);
+    console.log('signup user =',response);
     if (response.success === true) {
-      this.setState({ loading: false })
       store.login.loginStatus = true;
+      store.LOGIN_TYPE = 'local';
       await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
+      store.login.loginResponse = response;
       this.props.navigation.replace('Drawer');
     } else {
       this.setState({ loading: false })
