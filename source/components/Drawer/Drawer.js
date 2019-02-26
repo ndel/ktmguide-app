@@ -1,13 +1,7 @@
-import React, { Component } from 'react';
-import {
-  Platform, StyleSheet, Text, View, Button, Image, I18nManager,
-} from 'react-native';
+import React from 'react';
+import { Platform, I18nManager } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { FONT_NORMAL, FONT_BOLD, COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
-import { observer } from 'mobx-react';
-import Store from '../../Stores';
-import store from '../../Stores/orderStore';
-import styles from '../../../styles/Drawer/DrawerStyleSheet'
 import { createStackNavigator, createDrawerNavigator, DrawerActions } from 'react-navigation';
 import Home from '../Home/Home';
 import FeatureDetailTabBar from '../FeatureDetail/FeatureDetailTabBar';
@@ -24,28 +18,9 @@ import Packages from '../Packages/Packages';
 import ReviewsCon from '../Reviews/ReviewsCon';
 import SavedListing from '../SavedListing/SavedListing';
 import EventsTabs from '../Events/EventsTabs';
-import AdvanceSearch from '../AdvanceSearch/AdvanceSearch';
 import SearchingScreen from '../AdvanceSearch/SearchingScreen';
 import Categories from '../Categories/Categories';
 
-class Drawer extends Component<Props> {
-  constructor(props) {
-    let { orderStore } = Store;
-    super(props);
-    this.state = {
-      
-    }
-  }
-}
-const HomeStack = createStackNavigator({
-  Home: Home,
-  FeatureDetailTabBar: FeatureDetailTabBar,
-  MainScreen: MainScreen,
-},
-  {
-    headerMode: 'none'
-  }
-);
 const DashboardStack = createStackNavigator({
   UserDashboard: UserDashboard,
   EditProfile: EditProfile,
@@ -63,7 +38,6 @@ const DrawerComp = createDrawerNavigator({
   ReviewsCon: ReviewsCon,
   SavedListing: SavedListing,
   EventsTabs: EventsTabs,
-  // AdvanceSearch: AdvanceSearch,
   SearchingScreen: SearchingScreen,
   PublicEvents: PublicEvents,
   Categories: Categories,
@@ -81,7 +55,6 @@ const DrawerComp = createDrawerNavigator({
       activeTintColor: COLOR_PRIMARY,
       activeBackgroundColor: COLOR_ORANGE,
       inactiveTintColor: COLOR_PRIMARY,
-      // onItemPress: () => { console.warn('helo') },
       itemsContainerStyle: {
         justifyContent: 'center',
       },
@@ -93,7 +66,7 @@ const DrawerComp = createDrawerNavigator({
         fontSize: totalSize(1.6)
       },
       activeLabelStyle: {
-        fontFamily: FONT_BOLD,
+        fontFamily: 'bold',
         fontSize: totalSize(1.9)
       },
       inactiveLabelStyle: {

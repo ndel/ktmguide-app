@@ -209,6 +209,7 @@ export default class AdvanceSearch extends Component<Props> {
   render() {
     let data = store.SEARCHING.LISTING_FILTER.data;
     let settings = store.settings.data;
+    console.warn('filters=>>>',data.all_filters);
     
     return (
       <View style={styles.container}>

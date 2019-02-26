@@ -39,10 +39,11 @@ var { FBLoginManager } = require('react-native-facebook-login');
   }
   // Google SignUp
   handleGoogleSignIn = () => {
-    GoogleSignin.signIn().then((user) => {
+    GoogleSignin.signIn().then(func = async (user) => {
       //Calling local func for login through google
+      store.LOGIN_SOCIAL_TYPE = 'social';
       store.LOGIN_TYPE = 'google';
-      this.socialSignUp(user.user.email, user.user.name);
+      await this.socialSignUp(user.user.email, user.user.name, 'apple@321');
       console.log('Google login', user);
     }).catch((err) => {
       console.warn(err);
@@ -56,7 +57,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
         //Calling local func for login through google
         let profile = JSON.parse(data.profile);
         store.LOGIN_TYPE = 'facebook';
-        this.socialSignUp(profile.email, profile.name);
+        this.socialSignUp(profile.email, profile.name, 'apple@321');
         // console.log("FaceBook signUp: ", data);
       } else {
         Toast.show('It must be your network issue, please try again.', Toast.LONG);
@@ -65,7 +66,15 @@ var { FBLoginManager } = require('react-native-facebook-login');
     })
   }
   //// Custom Social Login methode
-  socialSignUp = async (email, name) => {
+  socialSignUp = async (email, name, password) => {
+    if (this.state.email.length > 0 && this.state.password.length > 0) {
+      var Email, Password;
+      Email = this.state.email;
+      Password = this.state.password;
+    } else {
+      Email = email;
+      Password = password;
+    }
     let { orderStore } = Store;
     this.setState({ loading: true })
     let params = {
@@ -78,7 +87,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
     // console.log('login user =', response);
     if (response.success === true) {
       this.setState({ loading: false })
-      await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
+      await LocalDB.saveProfile(Email, Password, response.data);
       orderStore.login.loginStatus = true;
       orderStore.login.loginResponse = response;
       this.props.navigation.replace('Drawer')
@@ -92,7 +101,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
       password: this.state.password
     }
     let response = await ApiController.post('register', params)
-    console.log('signup user =',response);
+    console.log('signup user =', response);
     if (response.success === true) {
       store.login.loginStatus = true;
       store.LOGIN_TYPE = 'local';
@@ -125,7 +134,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
             </View>
             <View style={styles.buttonView}>
               <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                <View style={{ flex: 0.9 }}>
+                <View style={{ flex: 0.6 }}>
                   <Image source={require('../../images/user.png')} style={styles.userImg} />
                 </View>
                 <View style={{ flex: 4.1 }}>
@@ -144,7 +153,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
                 </View>
               </View>
               <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                <View style={{ flex: 0.9 }}>
+                <View style={{ flex: 0.6 }}>
                   <Image source={require('../../images/mail.png')} style={styles.mail} />
                 </View>
                 <View style={{ flex: 4.1 }}>
@@ -161,7 +170,7 @@ var { FBLoginManager } = require('react-native-facebook-login');
                 </View>
               </View>
               <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                <View style={{ flex: 0.9 }}>
+                <View style={{ flex: 0.6 }}>
                   <Image source={require('../../images/password.png')} style={styles.mail} />
                 </View>
                 <View style={{ flex: 4.1 }}>
@@ -183,12 +192,12 @@ var { FBLoginManager } = require('react-native-facebook-login');
               <View style={styles.fgBtn}>
                 <TouchableOpacity style={styles.buttonCon}
                   onPress={() => { this.fbLogin() }} >
-                  <Text style={{ fontSize: totalSize(1.8), color: 'white' }}>{data.main_screen.fb_btn}</Text>
+                  <Text style={styles.socialBtnText}>{data.main_screen.fb_btn}</Text>
                 </TouchableOpacity>
                 <Text style={styles.orTxt}>{data.main_screen.separator}</Text>
-                <TouchableOpacity style={[styles.buttonCon, { width: width(29.5), backgroundColor: '#DB4437' }]}
+                <TouchableOpacity style={[styles.buttonCon, { backgroundColor: '#DB4437' }]}
                   onPress={() => { this.handleGoogleSignIn() }} >
-                  <Text style={{ fontSize: totalSize(1.8), color: 'white' }}>{data.main_screen.g_btn}</Text>
+                  <Text style={styles.socialBtnText}>{data.main_screen.g_btn}</Text>
                 </TouchableOpacity>
               </View>
               <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>

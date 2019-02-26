@@ -29,7 +29,7 @@ class FeatureDetailTabBar extends Component<Props> {
     }
   }
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: navigation.state.params.cate_name,
+    headerTitle: navigation.state.params.list_title,
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: totalSize(2),
@@ -72,7 +72,7 @@ class FeatureDetailTabBar extends Component<Props> {
     }
   }
   route = (response) => {
-    this.state.routes.push({ key: 'discription', title: this.state.dis });
+    this.state.routes.push({ key: 'discription', title: response.data.listing_detial.view_desc });
     if (response.data.listing_detial.has_amenties) {
       this.state.routes.push({ key: 'ameneties', title: response.data.listing_detial.ameneties.tab_txt });
     }
@@ -93,7 +93,7 @@ class FeatureDetailTabBar extends Component<Props> {
     // }
   }
   _renderLabel = ({ route }) => (
-    <Text style={{ fontSize: totalSize(S2), color: COLOR_SECONDARY }}>{route.title}</Text>
+    <Text style={{ fontSize: 13, color: COLOR_SECONDARY }}>{route.title}</Text>
   );
   _getReports = async () => {
     let { orderStore } = Store;

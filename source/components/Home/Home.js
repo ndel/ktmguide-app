@@ -3,13 +3,14 @@ import {
   Platform, Text, View, Image, ImageBackground, TouchableOpacity, ScrollView, TextInput, FlatList,ActivityIndicator
 } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
+import { Icon } from 'react-native-elements';
 import Grading from 'react-native-grading';
 import { NavigationActions } from 'react-navigation';
 import {  COLOR_GRAY, COLOR_ORANGE, test } from '../../../styles/common';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';
-import styles from '../../../styles/Home'
+import styles from '../../../styles/Home';
 import ApiController from '../../ApiController/ApiController';
 @observer export default class Home extends Component<Props> {
   constructor(props) {
@@ -158,7 +159,7 @@ import ApiController from '../../ApiController/ApiController';
                 {/* <Text style={styles.latestFeature}>Recent Listing</Text> */}
               </View>
               <TouchableOpacity style={[styles.readMoreBtnCon,{ borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
-                <Text style={[styles.latestFeature, { fontSize: totalSize(1.6) }]}>{home.section_btn}</Text>
+                <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.section_btn}</Text>
               </TouchableOpacity>
             </View>
             <View style={{ flex: 1, alignItems: 'center' }}>
@@ -166,7 +167,7 @@ import ApiController from '../../ApiController/ApiController';
                 data={home.listings}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item, key }) =>
-                  <TouchableOpacity key={key} style={styles.featuredFLItem} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, cate_name: item.category_name }) }}>
+                  <TouchableOpacity key={key} style={styles.featuredFLItem} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
                     <ImageBackground source={{ uri: item.image }} style={styles.featuredImg}>
                       <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
                         <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
@@ -186,12 +187,24 @@ import ApiController from '../../ApiController/ApiController';
                             defaultColor={COLOR_GRAY}
                           />
                         </View>
-                        {/* <Text style={styles.ratingTxt}>{item.rating_avg.length === 0 ? 0 : item.rating_avg}</Text> */}
-                        <Text style={styles.ratingTxt}>| {item.total_views}</Text>
+                        <Icon
+                            size={20}
+                            name='eye'
+                            type='evilicon'
+                            color='#8a8a8a'
+                            containerStyle={{ marginHorizontal: 0,marginVertical: 0 }}
+                        />
+                        <Text style={styles.ratingTxt}>{item.total_views}</Text>
                       </View>
-                      <View style={{ marginTop: 2, width: width(45), marginHorizontal: 10, flexDirection: 'row', alignItems: 'center' }}>
-                        {/* <Image source={require('../../images/calendar.png')} style={{height:height(2.5),width:width(5),resizeMode:'contain'}} />  */}
-                        <Text style={{ fontSize: totalSize(1.6), marginHorizontal: 0 }}>{item.posted_date}</Text>
+                      <View style={{ marginTop: 2, width: width(45), marginHorizontal: 8, flexDirection: 'row', alignItems: 'center' }}>
+                        <Icon
+                            size={18}
+                            name='calendar'
+                            type='evilicon'
+                            color='#8a8a8a'
+                            containerStyle={{ marginHorizontal: 0,marginVertical: 0 }}
+                        />
+                        <Text style={{ fontSize: 10, color:'#8a8a8a' }}>{item.posted_date}</Text>
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -207,7 +220,7 @@ import ApiController from '../../ApiController/ApiController';
                 {/* <Text style={styles.latestFeature}>Recent Listing</Text> */}
               </View>
               <TouchableOpacity style={[styles.readMoreBtnCon,{ borderColor: store.settings.data.navbar_clr }]} onPress={() => this.navigateToScreen('PublicEvents', 'Home')}>
-                <Text style={[styles.latestFeature, { fontSize: totalSize(1.6) }]}>{home.view_all_events}</Text>
+                <Text style={[styles.latestFeature, { fontSize: 13 }]}>{home.view_all_events}</Text>
               </TouchableOpacity>
             </View>
             <View style={[styles.flatlistCon, { position: null, height: null, marginTop: 0, marginBottom: 15 }]}>

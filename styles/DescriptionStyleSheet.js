@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { StyleSheet , Platform } from 'react-native';
-import { FONT_NORMAL,FONT_BOLD,COLOR_PRIMARY,COLOR_SECONDARY,COLOR_RED,COLOR_GRAY,COLOR_ORANGE,COLOR_BROWN,COLOR_YELLOW,COLOR_PINK,COLOR_LIGHT_BLUE,S18,S14 } from './common';
+import { COLOR_PRIMARY,COLOR_SECONDARY,COLOR_RED,COLOR_GRAY,COLOR_ORANGE,COLOR_BROWN,COLOR_YELLOW,COLOR_PINK,COLOR_LIGHT_BLUE,S18,S14 } from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const buttonTxt = 1.8;
 const paragraphTxt = 1.5;
@@ -11,15 +11,17 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     alignItems: 'center',
+    // justifyContent:'center',
     backgroundColor:'#ffffff'
   },
   listCon: {
     flex:1,
-    width:width(85),
+    width:width(88),
     marginHorizontal:15,
     marginVertical:5,
     alignItems:'flex-start',
     flexDirection:'row',
+    alignSelf:'center',
     flexWrap:'wrap',
   },
   flatlistChild: {
@@ -38,12 +40,13 @@ const styles = StyleSheet.create({
   labelCon: {
     height:height(7),
     width:width(88),
-    marginHorizontal:15,
+    // marginHorizontal:15,
     marginBottom:0.5,
     flexDirection:'row',
     borderColor: COLOR_GRAY,
     borderBottomWidth:0.4,
-    justifyContent:'center'
+    justifyContent:'center',
+    alignSelf:'center'
   },
   labelIcon: {
     height:height(7),
@@ -75,7 +78,8 @@ const styles = StyleSheet.create({
     marginHorizontal:15,
     backgroundColor: COLOR_PRIMARY,
     borderWidth:0.3,
-    borderColor: COLOR_GRAY
+    borderColor: COLOR_GRAY,
+    alignSelf:'center'
   },
   renderStrip: {
     height:height(6),
@@ -146,7 +150,8 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_PRIMARY,
     borderColor: COLOR_GRAY,
     borderWidth:0.3,
-    justifyContent:'center'
+    justifyContent:'center',
+    alignSelf:'center'
   },
   cuponBtnCon: {
     height:height(12),
@@ -242,7 +247,7 @@ const styles = StyleSheet.create({
   },
   profileCon: {
     height: height(10),
-    width:width(95),
+    width:width(89),
     backgroundColor: 'rgba(211,211,211,0.4)',
     flexDirection: 'row',
     marginVertical: 10,
@@ -280,22 +285,21 @@ const styles = StyleSheet.create({
   titleTxt: {
     height:height(5),
     width:width(80),
-    marginHorizontal:15,
+    marginHorizontal:25,
     marginVertical:5,
     fontSize:totalSize(titles),
     fontWeight:'bold',
-    // fontFamily: FONT_BOLD,
     color: COLOR_SECONDARY,
     textAlignVertical: 'center'
   },
   longTxt: {
-    flex:1,
+    width:width(88),
     marginHorizontal:15,
     marginVertical: 0,
     fontSize:totalSize(paragraphTxt),
-    // fontFamily: FONT_NORMAL,
     color: COLOR_GRAY,
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
+    alignSelf:'center'
   }, 
 });
 

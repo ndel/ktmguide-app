@@ -65,7 +65,7 @@ import ApiController from '../../ApiController/ApiController';
             </View>
             <View style={styles.buttonView}>
               <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                <View style={{ flex: 0.9 }}>
+                <View style={{ flex: 0.6 }}>
                   <Image source={require('../../images/mail.png')} style={styles.mail} />
                 </View>
                 <View style={{ flex: 4.1 }}>

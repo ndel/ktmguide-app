@@ -8,7 +8,7 @@ import { NavigationActions } from 'react-navigation';
 import { width, height, totalSize } from 'react-native-dimension';
 import { INDICATOR_COLOR, INDICATOR_SIZE, INDICATOR_VISIBILITY, OVERLAY_COLOR, TEXT_SIZE, TEXT_COLOR, ANIMATION, COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY } from '../../../styles/common';
 import Modal from "react-native-modal";
-import { CheckBox } from 'react-native-elements';
+import { CheckBox, Icon } from 'react-native-elements';
 import { observer } from 'mobx-react';
 import Store from '../../Stores';
 import styles from '../../../styles/Home';
@@ -225,7 +225,7 @@ import Toast from 'react-native-simple-toast'
                                             list !== "" ?
                                                 list.listings.map((item, key) => {
                                                     return (
-                                                        <TouchableOpacity key={key} style={[styles.featuredFLItem, { width: width(95), alignSelf: 'center', alignItems: 'center' }]} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, cate_name: item.category_name }) }}>
+                                                        <TouchableOpacity key={key} style={[styles.featuredFLItem, { width: width(95), alignSelf: 'center', alignItems: 'center' }]} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
                                                             <ImageBackground source={{ uri: item.image }} style={styles.featuredImg}>
                                                                 <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
                                                                     <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
@@ -245,12 +245,24 @@ import Toast from 'react-native-simple-toast'
                                                                             defaultColor={COLOR_GRAY}
                                                                         />
                                                                     </View>
-                                                                    {/* <Text style={styles.ratingTxt}>{item.rating_avg.length === 0 ? 0 : item.rating_avg}</Text> */}
-                                                                    <Text style={styles.ratingTxt}>| {item.total_views}</Text>
+                                                                    <Icon
+                                                                        size={20}
+                                                                        name='eye'
+                                                                        type='evilicon'
+                                                                        color='#8a8a8a'
+                                                                        containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+                                                                    />
+                                                                    <Text style={styles.ratingTxt}>{item.total_views}</Text>
                                                                 </View>
-                                                                <View style={{ marginTop: 2, width: width(45), marginHorizontal: 10, flexDirection: 'row', alignItems: 'center' }}>
-                                                                    {/* <Image source={require('../../images/calendar.png')} style={{height:height(2.5),width:width(5),resizeMode:'contain'}} />  */}
-                                                                    <Text style={{ fontSize: totalSize(1.6), marginHorizontal: 0 }}>{item.posted_date}</Text>
+                                                                <View style={{ marginTop: 2, width: width(45), marginHorizontal: 8, flexDirection: 'row', alignItems: 'center' }}>
+                                                                    <Icon
+                                                                        size={18}
+                                                                        name='calendar'
+                                                                        type='evilicon'
+                                                                        color='#8a8a8a'
+                                                                        containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+                                                                    />
+                                                                    <Text style={{ fontSize: 10, marginHorizontal: 0 }}>{item.posted_date}</Text>
                                                                 </View>
                                                             </View>
                                                         </TouchableOpacity>
@@ -294,7 +306,7 @@ import Toast from 'react-native-simple-toast'
                     onBackdropPress={() => this.setState({ sorting: false })}
                     style={{ flex: 1 }}>
                     <View style={{ height: height(5 + (data.sorting.option_dropdown.length * 6)), width: width(90), alignSelf: 'center', backgroundColor: COLOR_PRIMARY }}>
-                        <View style={{ height: height(7), width: width(90), flexDirection: 'row', borderBottomWidth: 0.5, alignItems: 'center',borderBottomColor: '#c4c4c4'}}>
+                        <View style={{ height: height(7), width: width(90), flexDirection: 'row', borderBottomWidth: 0.5, alignItems: 'center', borderBottomColor: '#c4c4c4' }}>
                             <View style={{ height: height(5), width: width(80), justifyContent: 'center' }}>
                                 <Text style={{ fontSize: totalSize(2), fontWeight: '500', color: COLOR_SECONDARY, marginHorizontal: 10 }}>{data.sorting.title}</Text>
                             </View>

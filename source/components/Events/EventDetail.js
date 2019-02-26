@@ -263,7 +263,6 @@ import Toast from 'react-native-simple-toast';
                       medium
                       rounded
                       source={{ uri: eventDetail.event_detial.event_author_img }}
-                      // onPress={() => console.warn("Works!")}
                       activeOpacity={1}
                     />
                   </View>
@@ -272,7 +271,7 @@ import Toast from 'react-native-simple-toast';
                     <Text style={[styles.autherText, { fontSize: totalSize(S14) }]}>{eventDetail.event_detial.event_author_location}</Text>
                   </View>
                   <View style={styles.viewBtn}>
-                    <TouchableOpacity style={[styles.viewBtnCon, { backgroundColor: data.main_clr }]} onPress={() => this.props.navigation.push('PublicProfileTab', { profiler_id: eventDetail.event_detial.event_author_id })}>
+                    <TouchableOpacity style={[styles.viewBtnCon, { backgroundColor: data.main_clr }]} onPress={() => this.props.navigation.push('PublicProfileTab', { profiler_id: eventDetail.event_detial.event_author_id ,user_name: eventDetail.event_detial.event_author_name })}>
                       <Text style={styles.viewBtnText}>{titles.profile_btn}</Text>
                     </TouchableOpacity>
                   </View>

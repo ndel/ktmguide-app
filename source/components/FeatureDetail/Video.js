@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, WebView } from 'react-native';
 import Modal from "react-native-modal";
 import { observer } from 'mobx-react';
 import YouTube from 'react-native-youtube';
-import { height , width , totalSize } from 'react-native-dimension';
+import { height, width, totalSize } from 'react-native-dimension';
 import Store from '../../Stores';
 import Claim from './Claim'
 import Report from './Report'
@@ -46,20 +46,11 @@ import { YOUTUBE_API_KEY } from '../../../styles/common';
         return (
             <View style={styles.container}>
                 <FeatureDetail callModel={this.setModalVisible} />
-                <YouTube
-                    ref="youtubePlayer"
-                    apiKey= { YOUTUBE_API_KEY }
-                    videoId= { data.video.video_id }   // The YouTube video ID
-                    play={true}             // control playback of video with true/false
-                    fullscreen={false}       // control whether the video should play in fullscreen or inline
-                    loop={true}             // control whether the video should loop when ended
-                    origin={"https://www.youtube.com"}
-                    onReady={(e)=>{this.setState({height: 39})}}
-                    onChangeState={(e)=>{this.setState({status: e.state})}}
-                    onChangeQuality={(e)=>{this.setState({quality: e.quality})}}
-                    onError={(e)=>{ console.log('error Video==>>>',e.error)}}
-                    onProgress={(e)=>{this.setState({currentTime: e.currentTime, duration: e.duration})}}
-                    style={{ alignSelf: 'stretch', height: height(this.state.height),marginVertical: 30, marginHorizontal: 10, }}
+                <WebView
+                    useWebKit={false}
+                    source={{ uri: 'https://www.youtube.com/embed/' + data.video.video_id + '?rel=0&autoplay=0&showinfo=0&controls=0' }}
+                    style={{ height: height(40), width: width(90), marginTop: 20 }}
+                    javaScriptEnabled={true}
                 />
                 <Modal
                     animationInTiming={500}

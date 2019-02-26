@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { StyleSheet, I18nManager } from 'react-native';
-import { FONT_NORMAL, FONT_BOLD, COLOR_PRIMARY, S25, S2, S18, S17, S16, S15, S14, S13, S12, S11 } from './common';
+import { FONT_NORMAL, FONT_BOLD, COLOR_PRIMARY, S18, S17, S15, S12, socialBtnText,buttonText,SloganText,InputTextSize,SignInHeaderText, } from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const styles = StyleSheet.create({
   container: {
@@ -24,9 +24,8 @@ const styles = StyleSheet.create({
     transform: [{ scaleX: I18nManager.isRTL ? -1 : 1 }],
   },
   headerTxt: {
-    // fontFamily: FONT_BOLD,
     fontWeight: 'bold',
-    fontSize: totalSize(S2),
+    fontSize: SignInHeaderText,
     color: 'white',
     fontWeight: 'bold',
     alignSelf: 'flex-end',
@@ -46,9 +45,8 @@ const styles = StyleSheet.create({
     height: height(12),
     width: width(65),
     textAlign: 'center',
-    // fontFamily: FONT_NORMAL,
-    marginTop: 7,
-    fontSize: totalSize(S25),
+    marginTop: 25,
+    fontSize: SloganText,
     color: 'white'
   },
   buttonView: {
@@ -66,8 +64,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 15
   },
   btn: {
-    height: height(5.5),
-    width: width(65),
+    height: height(6),
+    width: width(80),
     flexDirection: 'row',
     borderRadius: 3,
     marginBottom: 5,
@@ -82,28 +80,26 @@ const styles = StyleSheet.create({
     textAlign: I18nManager.isRTL ? 'right' : 'left',
     height: height(6),
     justifyContent: 'center',
-    fontSize: totalSize(S15),
+    fontSize: InputTextSize,
     color: COLOR_PRIMARY
   },
   signUpBtn: {
     height: height(6),
-    width: width(65),
-    marginTop: 10,
+    width: width(80),
+    marginTop: 15,
     borderRadius: 3,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffc400'
   },
   signTxt: {
-    fontFamily: FONT_NORMAL,
-    fontSize: totalSize(S18),
+    fontSize: buttonText,
     color: 'white',
     fontWeight: 'bold'
   },
   signUpTxt: {
-    // fontFamily: FONT_BOLD,
-    fontWeight: 'bold',
-    fontSize: totalSize(S15),
+    // fontWeight: 'bold',
+    fontSize: buttonText,
     color: COLOR_PRIMARY,
   },
   fgBtn: {
@@ -118,33 +114,15 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     alignSelf: 'flex-start'
   },
-  orTxt: {
-    // height:height(5.5),
-    marginTop: 10,
-    width: width(5),
-    textAlign: 'center',
-    // fontFamily: FONT_NORMAL,
-    fontSize: totalSize(S17),
-    color: '#ffffff'
-  },
-  forgetpwrd: {
-    height: height(3),
-    width: width(30),
-    textAlign: 'left',
-    fontFamily: FONT_BOLD,
-    fontSize: totalSize(S12),
-    color: 'black'
-  },
   expTxt: {
     // fontFamily: FONT_NORMAL,
-    fontSize: totalSize(S14),
+    fontSize: 12,
     color: 'black'
   },
   signUpT: {
     height: height(3),
-    // fontFamily: FONT_NORMAL,
     fontWeight: 'bold',
-    fontSize: totalSize(S15),
+    fontSize: 12,
     textDecorationLine: 'underline',
     marginHorizontal: 5,
     color: 'black',

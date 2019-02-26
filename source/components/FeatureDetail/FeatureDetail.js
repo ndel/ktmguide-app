@@ -25,6 +25,8 @@ import styles from '../../../styles/FeatureDetailStyle'
       listing_id: orderStore.home.LIST_ID
     }
     response = await ApiController.post('listing-bookmark',params);
+    console.log('book mark listing====>>>',response);
+    
     if ( response.success ) {
       this.setState({ loading: false })
       Toast.show(response.message);

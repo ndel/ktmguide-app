@@ -20,7 +20,7 @@ import ApiController from '../../ApiController/ApiController';
     // API calling...
     this.setState({ loading: true })
     orderStore.settings = await ApiController.get('settings');
-    console.log('settings=',orderStore.settings);
+    // console.log('settings=',orderStore.settings);
     if (orderStore.settings.success === true) {
       orderStore.statusbar_color = orderStore.settings.data.navbar_clr;
       this.props.navigation.replace('Drawer'); //MainScreen

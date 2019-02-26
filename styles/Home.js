@@ -1,6 +1,5 @@
-import React, { Component, PropTypes } from 'react';
 import { StyleSheet, Platform, Dimensions } from 'react-native';
-import { FONT_BOLD, COLOR_SECONDARY, COLOR_ORANGE, COLOR_PRIMARY, COLOR_RED, S2, S18, S16, S15, S14, S13 } from './common';
+import { COLOR_SECONDARY, COLOR_ORANGE, COLOR_PRIMARY, COLOR_RED, S2, S16, S14,smallTitle ,homeTitle, titleText,eventTitleText,ListingOnOffBtn,InputTextSize,ListingTitle,} from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const window = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -29,8 +28,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   drawerBtnCon: {
-    // height:height(4),
-    // width:width(15),
     flex: 1,
     justifyContent: 'center',
     alignSelf: 'center'
@@ -42,14 +39,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   headerTxtCon: {
-    // height:height(3.3),
-    // width:width(55),
     flex: 4,
     alignSelf: 'center',
     justifyContent: 'center',
   },
   headerTxt: {
-    // fontFamily: FONT_BOLD,
     fontWeight: 'bold',
     fontSize: totalSize(S2),
     color: '#ffffff',
@@ -100,15 +94,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   firTxt: {
-    // fontFamily: FONT_BOLD,
     fontWeight: 'bold',
-    fontSize: totalSize(2.2),
+    fontSize: homeTitle,
     color: '#ffffff'
   },
   secTxt: {
     // fontFamily: FONT_NORMAL,
     marginHorizontal: 19,
-    fontSize: totalSize(S15),
+    fontSize: smallTitle,
     marginVertical: 2,
     textAlignVertical: 'center',
     color: '#ffffff'
@@ -122,8 +115,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   txtInput: {
-    // fontFamily: FONT_NORMAL,
-    fontSize: totalSize(S15),
+    fontSize: InputTextSize,
     width: width(80),
     height: height(6),
     margin: 2,
@@ -184,15 +176,15 @@ const styles = StyleSheet.create({
   childTxt: {
     // fontFamily: FONT_NORMAL,
     width: width(18),
-    fontSize: totalSize(S15),
+    fontSize: smallTitle, //totalSize(S15)
     alignSelf: 'center',
     textAlign: 'center',
     color: COLOR_SECONDARY,
     marginVertical: 3
   },
   recList: {
-    fontWeight: 'bold',
-    fontSize: totalSize(S2),
+    fontWeight: '500',
+    fontSize: titleText, //totalSize(S2)
     color: 'black',
     // textDecorationLine:'underline',
   },
@@ -239,7 +231,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 7,
     marginVertical: 3,
     color: COLOR_PRIMARY,
-    fontSize: totalSize(S15),
+    fontSize: ListingOnOffBtn, //totalSize(S15)
     // alignSelf:'center'
   },
   txtViewCon: {
@@ -255,16 +247,13 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginBottom: 1,
     marginLeft: 10,
-    fontSize: totalSize(S16),
+    fontSize: ListingTitle, //totalSize(S16)
     color: 'black',
   },
   subHeadingTxt: {
-    // fontFamily: FONT_NORMAL,
-    // height: height(3),
-    // width: width(45),
     marginTop: 0,
     marginLeft: 10,
-    fontSize: totalSize(S15),
+    fontSize: 11, //totalSize(S15)
   },
   ratingCon: {
     // height: height(8),
@@ -278,9 +267,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginLeft: 10,
-    // marginHorizontal: 1,
-    // paddingVertical:10,
-    // paddingHorizontal:10
+    
   },
   gradingCon: {
     // height: height(3),
@@ -288,10 +275,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   ratingTxt: {
-    marginTop: 0,
-    marginLeft: 0,
-    fontSize: totalSize(S15),
-    // color: COLOR_ORANGE,
+    marginHorizontal: 2,
+    marginVertical: 3,
+    fontSize: 11, //totalSize(S15)
+    color: '#8a8a8a',
   },
   cate_con: {
     height: height(8),
@@ -326,11 +313,11 @@ const styles = StyleSheet.create({
   cateNameText: {
     marginHorizontal: 10,
     marginVertical: 5,
-    fontSize: totalSize(S13),
+    fontSize: 11,
     color: COLOR_PRIMARY
   },
   eventTitle: {
-    fontSize: totalSize(S18),
+    fontSize: 14,
     color: COLOR_PRIMARY,
     fontWeight: 'bold',
     marginVertical: 2,
@@ -343,7 +330,7 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   locText: {
-    fontSize: totalSize(S16),
+    fontSize: 12,
     color: COLOR_PRIMARY,
     marginRight: 5
   },
@@ -356,7 +343,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR_ORANGE
   },
   cate_text: {
-    fontSize: totalSize(S15),
+    fontSize: 11,
     color: COLOR_PRIMARY,
     marginRight: 5
   },

@@ -156,8 +156,8 @@ export default class BlogDetail extends Component<Props> {
                       }
                       {
                         store.BLOG_DETAIL.is_user_logged_in || store.BLOG_DETAIL.comment_status ?
-                          <View style={{ marginHorizontal: 10 }}>
-                            <Text style={{ flex: 3, marginVertical: 15, fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.comment_form.heading}</Text>
+                          <View style={{ marginHorizontal: 0 }}>
+                            <Text style={{ flex: 3, marginVertical: 15, marginHorizontal:10,fontSize: totalSize(titles), fontWeight: 'bold', color: COLOR_SECONDARY }}>{detail.comment_form.heading}</Text>
                             <TextInput
                               onChangeText={(value) => this.setState({ comment: value })}
                               placeholder={detail.comment_form.textarea}

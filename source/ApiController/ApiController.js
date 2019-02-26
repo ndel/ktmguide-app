@@ -1,3 +1,4 @@
+import store from '../Stores/orderStore';
 import { AsyncStorage } from 'react-native';
 import {Buffer} from 'buffer';
 class Api {
@@ -6,6 +7,7 @@ class Api {
       'Purchase-Code': 12,
       'Custom-Security': 12,
       'Content-Type': 'application/json',
+      'Login-type': store.LOGIN_SOCIAL_TYPE
     }
   }
   static msg(msg) {
@@ -35,10 +37,13 @@ class Api {
     let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null);
     options.headers = Api.headers()
     // console.log('URL===>>>>>',options);
-    
+
+    //Authorization for login user/////
     // getting value from asyncStorage
        const email = await AsyncStorage.getItem('email');
        const pass = await AsyncStorage.getItem('password');
+       console.log('login detail===>>>',email , pass);
+       
     // using buffer
     if ( email !== null && pass !== null ) {
         const hash = new Buffer(`${email}:${pass}`).toString('base64');

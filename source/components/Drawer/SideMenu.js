@@ -50,7 +50,6 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
       const password = await AsyncStorage.removeItem('password');
       const data = await AsyncStorage.removeItem('profile');
       orderStore.login.loginStatus = false;
-      // console.warn('refresh data=>>>',email,password,data);
       this.props.navigation.replace('MainScreen')
     } catch (error) {
       // Error saving data
@@ -108,62 +107,6 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
               <Text style={styles.itemTxt}>{data.menu.home}</Text>
             </View>
           </TouchableOpacity>
-          {
-            login.loginStatus === true ?
-              <View>
-                <TouchableOpacity style={styles.drawerItem} onPress={() => {
-                  // this.navigateToScreen('UserDashboard',data.menu.dashboard)
-                  this.setState({ isCollapsed: !this.state.isCollapsed })
-                }}>
-                  <View style={styles.itemIconCon}>
-                    <Image source={require('../../images/user.png')} style={styles.itemIcon} />
-                  </View>
-                  <View style={styles.itemTxtCon}>
-                    <Text style={styles.itemTxt}>{data.menu.dashboard}</Text>
-                  </View>
-                  <View style={styles.itemIconCon}>
-                    <Image source={this.state.isCollapsed === false ? require('../../images/next_White.png') : require('../../images/down-ar-white.png')} style={[styles.itemIcon, { height: height(2) }]} />
-                  </View>
-                </TouchableOpacity>
-                {this.state.isCollapsed === true ?
-                  <View style={{ width: width(65), alignItems: 'flex-start', justifyContent: 'center', alignSelf: 'flex-end' }}>
-                    <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('ListingTabCon', data.menu.my_listings)}>
-                      <View style={[styles.itemIconCon, { width: width(10), alignSelf: 'flex-start' }]} >
-                        <Image source={require('../../images/bullet-list.png')} style={[styles.itemIcon, { alignSelf: 'flex-start' }]} />
-                      </View>
-                      <View style={styles.itemTxtCon}>
-                        <Text style={styles.itemTxt}>{data.menu.my_listings}</Text>
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('ReviewsCon', data.menu.reviews)}>
-                      <View style={[styles.itemIconCon, { width: width(10), alignSelf: 'flex-start' }]} >
-                        <Image source={require('../../images/star.png')} style={[styles.itemIcon, { alignSelf: 'flex-start' }]} />
-                      </View>
-                      <View style={styles.itemTxtCon}>
-                        <Text style={styles.itemTxt}>{data.menu.reviews}</Text>
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('EventsTabs', data.menu.events)}>
-                      <View style={[styles.itemIconCon, { width: width(10), alignSelf: 'flex-start' }]} >
-                        <Image source={require('../../images/event.png')} style={[styles.itemIcon, { alignSelf: 'flex-start' }]} />
-                      </View>
-                      <View style={styles.itemTxtCon}>
-                        <Text style={styles.itemTxt}>{data.menu.events}</Text>
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('SavedListing', data.menu.saved_listings)}>
-                      <View style={[styles.itemIconCon, { width: width(10), alignSelf: 'flex-start' }]}>
-                        <Image source={require('../../images/heart.png')} style={[styles.itemIcon, { alignSelf: 'flex-start' }]} />
-                      </View>
-                      <View style={styles.itemTxtCon}>
-                        <Text style={styles.itemTxt}>{data.menu.saved_listings}</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                  : null}
-              </View>
-              : null
-          }
           <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('SearchingScreen', data.menu.adv_search)}>
             <View style={styles.itemIconCon}>
               <Image source={require('../../images/search_white.png')} style={styles.itemIcon} />
@@ -180,38 +123,14 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
               <Text style={styles.itemTxt}>{data.menu.events}</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Packages', data.menu.packages)}>
-            <View style={styles.itemIconCon}>
-              <Image source={require('../../images/tag.png')} style={styles.itemIcon} />
-            </View>
-            <View style={styles.itemTxtCon}>
-              <Text style={styles.itemTxt}>{data.menu.packages}</Text>
-            </View>
-          </TouchableOpacity>
           <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('blogStack', data.menu.blog)}>
             <View style={styles.itemIconCon}>
-              <Image source={require('../../images/blog.png')} style={{ height: height(2.5), width: width(10), alignSelf: 'center', resizeMode: 'contain' }} />
+              <Image source={require('../../images/blogNew.png')} style={{ height: height(2.5), width: width(10), alignSelf: 'center', resizeMode: 'contain' }} />
             </View>
             <View style={styles.itemTxtCon}>
               <Text style={styles.itemTxt}>{data.menu.blog}</Text>
             </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('AboutUs', data.menu.about)}>
-            <View style={styles.itemIconCon}>
-              <Image source={require('../../images/about-us.png')} style={{ height: height(2.5), width: width(10), alignSelf: 'center', resizeMode: 'contain' }} />
-            </View>
-            <View style={styles.itemTxtCon}>
-              <Text style={styles.itemTxt}>{data.menu.about}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('ContactUs', data.menu.contact)}>
-            <View style={styles.itemIconCon}>
-              <Image source={require('../../images/contact.png')} style={{ height: height(2.5), width: width(10), alignSelf: 'center', resizeMode: 'contain' }} />
-            </View>
-            <View style={styles.itemTxtCon}>
-              <Text style={styles.itemTxt}>{data.menu.contact}</Text>
-            </View>
-          </TouchableOpacity>
+          </TouchableOpacity> 
           <TouchableOpacity style={styles.drawerItem} onPress={this.navigateToScreen('Categories', data.menu.cats)}>
             <View style={styles.itemIconCon}>
               <Image source={require('../../images/databaseLine.png')} style={{ height: height(2.5), width: width(10), alignSelf: 'center', resizeMode: 'contain' }} />
@@ -231,14 +150,6 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
                     <Text style={styles.itemTxt}>{data.menu.register}</Text>
                   </View>
                 </TouchableOpacity>
-                {/* <TouchableOpacity style={styles.drawerItem}>
-                  <View style={styles.itemIconCon}>
-                    <Image source={require('../../images/register.png')} style={{ height: height(2.7), width: width(10), marginLeft: 5, alignSelf: 'center', resizeMode: 'contain' }} />
-                  </View>
-                  <View style={styles.itemTxtCon}>
-                    <Text style={styles.itemTxt}>{data.menu.register}</Text>
-                  </View>
-                </TouchableOpacity> */}
               </View>
               :
               <TouchableOpacity style={styles.drawerItem} onPress={() => this.asyncDelUserInfo()}>
@@ -251,9 +162,6 @@ import { ScrollView, Text, View, Image, TouchableOpacity, BackHandler, AsyncStor
               </TouchableOpacity>
           }
         </ScrollView>
-        {/* <View style={styles.footerContainer}>
-          <Text>This is my fixed footer</Text>
-        </View> */}
       </View>
     );
   }

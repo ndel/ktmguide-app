@@ -19,6 +19,24 @@ export const S14 = 1.4;
 export const S13 = 1.3;
 export const S12 = 1.2;
 export const S11 = 1.1;
+//SignIn/SignUp/MainScreen/Splash
+export const SloganText = 20;
+export const SignInHeaderText = 14;
+export const headerText = 20;
+export const exploreMoreText = 12;
+export const InputTextSize = 12;
+export const headingText = 16;
+export const buttonText = 14;
+export const socialBtnText = 14;
+export const titleText = 14;
+export const ParagraphText = 12;
+export const simpleLineText = 13;
+export const smallTitle = 12;
+export const smallText = 9;
+export const ListingOnOffBtn = 10;
+export const ListingTitle = 13;
+export const homeTitle = 17;
+
 // Colors are here
 export const COLOR_RED = 'red';
 export const COLOR_GRAY = '#ccc'; //#acacac

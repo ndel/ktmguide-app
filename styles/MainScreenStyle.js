@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { StyleSheet } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
-import { COLOR_PRIMARY, S25, S2, S18, S17, S16, S15, S14, COLOR_SECONDARY } from './common';
+import { COLOR_PRIMARY, buttonText,exploreMoreText, SloganText, COLOR_SECONDARY } from './common';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,26 +15,27 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logoView: {
-    height: height(50),
+    height: height(55),
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   logoImg: {
     height: height(7),
     width: width(51.5),
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    marginVertical: 20
   },
   logoTxt: {
-    height: height(12),
+    // height: height(12),
     width: width(60),
     marginHorizontal: 10,
     textAlign: 'center',
     marginTop: 7,
-    fontSize: totalSize(S25),
+    fontSize: SloganText,
     color: 'white'
   },
   buttonView: {
-    height: height(40),
+    height: height(33),
     alignItems: 'center',
   },
   signInBtn: {
@@ -57,15 +58,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffc400'
   },
   signTxt: {
-    // fontFamily: FONT_BOLD,
     fontWeight: 'bold',
-    fontSize: totalSize(S18),
+    fontSize: buttonText,
     color: COLOR_PRIMARY,
   },
   signUpTxt: {
-    // fontFamily: FONT_BOLD,
     fontWeight: 'bold',
-    fontSize: totalSize(S18),
+    fontSize: buttonText,
     color: COLOR_PRIMARY,
   },
   expTxt: {
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
     // fontFamily: FONT_NORMAL,
     marginTop: 7,
     fontWeight: 'bold',
-    fontSize: totalSize(S14),
+    fontSize: exploreMoreText,
     color: COLOR_SECONDARY
   }
 });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, Image, ImageBackground, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
-import { Avatar, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_YELLOW, COLOR_TRANSPARENT_BLACK } from '../../../styles/common';
 import { observer } from 'mobx-react';
@@ -23,27 +23,27 @@ class Listings extends Component<Props> {
 
   componentWillMount = async () => {
   }
-  public_profile = async () => {
-    store.is_publicEvents = true;
-    this.setState({ loading: true })
-    let params = {
-      user_id: '14'
-    };
-    let response = await ApiController.post('author-detial', params);
-    if (response.success) {
-      store.PUB_PROFILE_DETAIL = response.data;
-      this.setState({ loading: false })
-      store.is_publicEvents = false;
-    } else {
-      this.setState({ loading: false })
-      store.is_publicEvents = false;
-    }
-  }
+  // public_profile = async () => {
+  //   store.is_publicEvents = true;
+  //   this.setState({ loading: true })
+  //   let params = {
+  //     user_id: '14'
+  //   };
+  //   let response = await ApiController.post('author-detial', params);
+  //   if (response.success) {
+  //     store.PUB_PROFILE_DETAIL = response.data;
+  //     this.setState({ loading: false })
+  //     store.is_publicEvents = false;
+  //   } else {
+  //     this.setState({ loading: false })
+  //     store.is_publicEvents = false;
+  //   }
+  // }
   static navigationOptions = { header: null };
 
   _blog = (item, key) => {
     return (
-      <TouchableOpacity key={key} style={[styles.featuredFLItem, { width: width(95), alignSelf: 'center', alignItems: 'center' }]} onPress={() => { this.props.navigation.navigate('FeatureDetailTabBar', { listId: item.listing_id, cate_name: item.category_name }) }}>
+      <TouchableOpacity key={key} style={[styles.featuredFLItem, { width: width(95), alignSelf: 'center', alignItems: 'center' }]} onPress={() => { this.props.navigation.push('FeatureDetailTabBar', { listId: item.listing_id, list_title: item.listing_title }) }}>
         <ImageBackground source={{ uri: item.image }} style={styles.featuredImg}>
           <TouchableOpacity style={[styles.closedBtn, { backgroundColor: item.color_code }]}>
             <Text style={styles.closedBtnTxt}>{item.business_hours_status}</Text>
@@ -63,11 +63,23 @@ class Listings extends Component<Props> {
                 defaultColor={COLOR_GRAY}
               />
             </View>
-            {/* <Text style={styles.ratingTxt}>{item.rating_avg.length === 0 ? 0 : item.rating_avg}</Text> */}
-            <Text style={styles.ratingTxt}>| {item.total_views}</Text>
+            <Icon
+              size={20}
+              name='eye'
+              type='evilicon'
+              color='#8a8a8a'
+              containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+            />
+            <Text style={styles.ratingTxt}>{item.total_views}</Text>
           </View>
-          <View style={{ marginTop: 2, width: width(45), marginHorizontal: 10, flexDirection: 'row', alignItems: 'center' }}>
-            {/* <Image source={require('../../images/calendar.png')} style={{height:height(2.5),width:width(5),resizeMode:'contain'}} />  */}
+          <View style={{ marginTop: 2, width: width(45), marginHorizontal: 8, flexDirection: 'row', alignItems: 'center' }}>
+            <Icon
+              size={18}
+              name='calendar'
+              type='evilicon'
+              color='#8a8a8a'
+              containerStyle={{ marginHorizontal: 0, marginVertical: 0 }}
+            />
             <Text style={{ fontSize: totalSize(1.6), marginHorizontal: 0 }}>{item.posted_date}</Text>
           </View>
         </View>
@@ -77,7 +89,7 @@ class Listings extends Component<Props> {
 
   loadMore = async (pageNo) => {
     let params = {
-      user_id: '14',
+      user_id: store.PUB_PROFILE_ID, //14
       listing_next_page: pageNo
     }
     this.setState({ loadmore: true })

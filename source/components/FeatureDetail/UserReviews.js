@@ -25,13 +25,15 @@ import Report from './Report'
 import Api from '../../ApiController/ApiController';
 import styles from '../../../styles/UserReviewsStyleSheet';
 import FeatureDetail from './FeatureDetail';
+import { withNavigation } from 'react-navigation';
+
 const SECTIONS = [
   {
     title: 'First',
     content: [{ name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }, { name: "Hotels" }],
   },
 ];
-@observer export default class UserReviews extends Component<Props> {
+class UserReviews extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -266,7 +268,7 @@ const SECTIONS = [
                             large
                             rounded
                             source={{ uri: item.user_dp }}
-                            onPress={() => console.warn("Works!")}
+                            onPress={()=>this.props.navigation.push('PublicProfileTab',{ profiler_id: item.user_id ,user_name: item.user_name })}
                             activeOpacity={1}
                           />
                         </View>
@@ -479,6 +481,7 @@ const SECTIONS = [
     );
   }
 }
+export default withNavigation(UserReviews);
 {/* <Picker
   selectedValue={this.state.language}
   mode={Platform.OS === 'android' ? 'dropdown' : null}

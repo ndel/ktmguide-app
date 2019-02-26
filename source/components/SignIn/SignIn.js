@@ -26,25 +26,24 @@ export default class SignIn extends Component<Props> {
       password: '',//12345
       email: '',//usama@gmail.com
     }
-    // I18nManager.forceRTL(data.is_rtl);
   }
   static navigationOptions = {
     header: null
   };
   componentWillMount = async () => {
-    // const email = await AsyncStorage.getItem('email');
-    // const pass = await AsyncStorage.getItem('password');
     GoogleSignin.configure({
       iosClientId: '191792720370-rc4ospf26req749phf3d4l4sfj74gmf4.apps.googleusercontent.com'
     })
   }
   //// Google Login Methode 
   handleGoogleSignIn = async () => {
+    console.log('Google login');
     GoogleSignin.signIn().then(fun = async (user) => {
+      console.log('Google login', user);
       //Calling local func for login through google
+      store.LOGIN_SOCIAL_TYPE = 'social';
       store.LOGIN_TYPE = 'google';
-      await this.socialLogin(user.user.email, user.user.name);
-      // console.log('Google login', user);
+      await this.socialLogin(user.user.email, user.user.name, 'apple@321');
     }).catch((err) => {
       console.warn(err);
     }).done();
@@ -56,9 +55,10 @@ export default class SignIn extends Component<Props> {
       if (!error && data.type === "success") {
         //Calling local func for login through google
         let profile = JSON.parse(data.profile);
+        store.LOGIN_SOCIAL_TYPE = 'social';
         store.LOGIN_TYPE = 'facebook';
-        this.socialLogin(profile.email, profile.name);
-        console.log("FaceBook signUp: ", data);
+        await this.socialLogin(profile.email, profile.name, 'apple@321');
+        // console.log("FaceBook signUp: ", profile);
       } else {
         Toast.show('It must be your network issue, please try again.', Toast.LONG);
         console.log("Error: ", error);
@@ -66,7 +66,15 @@ export default class SignIn extends Component<Props> {
     })
   }
   //// Custom Social Login methode
-  socialLogin = async (email, name) => {
+  socialLogin = async (email, name, password) => {
+    if (this.state.email.length > 0 && this.state.password.length > 0) {
+      var Email, Password;
+      Email = this.state.email;
+      Password = this.state.password;
+    } else {
+      Email = email;
+      Password = password;
+    }
     let { orderStore } = Store;
     this.setState({ loading: true })
     let params = {
@@ -79,7 +87,7 @@ export default class SignIn extends Component<Props> {
     // console.log('login user =', response);
     if (response.success === true) {
       this.setState({ loading: false })
-      await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
+      await LocalDB.saveProfile(Email, Password, response.data);
       orderStore.login.loginStatus = true;
       orderStore.login.loginResponse = response;
       this.props.navigation.push('Drawer')
@@ -95,7 +103,7 @@ export default class SignIn extends Component<Props> {
     }
     //Api calling
     let response = await ApiController.post('login', params)
-    console.log('login user =', response);
+    // console.log('login user =', response);
     if (response.success === true) {
       store.LOGIN_TYPE = 'local';
       await LocalDB.saveProfile(this.state.email, this.state.password, response.data);
@@ -108,11 +116,9 @@ export default class SignIn extends Component<Props> {
       Toast.show(response.message);
     }
   }
-
   render() {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
-    var _this = this;
     return (
       <View style={styles.container}>
         <ImageBackground source={require('../../images/bk_ground.jpg')} style={styles.imgCon}>
@@ -132,7 +138,7 @@ export default class SignIn extends Component<Props> {
               </View>
               <View style={styles.buttonView}>
                 <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                  <View style={{ flex: 0.9 }}>
+                  <View style={{ flex: 0.6 }}>
                     <Image source={require('../../images/mail.png')} style={styles.mail} />
                   </View>
                   <View style={{ flex: 4.1 }}>
@@ -150,7 +156,7 @@ export default class SignIn extends Component<Props> {
                   </View>
                 </View>
                 <View style={styles.btn} onPress={() => { this.props.navigation.navigate('Login') }}>
-                  <View style={{ flex: 0.9 }}>
+                  <View style={{ flex: 0.6 }}>
                     <Image source={require('../../images/password.png')} style={styles.mail} />
                   </View>
                   <View style={{ flex: 4.1 }}>
@@ -170,18 +176,16 @@ export default class SignIn extends Component<Props> {
                   <Text style={styles.signUpTxt}>{data.main_screen.sign_in}</Text>
                 </TouchableOpacity>
                 <View style={styles.fgBtn}>
-                  <TouchableOpacity style={{ width: width(30), height: height(5), borderRadius: 3, backgroundColor: 'transparent', backgroundColor: '#134A7C', justifyContent: 'center', alignItems: 'center' }}
+                  <TouchableOpacity style={{ width: width(37.2), height: height(5), borderRadius: 3, backgroundColor: 'transparent', backgroundColor: '#134A7C', justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => { this.fbLogin() }}
                   >
-                    {/* <Image source={require('../../images/fb.jpg')} style={styles.other} /> */}
-                    <Text style={{ fontSize: totalSize(1.8), color: 'white' }}>{data.main_screen.fb_btn}</Text>
+                    <Text style={ styles.socialBtnText }>{data.main_screen.fb_btn}</Text>
                   </TouchableOpacity>
                   <Text style={styles.orTxt}>{data.main_screen.separator}</Text>
-                  <TouchableOpacity style={{ width: width(29.5), height: height(5), borderRadius: 3, backgroundColor: 'transparent', backgroundColor: '#DB4437', justifyContent: 'center', alignItems: 'center' }}
+                  <TouchableOpacity style={{ width: width(37), height: height(5), borderRadius: 3, backgroundColor: 'transparent', backgroundColor: '#DB4437', justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => { this.handleGoogleSignIn() }}
                   >
-                    {/* <Image source={require('../../images/google.jpg')} style={styles.other} /> */}
-                    <Text style={{ fontSize: totalSize(1.8), color: 'white' }}>{data.main_screen.g_btn}</Text>
+                    <Text style={styles.socialBtnText}>{data.main_screen.g_btn}</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
@@ -191,8 +195,8 @@ export default class SignIn extends Component<Props> {
               </View>
               <View style={styles.footer}>
                 <Text style={styles.forgetpwrd} onPress={() => this.props.navigation.navigate('ForgetPassword')}>{data.main_screen.forgot_text}</Text>
-                <Text style={styles.newHere}>New Here? </Text>
-                <Text style={styles.signInT} onPress={() => this.props.navigation.navigate('SignUp')}>{data.main_screen.sign_up}</Text>
+                <Text style={styles.newHere} onPress={() => this.props.navigation.navigate('SignUp')}>{data.main_screen.new_member}</Text>
+                {/* <Text style={styles.signInT} onPress={() => this.props.navigation.navigate('SignUp')}>{data.main_screen.sign_up}</Text> */}
               </View>
             </View>
           </ImageBackground>

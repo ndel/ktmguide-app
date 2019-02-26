@@ -3,6 +3,7 @@ import { Platform, ActivityIndicator, Text, View, TextInput, Image, Picker, Touc
 import { width, height, totalSize } from 'react-native-dimension';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, S2, S18 } from '../../../styles/common';
 import { observer } from 'mobx-react';
+import { Dropdown } from 'react-native-material-dropdown';
 import Store from '../../Stores';
 import store from '../../Stores/orderStore';
 import Toast from 'react-native-simple-toast';
@@ -15,8 +16,8 @@ import Api from '../../ApiController/ApiController';
             loading: false,
             report_reason: '',
             report_comments: '',
+            list: [{ value: 'first' }, { value: 'second' }, { value: 'third' }, { value: 'four' }]
         }
-        // I18nManager.forceRTL(false);
     }
     static navigationOptions = { header: null };
     postReport = async () => {
@@ -32,16 +33,16 @@ import Api from '../../ApiController/ApiController';
         if (response.success) {
             this.props.hideModels('report', false)
             this.setState({ loading: false })
-            Toast.show(response.message,Toast.LONG);
+            Toast.show(response.message, Toast.LONG);
         } else {
             this.setState({ loading: false })
-            Toast.show(response.message,Toast.LONG);
+            Toast.show(response.message, Toast.LONG);
         }
     }
     render() {
         let { orderStore } = Store;
-        let REPORTS = orderStore.home.REPORTS.reasons;
-        var main_clr = store.settings.data.main_clr;
+        let REPORTS = orderStore.home.REPORTS.reasons_updated;
+        var main_clr = store.settings.data.main_clr;        
         return (
             <View style={{ height: height(44), width: width(85), alignSelf: 'center', backgroundColor: COLOR_PRIMARY }}>
                 <View style={{ height: height(4), alignItems: 'flex-end' }}>
@@ -50,22 +51,20 @@ import Api from '../../ApiController/ApiController';
                     </TouchableOpacity>
                 </View>
                 <Text style={{ fontSize: totalSize(1.8), color: 'black', marginVertical: 10, marginHorizontal: 20, fontWeight: 'bold' }}>{orderStore.home.REPORTS.dialog_txt}</Text>
-                <View style={{ height: height(5), width: width(74), marginVertical: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: COLOR_PRIMARY, borderRadius: 5, borderWidth: 0.6, borderColor: COLOR_GRAY, alignSelf: 'center' }}>
-                    <Picker
-                        selectedValue={this.state.report_reason}
-                        mode={Platform.OS === 'android' ? 'dropdown' : null}
-                        style={{ height: height(4.5), width: width(72), alignSelf: 'center' }}
-                        itemStyle={Platform.OS === 'ios' ? { color: 'black', fontSize: totalSize(1.6), fontWeight: 'normal' } : null}
-                        onValueChange={(itemValue, itemIndex) => this.setState({ report_reason: itemValue })}>
-                        <Picker.Item label={orderStore.home.REPORTS.dialog_placeholder} />
-                        {
-                            REPORTS.map((item, key) => {
-                                return (
-                                    <Picker.Item key={key} label={item.option_name} value={item.option_value} />
-                                )
-                            })
-                        }
-                    </Picker>
+                <View style={{ height: height(7), width: width(75), marginVertical: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: COLOR_PRIMARY, borderRadius: 5, borderWidth: 0.6, borderColor: COLOR_GRAY, alignSelf: 'center' }}>
+                    <Dropdown
+                        containerStyle={{ alignSelf:'stretch',marginHorizontal: 8 ,marginVertical: 0 }}
+                        // overlayStyle={{height:height(7), width:width(84),marginHorizontal: 10 }}
+                        label={orderStore.home.REPORTS.dialog_placeholder}
+                        labelFontSize={14}
+                        dropdownPosition={-4.1}
+                        itemCount={3}
+                        value={this.state.report_reason}
+                        textColor={COLOR_SECONDARY}
+                        itemColor='gray'
+                        onChangeText={(value) => { this.setState({ report_reason: value }) }}
+                        data={REPORTS}
+                    />
                 </View>
                 <TextInput
                     onChangeText={(value) => this.setState({ report_comments: value })}
@@ -77,10 +76,10 @@ import Api from '../../ApiController/ApiController';
                 />
                 <TouchableOpacity style={{ elevation: 3, height: height(6), justifyContent: 'center', alignItems: 'center', borderRadius: 5, marginVertical: 5, marginHorizontal: 20, backgroundColor: main_clr }} onPress={() => { this.postReport() }}>
                     {
-                        this.state.loading?
-                             <ActivityIndicator size='large' color={COLOR_PRIMARY} animating={true} />
-                             :
-                             <Text style={{ fontSize: totalSize(1.8), color: COLOR_PRIMARY, fontWeight: 'bold' }}>{orderStore.home.REPORTS.dialog_btn_txt}</Text>
+                        this.state.loading ?
+                            <ActivityIndicator size='large' color={COLOR_PRIMARY} animating={true} />
+                            :
+                            <Text style={{ fontSize: totalSize(1.8), color: COLOR_PRIMARY, fontWeight: 'bold' }}>{orderStore.home.REPORTS.dialog_btn_txt}</Text>
                     }
                 </TouchableOpacity>
             </View>

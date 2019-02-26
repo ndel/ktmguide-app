@@ -25,14 +25,14 @@ class Events extends Component<Props> {
     // let parameter = {
     //   user_id: store.login.loginResponse.data.id
     // };
-    this.setState({ loading: true })
-    let response = await ApiController.post('event-search');
-    if (response.success) {
-      store.EVENTS = response.data;
-      this.setState({ loading: false })
-    } else {
-      this.setState({ loading: false })
-    }
+    // this.setState({ loading: true })
+    // let response = await ApiController.post('event-search');
+    // if (response.success) {
+    //   store.EVENTS = response.data;
+    //   this.setState({ loading: false })
+    // } else {
+    //   this.setState({ loading: false })
+    // }
   }
 
   static navigationOptions = { header: null };
@@ -71,7 +71,7 @@ class Events extends Component<Props> {
 
   loadMore = async (pageNo) => {
     let params = {
-      user_id: '14',
+      user_id: store.PUB_PROFILE_ID, //14
       event_next_page: pageNo
     }
     this.setState({ loadmore: true })

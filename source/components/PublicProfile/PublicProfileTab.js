@@ -19,7 +19,7 @@ import Listings from './Listings';
     }
   }
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: 'Public Profile',
+    headerTitle: navigation.state.params.user_name,
     headerTintColor: 'white',
     headerTitleStyle: {
       fontSize: totalSize(2),
@@ -31,13 +31,13 @@ import Listings from './Listings';
   });
   componentWillMount = async () => {
       let { params } = this.props.navigation.state;
-
       this.setState({ loading: true })
+      store.PUB_PROFILE_ID = params.profiler_id;
       let parameter = {
         user_id: params.profiler_id //params.profiler_id // 544
       };
       let response = await ApiController.post('author-detial',parameter);
-      console.log('public profile==>>',response);
+      // console.log('public profile==>>',response);
       
       if ( response.success ) {
           store.PUB_PROFILE_DETAIL = response.data;

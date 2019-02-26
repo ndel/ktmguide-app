@@ -10,7 +10,6 @@ export default class MainScreen extends Component<Props> {
     let { orderStore } = Store;
     let data = orderStore.settings.data;
     super(props);
-    // I18nManager.forceRTL(data.is_rtl);
   }
   static navigationOptions = { header: null };
   render() {

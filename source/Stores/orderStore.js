@@ -1,6 +1,7 @@
 import { observable } from 'mobx';
 
 class orderStore {
+    @observable LOGIN_SOCIAL_TYPE = null;
     @observable statusbar_color = null;
     @observable settings = null;
     @observable LOGIN_TYPE = '';
@@ -45,6 +46,7 @@ class orderStore {
     //Public Profile
     @observable PUB_PROFILE_DETAIL = {};
     @observable is_publicEvents = false;
+    @observable PUB_PROFILE_ID = '';
 }
 
 const store = new orderStore();

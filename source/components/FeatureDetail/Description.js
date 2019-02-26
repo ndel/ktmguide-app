@@ -137,7 +137,7 @@ class Description extends Component<Props> {
     var main_clr = store.settings.data.main_clr;
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <FeatureDetail callModel={this.setModalVisible} />
           {
             data.has_gallery === false ? null :
@@ -185,16 +185,16 @@ class Description extends Component<Props> {
           }
           {
             data.pricing.length > 0?
-            <View style={styles.labelCon}>
-              <Image source={require('../../images/dollar.png')} style={styles.labelIcon} />
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
-                <Text style={styles.priceTxt}>{data.pricing_txt}</Text>
+              <View style={styles.labelCon}>
+                <Image source={require('../../images/dollar.png')} style={styles.labelIcon} />
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
+                  <Text style={styles.priceTxt}>{data.pricing_txt}</Text>
+                </View>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
+                  <Text style={styles.dollarTxt}>{data.pricing}</Text>
+                </View>
               </View>
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
-                <Text style={styles.dollarTxt}>{data.pricing}</Text>
-              </View>
-            </View>
-            : null
+              : null
           }
           <Accordion
             sections={SECTIONS}
@@ -202,6 +202,7 @@ class Description extends Component<Props> {
             renderHeader={this._renderHeader}
             renderContent={this._renderContent}
             disabled={!data.show_all_days}
+            containerStyle={{ alignSelf:'center' }}
           />
           {!data.listing_has_coupon ? null :
             <View style={styles.dealBox}>
@@ -234,7 +235,6 @@ class Description extends Component<Props> {
                   medium
                   rounded
                   source={{ uri: auth_img }}
-                  // onPress={() => console.warn("Works!")}
                   activeOpacity={1}
                 />
               </View>
@@ -243,13 +243,13 @@ class Description extends Component<Props> {
                 <Text style={[styles.autherText, { fontSize: totalSize(S14) }]}>{ data.listing_author_location }</Text>
               </View>
               <View style={styles.viewBtn}>
-                <TouchableOpacity style={[styles.viewBtnCon,{ backgroundColor: main_clr }]} onPress={()=>this.props.navigation.push('PublicProfileTab',{ profiler_id: data.listing_author_id })}>
+                <TouchableOpacity style={[styles.viewBtnCon,{ backgroundColor: main_clr }]} onPress={()=>this.props.navigation.push('PublicProfileTab',{ profiler_id: data.listing_author_id ,user_name: data.listing_author_name })}>
                   <Text style={styles.viewBtnText}>{ data.view_profile }</Text>
                 </TouchableOpacity>
               </View>
             </View>
           <Text style={styles.titleTxt}>{data.desc.tab_txt}</Text>
-          <View style={{ width: width(90), alignSelf: 'center', marginHorizontal: 10, justifyContent: 'center' }} >
+          <View style={{ width: width(88), alignSelf: 'center', marginHorizontal: 15, marginBottom: 10,justifyContent: 'center' }} >
             <HTMLView
               value={data.desc.tab_desc}
               stylesheet={styles.longTxt}
@@ -343,25 +343,3 @@ class Description extends Component<Props> {
   }
 }
 export default withNavigation(Description)
-//counter
-// <View style={styles.expCon}>
-//   <Text style={styles.expTxt}>Expires in</Text>
-//   <View style={styles.expTimeCon}>
-//     <View style={styles.timeSubCon}>
-//       <Text style={styles.dayTxt}>22</Text>
-//       <Text style={styles.dayTxt}>Days</Text>
-//     </View>
-//     <View style={styles.timeSubCon}>
-//       <Text style={styles.hourTxt}>00</Text>
-//       <Text style={styles.hourTxt}>Hours</Text>
-//     </View>
-//     <View style={styles.timeSubConWide}>
-//       <Text style={styles.minuteTxt}>06</Text>
-//       <Text style={styles.minuteTxt}>Minutes</Text>
-//     </View>
-//     <View style={styles.timeSubConWide}>
-//       <Text style={styles.secondTxt}>23</Text>
-//       <Text style={styles.secondTxt}>Seconds</Text>
-//     </View>
-//   </View>
-// </View>
