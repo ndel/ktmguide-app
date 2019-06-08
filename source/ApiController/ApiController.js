@@ -5,7 +5,7 @@ class Api {
   static headers() {
     return {
       'Purchase-Code': 12,
-      'Custom-Security': 12,
+      'Custom-Security': 1212,
       'Content-Type': 'application/json',
       'Login-type': store.LOGIN_SOCIAL_TYPE
     }
@@ -32,7 +32,7 @@ class Api {
   static func = async(route, params, verb) => {
     
     // const host = 'http:
-    const host = 'https://listing.downtown-directory.com/for-apps/wp-json/downtown/app';
+    const host = ' https://ktmguide.com/wp-json/downtown/app';
     const url = `${host}/${route}`
     let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null);
     options.headers = Api.headers()
@@ -42,7 +42,7 @@ class Api {
     // getting value from asyncStorage
        const email = await AsyncStorage.getItem('email');
        const pass = await AsyncStorage.getItem('password');
-       console.log('login detail===>>>',email , pass);
+      //  console.log('login detail===>>>',email , pass);
        
     // using buffer
     if ( email !== null && pass !== null ) {

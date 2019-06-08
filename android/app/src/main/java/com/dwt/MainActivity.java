@@ -1,4 +1,4 @@
-package com.dwt;
+package com.ktmguide;
 
 import com.facebook.react.ReactActivity;
 

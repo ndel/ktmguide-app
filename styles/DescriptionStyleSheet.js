@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet , Platform } from 'react-native';
+import { StyleSheet , Platform,I18nManager } from 'react-native';
 import { COLOR_PRIMARY,COLOR_SECONDARY,COLOR_RED,COLOR_GRAY,COLOR_ORANGE,COLOR_BROWN,COLOR_YELLOW,COLOR_PINK,COLOR_LIGHT_BLUE,S18,S14 } from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const buttonTxt = 1.8;
@@ -55,8 +55,6 @@ const styles = StyleSheet.create({
     resizeMode:'contain'
   },
   labeTxtCon: {
-    // height:height(4),
-    // width:width(76),
     flex:1,
     alignItems:'center',
     alignSelf:'center',
@@ -65,7 +63,6 @@ const styles = StyleSheet.create({
   },
   labelTxt: {
     fontSize:totalSize(headingTxt),
-    // fontFamily: FONT_NORMAL,
     color: COLOR_SECONDARY,
     alignSelf:'center',
     marginVertical:4,
@@ -103,36 +100,23 @@ const styles = StyleSheet.create({
     fontSize:totalSize(paragraphTxt),
     color: COLOR_SECONDARY,
     marginHorizontal: 10
-    // fontFamily:FONT_NORMAL
   },
   renderTimeTxt: {
     fontSize:totalSize(paragraphTxt),
     color: COLOR_SECONDARY,
     marginHorizontal: 10
-    // fontFamily:FONT_NORMAL
   },
   priceTxt: {
-    // height:height(4),
-    // width:width(50),
     fontSize:totalSize(headingTxt),
-    // fontFamily: FONT_NORMAL,
     color: COLOR_SECONDARY,
   },
   dollarTxt: {
-    // height:height(4),
-    // width:width(25),
     fontSize:totalSize(headingTxt),
     color: COLOR_SECONDARY,
   },
   timeTxt: {
-    // height:height(4),
-    // width:width(65),
     fontSize:totalSize(headingTxt),
-    // fontFamily: FONT_NORMAL,
-    // marginHorizontal:5,
     color: COLOR_SECONDARY,
-    // alignSelf:'center',
-    // textAlignVertical:'center',
   },
   dropDownIcon: {
     height:height(2.5),
@@ -140,7 +124,8 @@ const styles = StyleSheet.create({
     marginHorizontal:0,
     resizeMode:'contain',
     alignSelf:'center',
-    marginLeft:5
+    marginLeft:5,
+    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
   },
   dealBox: {
     height:height(30),
@@ -262,18 +247,19 @@ const styles = StyleSheet.create({
     fontSize: totalSize(S18),
     color: COLOR_SECONDARY,
     marginVertical: 2,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    textAlign: 'left'
   },
   viewBtn: {
-    width: width(30),
+    // width: width(30),
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   viewBtnCon: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLOR_SECONDARY,
-    borderRadius: 3
+    borderRadius: 3,
+    marginHorizontal: 3
   },
   viewBtnText: {
     fontSize: totalSize(S14),
@@ -289,6 +275,7 @@ const styles = StyleSheet.create({
     marginVertical:5,
     fontSize:totalSize(titles),
     fontWeight:'bold',
+    textAlign:'left',
     color: COLOR_SECONDARY,
     textAlignVertical: 'center'
   },

@@ -5,7 +5,7 @@ import { MenuProvider } from 'react-native-popup-menu';
 import store from './source/Stores/orderStore';
 import Store from './source/Stores';
 import ApiController from './source/ApiController/ApiController';
-import { nav_header_color } from './styles/common'
+import { nav_header_color } from './styles/common';
 
 export default class App extends Component<Props> {
   constructor(props) {

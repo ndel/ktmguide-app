@@ -1,4 +1,4 @@
-package com.dwt;
+package com.ktmguide;
 
 //facebook login libraries
 import android.app.Application;

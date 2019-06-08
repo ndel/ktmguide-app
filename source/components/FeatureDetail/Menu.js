@@ -20,20 +20,6 @@ const paragraphTxt = 1.4;
 const headingTxt = 1.6;
 const smallButtons = 1.2;
 const titles = 1.8;
-const SECTIONS = [
-    {
-        title: 'Who are you',
-        content: 'heloo ahaohd ashdoh ashdoih aosihdo nasoihdasod hasoido ashdoihoas dhasod asdjo ashdoh ashdoh ashldo ashdoih asdohasd oasdho hsd asndo ahsdo ashd aosdih sdoi ashdi hdao dahods ashdo daoshdo oasdo nosnd noasdo oosdk nasond',
-    },
-    {
-        title: 'How are you',
-        content: 'heloo ahaohd ashdoh ashdoih aosihdo nasoihdasod hasoido ashdoihoas dhasod asdjo ashdoh ashdoh ashldo ashdoih asdohasd oasdho hsd asndo ahsdo ashd aosdih sdoi ashdi hdao dahods ashdo daoshdo oasdo nosnd noasdo oosdk nasond'
-    },
-    {
-        title: 'What are our Services',
-        content: 'heloo ahaohd ashdoh ashdoih aosihdo nasoihdasod hasoido ashdoihoas dhasod asdjo ashdoh ashdoh ashldo ashdoih asdohasd oasdho hsd asndo ahsdo ashd aosdih sdoi ashdi hdao dahods ashdo daoshdo oasdo nosnd noasdo oosdk nasond'
-    },
-];
 @observer export default class Menu extends Component<Props> {
     constructor(props) {
         let { orderStore } = Store;
@@ -83,9 +69,9 @@ const SECTIONS = [
                 transition="source"
                 transition="style"
                 style={{ height: height(7), marginHorizontal: 15, marginVertical: 5, borderWidth: 0.6, borderColor: COLOR_GRAY, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',borderRadius: 5 }}>
-                <Text style={{ width: width(77), fontSize: totalSize(1.8), fontWeight: 'bold', marginLeft: 15, color: isActive ? 'red' : COLOR_SECONDARY }}>{section.menu.menu_name}</Text>
+                <Text style={{ width: width(77), fontSize: totalSize(1.8), textAlign:'left',fontWeight: 'bold', marginHorizontal: 15, color: isActive ? 'red' : COLOR_SECONDARY }}>{section.menu.menu_name}</Text>
                 <View style={{ height: height(7), width: width(13), borderLeftWidth: 0.6, borderColor: COLOR_GRAY, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image source={(isActive ? require('../../images/dropDown.png') : require('../../images/next.png'))} style={{ height: height(2), width: width(4), resizeMode: 'contain' }} />
+                    <Image source={(isActive ? require('../../images/next.png') : require('../../images/next.png'))} style={{ height: height(2), width: width(4), resizeMode: 'contain',transform: [{scaleX: I18nManager.isRTL ? -1 : 1}] }} />
                 </View>
             </Animatable.View>
         );
@@ -107,8 +93,8 @@ const SECTIONS = [
                                 key={key}
                                 style={{ flexDirection: 'row', width: width(95), borderBottomColor: 'rgba(128,128,128,0.2)', borderBottomWidth: 0.6, marginBottom: 0.6, backgroundColor: (isActive ? 'white' : 'white') }}>
                                 <View style={{ flex: 1, marginHorizontal: 10, marginVertical: 5, justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: totalSize(1.8), fontWeight: 'bold', color: COLOR_SECONDARY, marginVertical: 1 }}>{item.menu_title}</Text>
-                                    <Text style={{ fontSize: totalSize(1.6), color: '#999', marginVertical: 1 }}>{item.menu_desc}</Text>
+                                    <Text style={{ fontSize: totalSize(1.8), fontWeight: 'bold', textAlign:'left',color: COLOR_SECONDARY, marginVertical: 1 }}>{item.menu_title}</Text>
+                                    <Text style={{ fontSize: totalSize(1.6), color: '#999', marginVertical: 1, textAlign: 'left' }}>{item.menu_desc}</Text>
                                 </View>
                                 <View style={{ width: width(15), marginVertical: 5, marginHorizontal: 5, alignItems: 'center' }}>
                                     <Text style={{ fontSize: totalSize(1.8), fontWeight: 'bold', color: COLOR_SECONDARY }}>{item.menu_price}</Text>

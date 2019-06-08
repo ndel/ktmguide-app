@@ -132,7 +132,6 @@ import ApiController from '../../ApiController/ApiController';
               <View style={styles.flatlistCon}>
                 <FlatList
                   data={home.categories}
-                  showsVerticalScrollIndicator={false}
                   contentContainerStyle={{ height: height(15), alignSelf: 'flex-end' }}
                   renderItem={({ item, key }) =>
                     <TouchableOpacity key={key} style={styles.flatlistChild}
@@ -148,7 +147,7 @@ import ApiController from '../../ApiController/ApiController';
                   }
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
-                // keyExtractor={item => item.email}
+                  // keyExtractor={item => item.email}
                 />
               </View>
               <View style={{ flex: 1.3, width: width(100) }}></View>
@@ -181,7 +180,8 @@ import ApiController from '../../ApiController/ApiController';
                           <Grading
                             mode="stars"
                             scale={1}
-                            score={item.rating_stars.length === 0 ? 0 : item.rating_stars}
+                            score={item.rating_stars === "" ? 0 : item.rating_stars}
+                            
                             scoreBase={5}
                             activeColor={COLOR_ORANGE}
                             defaultColor={COLOR_GRAY}
@@ -259,7 +259,7 @@ import ApiController from '../../ApiController/ApiController';
           </ScrollView>
           <TouchableOpacity style={[styles.exploreBtn, { backgroundColor: data.main_clr }]} onPress={() => this.navigateToScreen('SearchingScreen', 'Advance')}>
             <Image source={require('../../images/search_white.png')} style={styles.btnIcon} />
-            <Text style={styles.explorebtnTxt}>Explore More</Text>
+            <Text style={styles.explorebtnTxt}>{data.main_screen.explore}</Text>
           </TouchableOpacity>
         </View>
       </View>

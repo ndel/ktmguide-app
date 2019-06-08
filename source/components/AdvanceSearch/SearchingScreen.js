@@ -239,7 +239,8 @@ import Toast from 'react-native-simple-toast'
                                                                         <Grading
                                                                             mode="stars"
                                                                             scale={1}
-                                                                            score={item.rating_stars.length === 0 ? 0 : item.rating_stars}
+                                                                            score={item.rating_stars === "" ? 0 : item.rating_stars}
+                                                                            
                                                                             scoreBase={5}
                                                                             activeColor={COLOR_ORANGE}
                                                                             defaultColor={COLOR_GRAY}

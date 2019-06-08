@@ -66,7 +66,7 @@ import ApiController from '../../ApiController/ApiController';
           <ImageBackground source={require('../../images/Downtown_Shadownew.png')} style={styles.imgCon}>
             <View style={styles.LogoCon}>
               <Image source={require('../../images/splash_logo.png')} />
-              <Text style={styles.slogoTitle}>Find & Explore World Top Places</Text>
+           
             </View>
             <View style={styles.IndicatorCon} >
               {

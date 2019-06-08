@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, Platform } from 'react-native';
-import { FONT_NORMAL, FONT_BOLD, COLOR_PRIMARY, COLOR_SECONDARY, COLOR_RED, COLOR_GRAY, COLOR_ORANGE, COLOR_BROWN, COLOR_YELLOW, COLOR_PINK, COLOR_LIGHT_BLUE } from './common';
+import { StyleSheet, Platform, I18nManager } from 'react-native';
+import { COLOR_PRIMARY, COLOR_SECONDARY, COLOR_RED, COLOR_GRAY, COLOR_ORANGE, COLOR_BROWN, COLOR_YELLOW, COLOR_PINK, COLOR_LIGHT_BLUE } from './common';
 import { width, height, totalSize } from 'react-native-dimension';
 const buttonTxt = 1.8;
 const paragraphTxt = 1.5;
@@ -28,12 +28,12 @@ const styles = StyleSheet.create({
     marginBottom: 0.5
   },
   rateTxt: {
-    width: width(80),
+    width: width(76),
     // fontFamily: FONT_BOLD,
     fontWeight: 'bold',
     fontSize: totalSize(titles),
     color: 'black',
-    paddingLeft: 15,
+    marginHorizontal: 15,
     ...Platform.select({
       ios: { paddingTop: 12 },
       android: { textAlignVertical: 'center' }
@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     height: height(2.5),
     width: width(15),
     resizeMode: 'contain',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
   },
   headerDropdown: {
     elevation: 10, flex: 1, marginVertical: 10, justifyContent: 'center', alignItems: 'center'
@@ -104,8 +105,7 @@ const styles = StyleSheet.create({
     height: height(3),
     width: width(70),
     fontSize: totalSize(1.6),
-    // fontWeight:'bold',
-    // fontFamily: FONT_BOLD,
+    textAlign: 'left',
     color: 'red',
     textAlignVertical: 'center',
   },
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     height: height(3),
     width: width(70),
     fontSize: totalSize(1.8),
-    // fontFamily: FONT_NORMAL,
+    textAlign: 'left',
     fontWeight: 'bold',
     color: COLOR_SECONDARY,
     textAlignVertical: 'center'
@@ -165,10 +165,8 @@ const styles = StyleSheet.create({
   paragraph: {
     textAlign: 'left',
     color: 'black',
-    // fontSize: totalSize(1.3),
-    alignSelf: 'center',
-    marginHorizontal: 10
-    // fontFamily:FONT_NORMAL,
+    alignSelf: 'flex-start',
+    marginHorizontal: 10,
   },
   likeSectonTitle: {
     height: height(4),

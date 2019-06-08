@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   headerTxt: {
     fontSize:totalSize(2),
     color:'#ffffff',
+    alignSelf:'flex-start'
   },
   headerSearch: {
     height:height(3.2),

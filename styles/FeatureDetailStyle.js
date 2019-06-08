@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     height:height(3.5),
-    width:width(19),
+    // width:width(19),
     backgroundColor:'rgba(211,211,211,0.3)',
     borderRadius:3,
     flexDirection:'row',

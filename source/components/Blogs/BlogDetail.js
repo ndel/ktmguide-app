@@ -142,9 +142,9 @@ export default class BlogDetail extends Component<Props> {
                                       />
                                     </View>
                                     <View style={{ marginHorizontal: 10, width: width(60) }}>
-                                      <Text style={{ fontSize: totalSize(headingTxt), marginTop: 5, fontWeight: 'bold', color: COLOR_SECONDARY }}>{item.comment_author_name}</Text>
+                                      <Text style={{ fontSize: totalSize(headingTxt), textAlign:'left',marginTop: 5, fontWeight: 'bold', color: COLOR_SECONDARY }}>{item.comment_author_name}</Text>
                                       <Text style={{ fontSize: totalSize(paragraphTxt), color: COLOR_SECONDARY }}>{item.comment_date}</Text>
-                                      <Text style={{ marginVertical: 5, fontSize: totalSize(1.4) }}>{item.comment_content}</Text>
+                                      <Text style={{ marginVertical: 5, fontSize: totalSize(1.4),textAlign:'left' }}>{item.comment_content}</Text>
                                     </View>
                                   </View>
                                 )

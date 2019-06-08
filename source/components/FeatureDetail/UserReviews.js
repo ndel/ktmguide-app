@@ -306,10 +306,12 @@ class UserReviews extends Component<Props> {
                         }
                       </View>
                       <View style={{ width: width(70) }}>
-                        <HTMLView
-                          value={item.comment_content}
-                          stylesheet={styles.paragraph}
-                        />
+                        <View style={{ marginHorizontal: 0,width:width(68),justifyContent:'flex-start',alignSelf:'flex-start' }}>
+                          <HTMLView
+                            value={item.comment_content}
+                            stylesheet={styles.paragraph}
+                          />
+                        </View>
                         {/* <Text style={styles.paragraph}>{item.comment_content}</Text> */}
                         <View style={{ width: width(70), marginTop: 5, flexDirection: 'row', flexWrap: 'wrap' }}>
                           {

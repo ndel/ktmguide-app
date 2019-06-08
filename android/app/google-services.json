@@ -1,52 +1,53 @@
 {
   "project_info": {
-    "project_number": "884345030484",
-    "firebase_url": "https://downtown-1536657610039.firebaseio.com",
-    "project_id": "downtown-1536657610039",
-    "storage_bucket": "downtown-1536657610039.appspot.com"
+    "project_number": "963826597300",
+    "firebase_url": "https://ktmguide-1557394023341.firebaseio.com",
+    "project_id": "ktmguide-1557394023341",
+    "storage_bucket": "ktmguide-1557394023341.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:884345030484:android:92190979c00dfa27",
+        "mobilesdk_app_id": "1:963826597300:android:768d60f0947b7d5c",
         "android_client_info": {
-          "package_name": "com.dwt"
+          "package_name": "com.ktmguide"
         }
       },
       "oauth_client": [
         {
-          "client_id": "884345030484-ehmpm9qte64nq3ecqsg09saupccg7jg1.apps.googleusercontent.com",
+          "client_id": "963826597300-6ec3959rh8btfdq3ej8vfe9rfehjhru6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.dwt",
-            "certificate_hash": "128156f1c61df995342e6eb55b00e1b53547cb98"
+            "package_name": "com.ktmguide",
+            "certificate_hash": "4e5d01cf5026cdeb88b2412b045263ebfd11c791"
           }
         },
         {
-          "client_id": "884345030484-sqn8t1cbrs3u68f7k4m9249i6c83rnk0.apps.googleusercontent.com",
+          "client_id": "963826597300-113lgl5g6oiktmppm3rtn5ajh0od2hoi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ktmguide",
+            "certificate_hash": "facf5682b1d434c1b88d457ab225a272dafc4b69"
+          }
+        },
+        {
+          "client_id": "963826597300-62302ksqcc2e782nncbg1bib92jgtdm1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBJbsTKNgd7yPAdIQ4Lo7ju50zK9An0z68"
+          "current_key": "AIzaSyCBezBoFhdkKCDFma4mSMQmOqwO6pb-CCo"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "884345030484-sqn8t1cbrs3u68f7k4m9249i6c83rnk0.apps.googleusercontent.com",
+              "client_id": "963826597300-62302ksqcc2e782nncbg1bib92jgtdm1.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet , I18nManager } from 'react-native';
 import { COLOR_PRIMARY, COLOR_ORANGE, COLOR_GRAY, COLOR_SECONDARY, COLOR_BACKGROUND, S25, S2, S18, S17, S16, S15, S14, S13, S12, S11 } from '../common';
 import { width, height, totalSize } from 'react-native-dimension';
 const buttonTxt = 1.8;
@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         paddingHorizontal: 10,
         width: width(85),
-        fontSize: totalSize(S16)
+        fontSize: totalSize(S16),
+        textAlign:'left'
     },
     searchIcon: {
         height: height(2.8),
@@ -60,7 +61,8 @@ const styles = StyleSheet.create({
     rightIcon: {
         height: height(2.2),
         width: width(5),
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        transform: [{scaleX: I18nManager.isRTL ? -1 : 1}]
     },
 
 });

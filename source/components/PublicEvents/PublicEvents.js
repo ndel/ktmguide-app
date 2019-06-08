@@ -157,10 +157,10 @@ class PublicEvents extends Component<Props> {
             <Text style={{ fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.to}</Text>
             <Text style={{ fontSize: totalSize(1.5) }}>{item.event_end_date}</Text>
           </View>
-          <View style={{ width: width(58), flexDirection: 'row', marginHorizontal: 7, marginBottom: 3, alignItems: 'center' }}>
+          <View style={{ width: width(58), flexDirection: 'row', marginHorizontal: 7, marginBottom: 0,alignItems: 'center' }}>
             <Image source={require('../../images/paper-plane.png')} style={{ height: height(2), width: width(5), resizeMode: 'contain' }} />
             <Text style={{ height: height(2), fontWeight: 'bold', fontSize: totalSize(1.6), color: COLOR_SECONDARY, marginHorizontal: 3 }}>{data.venue}</Text>
-            <Text style={{ fontSize: totalSize(1.5), flexWrap: 'wrap', width: width(38) }}>{item.event_loc}</Text>
+            <Text style={{ fontSize: totalSize(1.5), flexWrap: 'wrap', width: width(38),textAlign:'left' }}>{item.event_loc}</Text>
           </View>
         </View>
       </TouchableOpacity>

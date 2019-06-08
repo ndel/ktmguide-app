@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Text, View, Image, TouchableOpacity, ActivityIndicator,
-  ScrollView, TextInput, FlatList
+  I18nManager, TextInput, FlatList
 } from 'react-native';
 import { width, height, totalSize } from 'react-native-dimension';
 import { observer } from 'mobx-react';

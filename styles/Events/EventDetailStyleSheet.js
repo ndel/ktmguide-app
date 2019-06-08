@@ -96,7 +96,8 @@ const styles = StyleSheet.create({
     fontSize: totalSize(S18),
     color: COLOR_SECONDARY,
     marginVertical: 2,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    textAlign:'left'
   },
   viewBtn: {
     width: width(30),
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
   },
   viewBtnCon: {
     height: height(4),
-    width: width(25),
+    // width: width(25),
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: COLOR_SECONDARY,
@@ -114,7 +115,8 @@ const styles = StyleSheet.create({
   viewBtnText: {
     fontSize: totalSize(S14),
     color: COLOR_PRIMARY,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginHorizontal: 5
   },
   commentTitle: {
     fontSize: totalSize(S18),

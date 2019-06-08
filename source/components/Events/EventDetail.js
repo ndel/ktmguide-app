@@ -91,7 +91,7 @@ import Toast from 'react-native-simple-toast';
       };
       let response = await ApiController.post('event-detial', param);
       orderStore.home.eventDetail = response;
-      console.log('EventDetail=', response);
+      // console.log('EventDetail=', response);
       if (response.success === true) {
         await this.setState({
           interval: setInterval(() => {
@@ -220,8 +220,6 @@ import Toast from 'react-native-simple-toast';
                       marginHorizontal: 15,
                       marginVertical: 3,
                       fontSize: totalSize(1.5),
-                      // fontFamily: FONT_NORMAL,
-                      // color: COLOR_GRAY,
                       textAlignVertical: 'center'
                     }}
                   />
